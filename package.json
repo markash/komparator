@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "run-ui": "mvn -f ./ui/pom.xml spring-boot:run"
+    }
+}

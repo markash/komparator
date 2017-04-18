@@ -1,0 +1,14 @@
+{
+    "version": "0.1.0",
+    "command": "mvn",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "echoCommand": true,
+    "tasks": [
+        {
+            "taskName": "spring-boot:run",
+            "isBuildCommand": true,
+            "args": ["-file ../ui/pom.xml"]
+        }
+    ]
+}

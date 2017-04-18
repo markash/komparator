@@ -1,0 +1,13 @@
+<?xml version='1.0'?>
+<!-- DTD can be pulled from the Jar or over the web-->
+<!DOCTYPE PZMAP SYSTEM	"flatpack.dtd" >
+<!--<!DOCTYPE PZMAP SYSTEM	"http://flatpack.sourceforge.net/flatpack.dtd" >-->
+<PZMAP>
+    <RECORD id="header" indicator="H" elementNumber="1">
+        <COLUMN name="RECORDINDICATOR" />
+        <COLUMN name="HEADERDATA" />
+    </RECORD>
+    <COLUMN name="ID" />
+    <COLUMN name="NAME" />
+    <COLUMN name="AGE" />
+</PZMAP>

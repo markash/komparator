@@ -1,4 +1,4 @@
-![alt text](https://github.com/markash/komparator/raw/master/ui/src/main/resources/kt-logo.png "Komparator"){:height="36px" width="36px"}
+![alt text](https://github.com/markash/komparator/raw/master/ui/src/main/resources/kt-logo.png "Komparator") 
 
 ### Problem Statement
 System A and System B has a list of data and you would like to determine if this data is the same in the following respects:-

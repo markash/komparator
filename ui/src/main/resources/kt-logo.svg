@@ -9,13 +9,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="58mm"
-   height="58mm"
-   viewBox="0 0 205.51181 205.51181"
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="2017-04-18 KT.svg">
+   sodipodi:docname="kt-logo.svg"
+   inkscape:export-filename="C:\SDE\projects\sts\komparator\ui\src\main\resources\kt-logo.png"
+   inkscape:export-xdpi="599.69"
+   inkscape:export-ydpi="599.69">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="245.5519"
-     inkscape:cy="178.15713"
+     inkscape:zoom="5.6"
+     inkscape:cx="52.388446"
+     inkscape:cy="45.25867"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -35,7 +38,8 @@
      inkscape:window-height="705"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     units="px" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -52,10 +56,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-846.85039)">
+     transform="translate(0,-988.3622)">
     <g
        id="g4152"
-       transform="translate(-67.142857,637.14286)">
+       transform="matrix(0.32033995,0,0,0.31129998,-22.225648,922.981)">
       <rect
          ry="20.578062"
          rx="15.442285"

@@ -4,6 +4,7 @@ package io.threesixty.kt.core;
 import net.sf.flatpack.structure.ColumnMetaData;
 import net.sf.flatpack.xml.MapParser;
 import net.sf.flatpack.xml.MetaData;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.File;
 import java.io.FileReader;
@@ -22,6 +23,7 @@ public class DataRecordConfiguration {
             "<PZMAP>\n";
     private static final String POSTAMBLE = "</PZMAP>";
 
+    private String name;
     private DataRecordFileType fileType;
     private char delimeter = ',';
     private char qualifier = '\"';
@@ -32,6 +34,7 @@ public class DataRecordConfiguration {
 
         try (FileReader reader = new FileReader(file)) {
             DataRecordConfiguration configuration = new DataRecordConfiguration();
+            configuration.setName(file.getName().replace(".pzmap.xml", ""));
             MetaData metaData = MapParser.parseMap(reader, null);
             for(ColumnMetaData columnMetaData : metaData.getColumnsNames()) {
                 configuration.addColumn(new DataRecordColumn(columnMetaData.getColName(), String.class));
@@ -41,6 +44,16 @@ public class DataRecordConfiguration {
             throw new ConfigurationException("Unable to parse configuration file", e);
         }
     }
+
+    public DataRecordConfiguration() { }
+
+    public DataRecordConfiguration(final String name, final DataRecordFileType fileType) {
+        this.name = name;
+        this.fileType = fileType;
+    }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
     public DataRecordFileType getFileType() { return fileType; }
     public void setFileType(DataRecordFileType fileType) { this.fileType = fileType; }
@@ -73,4 +86,17 @@ public class DataRecordConfiguration {
     private String getColumnNode(final DataRecordColumn column) {
         return "<COLUMN name=\"" + column.getName() + "\" length=\"" + column.getLength() + "\" />\n";
     }
+
+    public DataRecordConfiguration withColumn(final String name, final Class dataType) {
+        this.columns.add(new DataRecordColumn(name, dataType));
+        return this;
+    }
+
+    public DataRecordConfiguration withColumn(final String name, final Class dataType, final int length) {
+        this.columns.add(new DataRecordColumn(name, dataType, length));
+        return this;
+    }
+
+    @Override
+    public String toString() { return this.name; }
 }

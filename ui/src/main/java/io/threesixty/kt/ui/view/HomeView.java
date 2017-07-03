@@ -7,11 +7,9 @@ import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import io.threesixty.kt.ui.Sections;
-import io.threesixty.kt.ui.component.DataRecordPanel;
+import io.threesixty.ui.view.AbstractDashboardView;
 import org.vaadin.spring.sidebar.annotation.SideBarItem;
 import org.vaadin.spring.sidebar.annotation.VaadinFontIcon;
-import org.vaadin.viritin.layouts.MVerticalLayout;
-import za.co.yellowfire.threesixty.ui.view.AbstractDashboardView;
 
 @SuppressWarnings("serial")
 @SpringView(name = HomeView.VIEW_NAME)

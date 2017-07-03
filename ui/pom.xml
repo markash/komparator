@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>kt-ui</artifactId>
+	<artifactId>ui</artifactId>
 	<version>0.1.0</version>
 
-	<name>Katie</name>
+	<name>Komparator UI</name>
 	<description>Katie User Interface Example</description>
 
 	<parent>
@@ -16,19 +16,25 @@
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<spring-boot.version>1.5.2.RELEASE</spring-boot.version>
+        <camel.version>2.18.0</camel.version>
+        <java.version>1.8</java.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <spring-boot.version>1.5.2.RELEASE</spring-boot.version>
         <start-class>io.threesixty.kt.ui.Application</start-class>
+
+        <threesixty-components.version>0.2.1</threesixty-components.version>
+        <threesixty-theme.version>0.1.0</threesixty-theme.version>
+
+        <vaadin.version>8.0.4</vaadin.version>
+        <vaadin-icons.version>2.0.0</vaadin-icons.version>
         <vaadin4spring.version>2.0.1-SNAPSHOT</vaadin4spring.version>
         <vaadin-springboot.version>2.0-SNAPSHOT</vaadin-springboot.version>
-        <threesixty-components.version>0.2.0</threesixty-components.version>
+
         <viritin.version>2.0-SNAPSHOT</viritin.version>
-        <vaadin-icons.version>2.0.0</vaadin-icons.version>
-        <vaadin.version>8.0.4</vaadin.version>
-		<camel.version>2.18.0</camel.version>
-		<java.version>1.8</java.version>
-	</properties>
+    </properties>
 
 	<dependencies>
         <dependency>
@@ -74,11 +80,16 @@
             <version>${viritin.version}</version>
         </dependency>
         <dependency>
-            <groupId>za.co.yellowfire.threesixty</groupId>
-            <artifactId>threesixty-components</artifactId>
+            <groupId>io.threesixty</groupId>
+            <artifactId>components</artifactId>
             <version>${threesixty-components.version}</version>
         </dependency>
-		<dependency>
+        <dependency>
+            <groupId>io.threesixty</groupId>
+            <artifactId>theme</artifactId>
+            <version>${threesixty-theme.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-bam</artifactId>
             <version>${camel.version}</version>

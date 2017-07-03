@@ -13,11 +13,10 @@ $v-font-size:14px;
     font-family: 'Vaadin-Icons';
 }
 
-@import "../valo/valo";
-@import "login";
-@import "menu";
+@import "../../themes/threesixty/_threesixty.scss";
+@import "steps";
 
-.sidebar {
-  @include valo;
-  @include dashboard-login-view;
+.kt {
+  @include threesixty;
+  @include steps;
 }

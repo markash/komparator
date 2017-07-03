@@ -35,6 +35,14 @@ public class DataRecord {
         }
     }
 
+    public DataRecord add(final Id2<Long> id) {
+        return addKey(id);
+    }
+
+    public DataRecord add(final Attribute<?> attribute) {
+        return addAttribute(attribute);
+    }
+
     public DataRecord addKey(final Id2<Long> id) {
         this.id = id;
         return this;

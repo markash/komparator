@@ -5,13 +5,15 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.TabSheet;
 import io.threesixty.kt.ui.Sections;
+import io.threesixty.kt.ui.component.DataComparePanel;
 import io.threesixty.kt.ui.component.DataDifferencePanel;
 import io.threesixty.kt.ui.component.DataRecordPanel;
+import io.threesixty.kt.ui.service.PersistenceService;
+import io.threesixty.ui.view.AbstractDashboardView;
 import org.vaadin.spring.sidebar.annotation.SideBarItem;
 import org.vaadin.spring.sidebar.annotation.VaadinFontIcon;
-import org.vaadin.viritin.layouts.MVerticalLayout;
-import za.co.yellowfire.threesixty.ui.view.AbstractDashboardView;
 
 @SuppressWarnings("serial")
 @SpringView(name = ComparisonView.VIEW_NAME)
@@ -23,18 +25,35 @@ public class ComparisonView extends AbstractDashboardView {
     static final String VIEW_CAPTION = "Comparison";
     static final int VIEW_ORDER = 2;
 
-    private DataRecordPanel sourceRecordPanel = new DataRecordPanel("Source Data");
-    private DataRecordPanel targetRecordPanel = new DataRecordPanel("Target Data");
-    private DataDifferencePanel differencePanel = new DataDifferencePanel("Differences", sourceRecordPanel, targetRecordPanel);
+    private DataComparePanel compareRecordPanel;
+    private DataRecordPanel sourceRecordPanel;
+    private DataRecordPanel targetRecordPanel;
+    private DataDifferencePanel differencePanel;
 
-    public ComparisonView() {
+    private PersistenceService persistenceService;
+
+    public ComparisonView(final PersistenceService persistenceService) {
     	super(VIEW_CAPTION);
+
+        this.sourceRecordPanel = new DataRecordPanel("Source Data");
+        this.targetRecordPanel = new DataRecordPanel("Target Data");
+        this.differencePanel = new DataDifferencePanel("Differences", sourceRecordPanel, targetRecordPanel);
+        this.compareRecordPanel = new DataComparePanel("Configure and execute a comparison", sourceRecordPanel, targetRecordPanel, differencePanel, persistenceService);
+
 	}
 
 	@Override
 	protected Component buildContent() {
-        return new MVerticalLayout(sourceRecordPanel, targetRecordPanel, differencePanel)
-                        .withFullWidth().withSpacing(false).withMargin(false);
+
+        TabSheet tabsheet = new TabSheet();
+        tabsheet.addTab(compareRecordPanel, "Setup", VaadinIcons.CODE);
+        tabsheet.addTab(sourceRecordPanel, "Source", VaadinIcons.CLOUD_DOWNLOAD_O);
+        tabsheet.addTab(targetRecordPanel, "Target", VaadinIcons.CLOUD_UPLOAD_O);
+        tabsheet.addTab(differencePanel, "Differences", VaadinIcons.COMPILE);
+        tabsheet.setWidth("100%");
+        tabsheet.setHeight("100%");
+        tabsheet.setStyleName("framed");
+        return tabsheet;
 	}
 
 

@@ -1,25 +1,27 @@
 package io.threesixty.kt.ui.component;
 
 import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.server.Page;
-import com.vaadin.ui.*;
-import io.threesixty.kt.core.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.Upload;
+import io.threesixty.kt.core.AttributeMapping;
+import io.threesixty.kt.core.ComparisonService;
+import io.threesixty.kt.core.DataRecordColumn;
+import io.threesixty.kt.core.DifferenceRecord;
+import io.threesixty.ui.component.uploader.UploadReceiver;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MPanel;
 import org.vaadin.viritin.layouts.MVerticalLayout;
-import za.co.yellowfire.threesixty.ui.component.uploader.UploadReceiver;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Mark P Ashworth
  */
-public class DataDifferencePanel extends MPanel {
+public class DataDifferencePanel extends MPanel implements DataDifferenceProvider {
 
     private final List<DifferenceRecord> dataSource = new ArrayList<>();
     private final ListDataProvider<DifferenceRecord> dataProvider = new ListDataProvider<>(dataSource);
@@ -36,18 +38,28 @@ public class DataDifferencePanel extends MPanel {
         configureDataGrid();
         configureDummyColumns();
 
-        MVerticalLayout buttonPanel = createButtonPanel(compareButton);
+        //MVerticalLayout buttonPanel = createButtonPanel(compareButton);
 
         MHorizontalLayout content =
                 new MHorizontalLayout(
-                        grid,
-                        buttonPanel)
+                        grid/*,
+                        buttonPanel*/)
                 .withMargin(false).withSpacing(false);
 
-        content.setExpandRatio(grid, 10);
-        content.setExpandRatio(buttonPanel, 2);
+        //content.setExpandRatio(grid, 10);
+        //content.setExpandRatio(buttonPanel, 2);
 
         this.setContent(content);
+    }
+
+    @Override
+    public void setAttributeMapping() {
+
+    }
+
+    @Override
+    public void setDataDifferences(List<DifferenceRecord> dataDifferences) {
+        setRecords(dataDifferences);
     }
 
     private void onCompare(final Button.ClickEvent event) {

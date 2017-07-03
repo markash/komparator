@@ -1,19 +1,20 @@
 package io.threesixty.kt.ui;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.navigator.Navigator;
-import com.vaadin.server.VaadinRequest;
+import com.vaadin.navigator.ViewProvider;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
-import com.vaadin.ui.UI;
+import com.vaadin.ui.Component;
 import io.threesixty.kt.ui.view.DashboardView;
-import io.threesixty.kt.ui.view.ErrorView;
+import io.threesixty.ui.ApplicationUI;
+import io.threesixty.ui.component.logo.Logo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.events.EventBus;
+import org.vaadin.spring.sidebar.components.ValoSideBar;
 
-@Theme("sidebar")
+@Theme("kt")
 @SpringUI
-public class MainUI extends UI {
+public class MainUI extends ApplicationUI {
 	private static final long serialVersionUID = 1L;
 
     @Autowired
@@ -22,23 +23,20 @@ public class MainUI extends UI {
     private EventBus.SessionEventBus eventBus;
     @Autowired
     private DashboardView dashboardView;
+    @Autowired
+    private ValoSideBar sideBar;
+    @Autowired
+    private Logo logo;
 
-	@Override
-    protected void init(VaadinRequest vaadinRequest) {
-		getPage().setTitle("Katie");
-		configureNavigator();
-        showMainScreen();
+    @Override
+    protected Component getSideBar() {
+        sideBar.setLogo(logo);
+        return sideBar;
     }
 
-    private void configureNavigator() {
-        final Navigator navigator = new Navigator(this, this.dashboardView.getViewContainer());
-        navigator.setErrorView(new ErrorView());
-        navigator.addProvider(viewProvider);
-        setNavigator(navigator);
-    }
-
-    private void showMainScreen() {
-        setContent(dashboardView);
+    @Override
+    protected ViewProvider getViewProvider() {
+        return viewProvider;
     }
 
     @Override

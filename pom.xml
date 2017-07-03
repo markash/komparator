@@ -269,9 +269,12 @@
 
     <modules>
         <module>core</module>
+        <module>ui</module>
         <!--
         <module>kt-integration-camel</module>
-        -->
+
         <module>ui</module>
+        <module>filesystem</module>
+        -->
     </modules>
 </project>

@@ -1,5 +1,13 @@
 @mixin steps {
 
+    .v-filterselect {
+        position: relative;
+        width: 250px;
+        height: 26px;
+        border-radius: 0px;
+        white-space: nowrap;
+    }
+
     /**********************************************************
      * Steps
      *********************************************************/

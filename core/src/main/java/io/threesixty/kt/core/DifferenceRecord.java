@@ -11,6 +11,8 @@ import java.util.Map;
  * @author Mark P Ashworth
  */
 public class DifferenceRecord extends AbstractResultRecord {
+    public static final String DIFFERENT_RECORD_TYPE = "DIFFERENT_RECORD_TYPE";
+
     private Id2<Long> id;
     private List<String> order;
     private Map<String, Difference> record;

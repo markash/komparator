@@ -4,7 +4,6 @@ package io.threesixty.kt.core;
 import net.sf.flatpack.structure.ColumnMetaData;
 import net.sf.flatpack.xml.MapParser;
 import net.sf.flatpack.xml.MetaData;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.File;
 import java.io.FileReader;
@@ -25,7 +24,7 @@ public class DataRecordConfiguration {
 
     private String name;
     private DataRecordFileType fileType;
-    private char delimeter = ',';
+    private char delimiter = ',';
     private char qualifier = '\"';
     private boolean ignoreFirstRecord = true;
     private List<DataRecordColumn> columns = new ArrayList<>();
@@ -58,8 +57,8 @@ public class DataRecordConfiguration {
     public DataRecordFileType getFileType() { return fileType; }
     public void setFileType(DataRecordFileType fileType) { this.fileType = fileType; }
 
-    public char getDelimeter() { return delimeter; }
-    public void setDelimeter(char delimeter) { this.delimeter = delimeter; }
+    public char getDelimiter() { return delimiter; }
+    public void setDelimiter(char delimiter) { this.delimiter = delimiter; }
 
     public char getQualifier() { return qualifier; }
     public void setQualifier(char qualifier) { this.qualifier = qualifier; }
@@ -85,6 +84,11 @@ public class DataRecordConfiguration {
 
     private String getColumnNode(final DataRecordColumn column) {
         return "<COLUMN name=\"" + column.getName() + "\" length=\"" + column.getLength() + "\" />\n";
+    }
+
+    public DataRecordConfiguration withDelimiter(final char delimiter) {
+        this.setDelimiter(delimiter);
+        return this;
     }
 
     public DataRecordConfiguration withColumn(final String name, final Class dataType) {

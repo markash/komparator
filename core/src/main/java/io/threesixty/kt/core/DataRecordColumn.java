@@ -1,9 +1,11 @@
 package io.threesixty.kt.core;
 
+import org.springframework.util.StringUtils;
+
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
-public class DataRecordColumn {
+public class DataRecordColumn implements Comparable<DataRecordColumn> {
     private String name;
     private Class dataType;
     private int length;
@@ -26,4 +28,25 @@ public class DataRecordColumn {
 
     public int getLength() { return length; }
     public void setLength(int length) { this.length = length; }
+
+    @Override
+    public int compareTo(final DataRecordColumn o) {
+        final String value = !StringUtils.isEmpty(this.name) ? this.name : "";
+        final String other = o != null && !StringUtils.isEmpty(o.getName()) ? o.getName() : "";
+        return value.compareTo(other);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DataRecordColumn that = (DataRecordColumn) o;
+        return name != null ? name.equals(that.name) : that.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
 }

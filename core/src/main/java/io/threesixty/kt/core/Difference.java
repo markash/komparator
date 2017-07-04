@@ -5,7 +5,7 @@ import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple4;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class Difference<T> extends Tuple4<String, T, T, Boolean> {
     /**

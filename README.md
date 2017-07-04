@@ -1,19 +1,94 @@
 ![alt text](https://github.com/markash/komparator/raw/master/ui/src/main/resources/kt-logo.png "Komparator") 
 
 ### Problem Statement
-System A and System B has a list of data and you would like to determine if this data is the same in the following respects:-
+Did you eve want to compare to two lists of data and did not want to spend the time and effort to workout how to do this in Excel or ask a developer to sort it out? 
+Would it not be great if you could specify what the format of the data looks like and how to map the columns and the application did the rest?
 
-* The records match on some identifier attribute
+### How to
 
-* When matched that all the attributes are equal
+![alt text](http://res.cloudinary.com/yellowfire/image/upload/v1499160515/compare-setup_brvm8i.png "Setup")
 
-### Features
+##### Step 1 - Define the master data, i.e. source data
+First we need to specify the format of the data that will be used as the source or master data for the comparison. This data is usually the authoritative source or golden copy.
 
-#### Source data from comma-separated and fixed length files
+##### Step 2 - Define the data to compare to the master, i.e. target data
+Next we need to do the same for the target data which we suspect has :- 
+- More records than the source data
 
-![alt text](https://raw.githubusercontent.com/markash/komparator/master/core/src/main/resources/integration.svg "Diagram")
+- Less records than the source data
 
+- Mismatch data between the source and target
 
-Three**Sixty** Komparator uses the [FlatPack](http://flatpack.sourceforge.net) library to read data from comma-separated and fixed length files. and together with either an exact attribute name mapping  
+##### Step 3 - Define the mapping between the source and target data
+Since the source and target data might differ in format and attribute names defined in steps 1 & 2, we need to define a mapping between the columns in each data set that we are interested in comparing. 
 
-[title](http://)
+##### Step 4 - Perform the comparison
+All the meta data is inplace now to perform the actual comparison.
+
+[alt text](http://res.cloudinary.com/yellowfire/image/upload/v1499160659/compare-differences_lajw9t.png "Differences")
+
+### How to for developers
+##### Step 1 - Define the master data, i.e. source data
+
+```java
+DataRecordConfiguration sourceConfiguration =
+    new DataRecordConfiguration("AdventureWorks Person (Tab)", DataRecordFileType.DELIMITED)
+            .withDelimiter('\t')
+            .withColumn("ID", String.class)
+            .withColumn("TYPE", String.class)
+            .withColumn("NAME_STYLE", String.class)
+            .withColumn("TITLE", String.class)
+            .withColumn("FIRST_NAME", String.class)
+            .withColumn("MIDDLE_NAME", String.class)
+            .withColumn("LAST_NAME", String.class)
+            .withColumn("SUFFIX", String.class)
+            .withColumn("EMAIL_PROMOTION", String.class)
+            .withColumn("ADDITIONAL_CONTEXT_INFO", String.class)
+            .withColumn("DEMOGRAPHICS_INFO", String.class)
+            .withColumn("ROWGUID_ID", String.class)
+            .withColumn("MODIFIED_DATE", String.class);
+```
+##### Step 2 - Define the data to compare to the master, i.e. target data
+
+```java
+DataRecordConfiguration targetConfiguration =
+    new DataRecordConfiguration("AdventureWorks Person (Semicolon)", DataRecordFileType.DELIMITED)
+            .withDelimiter(';')
+            .withColumn("ID", String.class)
+            .withColumn("TYPE", String.class)
+            .withColumn("NAME_STYLE", String.class)
+            .withColumn("TITLE", String.class)
+            .withColumn("FIRST_NAME", String.class)
+            .withColumn("MIDDLE_NAME", String.class)
+            .withColumn("LAST_NAME", String.class)
+            .withColumn("SUFFIX", String.class)
+            .withColumn("EMAIL_PROMOTION", String.class)
+            .withColumn("ADDITIONAL_CONTEXT_INFO", String.class)
+            .withColumn("DEMOGRAPHICS_INFO", String.class)
+            .withColumn("ROWGUID_ID", String.class)
+            .withColumn("MODIFIED_DATE", String.class);
+```
+
+##### Step 3 - Define the mapping between the source and target data
+
+```java
+AttributeMapping attributeMapping = new AttributeMapping("AdventureWorks Person Mapping")
+            .source(configuration)
+            .mapTo(configuration); 
+```
+
+##### Step 4 - Perform the comparison
+
+```java
+DataRecordReader reader = new DataRecordReader();
+DataRecordSet sourceRecordSet = reader.read(sourceConfiguration, new FileReader(sourceFile));
+DataRecordSet targetRecordSet = reader.read(targetConfiguration, new FileReader(targetFile));
+List<ResultRecord> results = new ComparisonService().compare(sourceRecordSet, targetRecordSet, attributeMapping);
+```
+
+#### Integration Pattern
+
+![alt text](http://res.cloudinary.com/yellowfire/image/upload/v1499160835/integration_jdfxa0.svg "Diagram")
+
+#### Libraries
+Three**Sixty** Compare uses the [FlatPack](http://flatpack.sourceforge.net) library to read data from comma-separated and fixed length files. and together with either an exact attribute name mapping.  

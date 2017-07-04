@@ -47,7 +47,8 @@ public class DataRecordPanel extends MPanel implements DataRecordProvider {
                         buttonPanel*/)
                 .withMargin(false)
                 .withSpacing(false)
-                .withFullWidth();
+                .withFullWidth()
+                .withFullHeight();
 
         //content.setExpandRatio(grid, 10);
         //content.setExpandRatio(buttonPanel, 2);

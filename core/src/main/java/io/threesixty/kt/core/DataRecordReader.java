@@ -96,7 +96,7 @@ public class DataRecordReader {
                 return factory.newDelimitedParser(
                         mapFileReader,
                         dataFileReader,
-                        configuration.getDelimeter(),
+                        configuration.getDelimiter(),
                         configuration.getQualifier(),
                         configuration.isIgnoreFirstRecord());
             case FIXED:

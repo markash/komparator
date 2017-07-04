@@ -13178,6 +13178,14 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 2px 16px;
 }
 
+.kt .v-filterselect {
+	position: relative;
+	width: 250px;
+	height: 26px;
+	border-radius: 0px;
+	white-space: nowrap;
+}
+
 .kt div.initial-step {
 	margin-top: 0px;
 }

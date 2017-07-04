@@ -44,7 +44,10 @@ public class DataDifferencePanel extends MPanel implements DataDifferenceProvide
                 new MHorizontalLayout(
                         grid/*,
                         buttonPanel*/)
-                .withMargin(false).withSpacing(false);
+                .withMargin(false)
+                .withSpacing(false)
+                .withFullWidth()
+                .withFullHeight();
 
         //content.setExpandRatio(grid, 10);
         //content.setExpandRatio(buttonPanel, 2);
@@ -97,8 +100,8 @@ public class DataDifferencePanel extends MPanel implements DataDifferenceProvide
     private void configureDummyColumns() {
         List<DataRecordColumn> columns = new ArrayList<>();
         columns.add(new DataRecordColumn("ID", String.class));
-        columns.add(new DataRecordColumn("NAME", String.class));
-        columns.add(new DataRecordColumn("AGE", String.class));
+        columns.add(new DataRecordColumn("TYPE", String.class));
+        columns.add(new DataRecordColumn("FIRST_NAME", String.class));
         setColumns(columns);
     }
 
@@ -113,6 +116,8 @@ public class DataDifferencePanel extends MPanel implements DataDifferenceProvide
             gridColumn = grid.addColumn(dataRecord -> dataRecord.get(column.getName()));
             gridColumn.setCaption(column.getName());
         }
+
+        grid.addColumn(DifferenceRecord::getResultType).setCaption("Difference");
     }
 
     /**

@@ -1,8 +1,8 @@
 ![alt text](https://github.com/markash/komparator/raw/master/ui/src/main/resources/kt-logo.png "Komparator") 
 
 ### Problem Statement
-Did you eve want to compare to two lists of data and did not want to spend the time and effort to workout how to do this in Excel or ask a developer to sort it out? 
-Would it not be great if you could specify what the format of the data looks like and how to map the columns and the application did the rest?
+Did you ever want to compare to two lists of data and did not want to spend the time and effort to workout how to do this in Excel or ask a developer to sort it out? 
+Would it not be great if you could specify the format of the data and how to map the columns; then let the application do the rest?
 
 ### How to
 
@@ -25,7 +25,7 @@ Since the source and target data might differ in format and attribute names defi
 ##### Step 4 - Perform the comparison
 All the meta data is inplace now to perform the actual comparison.
 
-[alt text](http://res.cloudinary.com/yellowfire/image/upload/v1499160659/compare-differences_lajw9t.png "Differences")
+![alt text](http://res.cloudinary.com/yellowfire/image/upload/v1499160659/compare-differences_lajw9t.png "Differences")
 
 ### How to for developers
 ##### Step 1 - Define the master data, i.e. source data

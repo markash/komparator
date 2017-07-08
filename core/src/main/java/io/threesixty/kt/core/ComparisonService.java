@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class ComparisonService {
 
@@ -33,7 +33,7 @@ public class ComparisonService {
 
         Seq<MatchRecord> matchedRecords =
                 Seq.ofType(source.stream(), DataRecord.class)
-                .innerJoin(Seq.ofType(target.stream(), DataRecord.class), (left, right) -> left.id.equals(right.id))
+                .innerJoin(Seq.ofType(target.stream(), DataRecord.class), DataRecord::equals)
                 .map(t -> MatchRecord.compare(t.v1, t.v2, attributeMapping == null ? new AttributeNameJoiner() : new AttributeMappingJoiner(attributeMapping)));
 
         /* Filter out equal records if requested */
@@ -47,13 +47,13 @@ public class ComparisonService {
         }
 
         Seq.ofType(source.stream(), DataRecord.class)
-                .leftOuterJoin(Seq.ofType(target.stream(), DataRecord.class), (left, right) -> left.id.equals(right.id))
+                .leftOuterJoin(Seq.ofType(target.stream(), DataRecord.class), DataRecord::equals)
                 .filter(t -> t.v2 == null)
                 .map(t -> UnMatchRecord.sourceUnmatched(t.v1))
                 .forEach(results::add);
 
         Seq.ofType(target.stream(), DataRecord.class)
-                .leftOuterJoin(Seq.ofType(source.stream(), DataRecord.class), (left, right) -> left.id.equals(right.id))
+                .leftOuterJoin(Seq.ofType(source.stream(), DataRecord.class), DataRecord::equals)
                 .filter(t -> t.v2 == null)
                 .map(t -> UnMatchRecord.targetUnmatched(t.v1, attributeMapping))
                 .forEach(results::add);

@@ -20,4 +20,8 @@ public class Attribute<T> extends Tuple2<String, T> {
      * @return The value of the attribute
      */
     public T getValue() { return v2; }
+
+    public static <T> Attribute<T> create(String v1, T v2) {
+        return new Attribute<>(v1, v2);
+    }
 }

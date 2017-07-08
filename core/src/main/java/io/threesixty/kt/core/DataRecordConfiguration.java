@@ -69,9 +69,8 @@ public class DataRecordConfiguration {
     public List<DataRecordColumn> getColumns() { return columns; }
     public void setColumns(List<DataRecordColumn> columns) { this.columns = columns; }
 
-    public void addColumn(final DataRecordColumn column) {
-        this.columns.add(column);
-    }
+    public void addColumn(final DataRecordColumn column) { this.columns.add(column); }
+    public DataRecordColumn getColumn(final String name) { return this.columns.stream().filter(e -> e.getName().equals(name)).findFirst().orElse(null); }
 
     public Reader getParserConfiguration() {
         StringBuilder config = new StringBuilder(PREAMBLE);
@@ -91,13 +90,18 @@ public class DataRecordConfiguration {
         return this;
     }
 
+    public DataRecordConfiguration withId(final String name, final Class dataType) {
+        this.columns.add(new DataRecordColumn(name, dataType, true));
+        return this;
+    }
+
     public DataRecordConfiguration withColumn(final String name, final Class dataType) {
-        this.columns.add(new DataRecordColumn(name, dataType));
+        this.columns.add(new DataRecordColumn(name, dataType, false));
         return this;
     }
 
     public DataRecordConfiguration withColumn(final String name, final Class dataType, final int length) {
-        this.columns.add(new DataRecordColumn(name, dataType, length));
+        this.columns.add(new DataRecordColumn(name, dataType, length, false));
         return this;
     }
 

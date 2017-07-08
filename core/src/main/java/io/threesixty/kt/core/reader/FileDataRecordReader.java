@@ -1,5 +1,6 @@
-package io.threesixty.kt.core;
+package io.threesixty.kt.core.reader;
 
+import io.threesixty.kt.core.*;
 import net.sf.flatpack.DataSet;
 import net.sf.flatpack.DefaultParserFactory;
 import net.sf.flatpack.Parser;
@@ -15,9 +16,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
-public class DataRecordReader {
+public class FileDataRecordReader {
 
     public DataRecordSet read(final DataRecordConfiguration configuration, final Reader dataFileReader) {
         return read(configuration, configuration.getParserConfiguration(), dataFileReader);
@@ -27,10 +28,10 @@ public class DataRecordReader {
         return read(configuration, configuration.getParserConfiguration(), new InputStreamReader(dataInputStream));
     }
 
-    public DataRecordSet read(final DataRecordConfiguration configuration, final Reader mapFileReader, final Reader dataFileReader) {
+    private DataRecordSet read(final DataRecordConfiguration configuration, final Reader mapFileReader, final Reader dataFileReader) {
 
         try {
-            final Parser parser = resolverParser(configuration, mapFileReader, dataFileReader);
+            final Parser parser = resolverParser(configuration, dataFileReader);
             final DataSet ds = parser.parse();
 
             DataRecord dataRecord;
@@ -43,7 +44,7 @@ public class DataRecordReader {
                     dataRecord = new DataRecord();
                     for (String column : ds.getColumns()) {
                         if (column.equals("ID")) {
-                            dataRecord.addKey(new Id2<>("ID", ds.getLong("ID")));
+                            dataRecord.addKey(column, ds.getString(column));
                         } else {
                             dataRecord.addAttribute(column, ds.getString(column));
                         }
@@ -74,9 +75,9 @@ public class DataRecordReader {
         DataRecord dataRecord = new DataRecord();
         record.entrySet().forEach(a -> {
             if (a.getKey().equals(idKey)) {
-                dataRecord.addKey(new Id2<Long>(a.getKey(), Long.parseLong(a.getValue())));
+                dataRecord.addKey(new Attribute<>(a.getKey(), a.getValue()));
             } else {
-                dataRecord.add(new Attribute<>(a.getKey(), a.getValue()));
+                dataRecord.addAttribute(new Attribute<>(a.getKey(), a.getValue()));
             }
         });
         return dataRecord;
@@ -89,18 +90,18 @@ public class DataRecordReader {
                 .collect(Collectors.toList());
     }
 
-    private Parser resolverParser(final DataRecordConfiguration configuration, final Reader mapFileReader, final Reader dataFileReader) {
+    private Parser resolverParser(final DataRecordConfiguration configuration, final Reader dataFileReader) {
         ParserFactory factory = DefaultParserFactory.getInstance();
         switch (configuration.getFileType()) {
             case DELIMITED:
                 return factory.newDelimitedParser(
-                        mapFileReader,
+                        configuration.getParserConfiguration(),
                         dataFileReader,
                         configuration.getDelimiter(),
                         configuration.getQualifier(),
                         configuration.isIgnoreFirstRecord());
             case FIXED:
-                return factory.newFixedLengthParser(mapFileReader, dataFileReader);
+                return factory.newFixedLengthParser(configuration.getParserConfiguration(), dataFileReader);
             default:
                 throw new ConfigurationException("Unsupported data record file type provided " + configuration.getFileType());
         }

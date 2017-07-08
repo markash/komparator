@@ -1,5 +1,6 @@
 package io.threesixty.kt.core;
 
+import io.threesixty.kt.core.reader.FileDataRecordReader;
 import org.concordion.api.FullOGNL;
 import org.concordion.integration.junit4.ConcordionRunner;
 import org.jooq.lambda.Seq;
@@ -35,7 +36,7 @@ public class ComparisonFixture {
         attributeMapping.addMapping("FIRSTNAME", "NAME");
         attributeMapping.addMapping("AGE", "AGE");
 
-        DataRecordReader reader = new DataRecordReader();
+        FileDataRecordReader reader = new FileDataRecordReader();
         DataRecordSet sourcePersons = reader.read(sourceConfig, this.getClass().getResourceAsStream("/" + source));
         DataRecordSet targetPersons = reader.read(targetConfig, this.getClass().getResourceAsStream("/" + target));
 

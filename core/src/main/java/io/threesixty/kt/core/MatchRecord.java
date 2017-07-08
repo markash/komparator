@@ -5,7 +5,7 @@ import org.jooq.lambda.tuple.Tuple2;
 import java.util.List;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class MatchRecord extends AbstractResultRecord {
     private DataRecord sourceRecord;
@@ -23,7 +23,7 @@ public class MatchRecord extends AbstractResultRecord {
     }
 
     @Override
-    public Id2<Long> getId() { return getSourceRecord().id; }
+    public Key getKey() { return getSourceRecord().getKey(); }
     public DataRecord getSourceRecord() { return sourceRecord; }
     public DataRecord getTargetRecord() { return targetRecord; }
     public List<Tuple2<Attribute, Attribute>> getDifferences() { return differences; }

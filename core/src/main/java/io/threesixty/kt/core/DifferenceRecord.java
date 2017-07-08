@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class DifferenceRecord extends AbstractResultRecord {
     public static final String DIFFERENT_RECORD_TYPE = "DIFFERENT_RECORD_TYPE";
 
-    private Id2<Long> id;
+    private Key key;
     private List<String> order;
     private Map<String, Difference> record;
 
@@ -33,7 +33,7 @@ public class DifferenceRecord extends AbstractResultRecord {
     }
 
     @Override
-    public Id2<Long> getId() { return this.id; }
+    public Key getKey() { return this.key; }
     public Map<String, Difference> getRecord() { return record; }
     public Difference get(final String name) { return record.get(name); }
 
@@ -51,21 +51,24 @@ public class DifferenceRecord extends AbstractResultRecord {
         this.order = new ArrayList<>();
         Map<String, Difference> results = new HashMap<>();
 
-        /* Pair up the id values */
-        this.id = sourceRecord.id;
-        this.order.add(sourceRecord.id.getName());
-        results.put(sourceRecord.id.getName(), new Difference(sourceRecord.id, (targetRecord != null ? targetRecord.id : null)));
+        /* Pair up the key values */
+        this.key = sourceRecord.getKey();
+        //this.order.add(sourceRecord.id.getName());
+        //results.put(sourceRecord.id.getName(), new Difference(sourceRecord.id, (targetRecord != null ? targetRecord.id : null)));
+
 
         /* Convert the list of differences to a map by source attribute name */
         Map<String, Tuple2<Attribute, Attribute>> differencesMap = new HashMap<>();
-        for(Tuple2<Attribute, Attribute> tuple : differences) {
-            differencesMap.put(tuple.v1.getName(), tuple);
-        }
+//        for(Tuple2<Attribute, Attribute> tuple : differences) {
+//            differencesMap.put(tuple.v1.getName(), tuple);
+//        }
+        differences.forEach(difference -> differencesMap.put(difference.v1.getName(), difference));
+
 
         /* Pair up the source record attributes with the differences */
-        DataRecord record = new DataRecord();
-        record.addKey(sourceRecord.id);
-        for(Attribute<?> attribute : sourceRecord.attributes.values()) {
+//        DataRecord record = new DataRecord();
+//        record.addKey(sourceRecord.id);
+        for(Attribute<?> attribute : sourceRecord.getCompleteAttributeList()) {
             if (differencesMap.containsKey(attribute.getName())) {
                 results.put(attribute.getName(), new Difference(differencesMap.get(attribute.getName())));
             } else {

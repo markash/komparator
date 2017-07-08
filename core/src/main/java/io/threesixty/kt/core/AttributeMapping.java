@@ -3,6 +3,7 @@ package io.threesixty.kt.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
@@ -49,11 +50,32 @@ public class AttributeMapping {
         return this;
     }
 
-    private AttributeMapping mapTo(final DataRecordColumn source, final DataRecordColumn target) {
+    public AttributeMapping mapTo(final DataRecordColumn source, final DataRecordColumn target) {
         if (this.attributeMap.containsKey(source)) {
             this.attributeMap.replace(source, target);
         } else {
             this.attributeMap.put(source, target);
+        }
+        return this;
+    }
+
+    public AttributeMapping mapTo(final DataRecordConfiguration configuration, final String source, final String target) {
+        final Optional<DataRecordColumn> sourceKey = getSource(source);
+        final Optional<DataRecordColumn> targetKey = Optional.ofNullable(configuration.getColumn(target));
+
+        if (sourceKey.isPresent() && targetKey.isPresent()) {
+            return mapTo(sourceKey.get(), targetKey.get());
+        }
+        return this;
+    }
+
+    public AttributeMapping mapTo(final List<DataRecordColumn> columnDefinitions, final String source, final String target) {
+
+        final Optional<DataRecordColumn> sourceKey = getSource(source);
+        final Optional<DataRecordColumn> targetKey = columnDefinitions.stream().filter(e -> e.getName().equals(target)).findFirst();
+
+        if (sourceKey.isPresent() && targetKey.isPresent()) {
+            return mapTo(sourceKey.get(), targetKey.get());
         }
         return this;
     }
@@ -72,6 +94,7 @@ public class AttributeMapping {
      * Adds a mapping between a data record attributes
      * @param sourceAttributeName The attribute name of the source data record
      * @param targetAttributeName The attribute name of the target data record
+     * @deprecated
      */
     public void addMapping(final String sourceAttributeName, final String targetAttributeName) {
         this.attributeMap.put(new DataRecordColumn(sourceAttributeName, String.class), new DataRecordColumn(targetAttributeName, String.class));
@@ -106,6 +129,10 @@ public class AttributeMapping {
                 .orElse(null);
 
         return source != null ? source.getName() : null;
+    }
+
+    private Optional<DataRecordColumn> getSource(final String name) {
+        return this.attributeMap.keySet().stream().filter(e -> e.getName().equals(name)).findFirst();
     }
 
     @Override

@@ -4,8 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>kt-core</artifactId>
+    <artifactId>core</artifactId>
     <version>0.1.0</version>
+
+    <name>Comparator Core</name>
+    <description>The core comparison library</description>
 
     <properties>
         <project.build.target>1.8</project.build.target>
@@ -78,7 +81,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -88,6 +96,11 @@
         <dependency>
             <groupId>org.concordion</groupId>
             <artifactId>concordion</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

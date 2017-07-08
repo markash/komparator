@@ -1,7 +1,7 @@
 package io.threesixty.kt.core;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public abstract class AbstractResultRecord implements ResultRecord {
     private ResultType resultType;
@@ -16,7 +16,7 @@ public abstract class AbstractResultRecord implements ResultRecord {
 
     @Override
     public int compareTo(final ResultRecord other) {
-        Long otherId = other != null ? other.getId().getValue() : Long.MIN_VALUE;
-        return getId().getValue().compareTo(otherId);
+        Key otherKey = other != null && other.getKey() != null ? other.getKey() : new Key();
+        return getKey().compareTo(otherKey);
     }
 }

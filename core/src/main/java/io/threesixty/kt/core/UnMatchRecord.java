@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class UnMatchRecord extends AbstractResultRecord {
     private DataRecord record;
@@ -18,13 +18,13 @@ public class UnMatchRecord extends AbstractResultRecord {
     }
 
     @Override
-    public Id2<Long> getId() { return record.id; }
+    public Key getKey() { return record.getKey(); }
     public DataRecord getRecord() { return record; }
 
     public List<Tuple2<Attribute, Attribute>> getDifferences() {
         List<Tuple2<Attribute, Attribute>> results = new ArrayList<>();
 
-        for(Attribute attribute : record.attributes.values()){
+        for(Attribute attribute : record.getAttributes()){
             results.add(new Tuple2<Attribute, Attribute>(attribute, new Attribute(attribute.getName(), null)));
         }
         return results;
@@ -41,12 +41,12 @@ public class UnMatchRecord extends AbstractResultRecord {
          */
         String mappedName;
         List<Attribute<?>> attributes = new ArrayList<>();
-        for(Map.Entry<String, Attribute<?>> entry : record.attributes.entrySet()) {
-            mappedName = attributeMapping.getMappingForTarget(entry.getKey());
-            mappedName = mappedName != null ? mappedName : entry.getKey();
-            attributes.add(new Attribute<>(mappedName, entry.getValue().getValue()));
+        for(Attribute<?> attribute : record.getAttributes()) {
+            mappedName = attributeMapping.getMappingForTarget(attribute.getName());
+            mappedName = mappedName != null ? mappedName : attribute.getName();
+            attributes.add(Attribute.create(mappedName, attribute.getValue()));
         }
-        return new UnMatchRecord(new DataRecord(record.id, attributes), ResultType.TARGET_UNMATCHED);
+        return new UnMatchRecord(new DataRecord(record.getKey(), attributes), ResultType.TARGET_UNMATCHED);
     }
 
     @Override

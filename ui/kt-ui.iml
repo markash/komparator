@@ -10,7 +10,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="kt-core" />
+    <orderEntry type="library" name="Maven: io.threesixty.kt:kt-core:0.1.0" level="project" />
     <orderEntry type="library" name="Maven: net.sf.flatpack:flatpack:4.0.1" level="project" />
     <orderEntry type="library" name="Maven: jdom:jdom:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.jooq:jool:0.9.12" level="project" />

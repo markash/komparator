@@ -7,79 +7,87 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
-public class DataRecord {
-    Id2<Long> id;
-    Map<String, Attribute<?>> attributes;
+public class DataRecord extends AttributableObject {
+    private Key key;
 
     public DataRecord() {
-        this.attributes = new HashMap<>();
+        super();
+        this.key = new Key();
     }
 
     public DataRecord(final DataRecord dataRecord) {
-        this(dataRecord.id, dataRecord.attributes.values());
+        this(dataRecord.getAttributes(), dataRecord.getAttributes());
     }
 
-    public DataRecord(Id2<Long> id, Attribute<?>...attributes) {
-        this(id, Arrays.asList(attributes));
+    public DataRecord(final Key key, final Collection<Attribute<?>> attributes) {
+        this(key.getAttributes(), attributes);
     }
 
-    public DataRecord(Id2<Long> id, Collection<Attribute<?>> attributes) {
-        this.id = id;
-        this.attributes = new HashMap<>();
-        if (attributes != null) {
-            for (Attribute<?> attribute : attributes) {
-                this.attributes.put(attribute.getName(), attribute);
-            }
-        }
+    public DataRecord(final Collection<Attribute<?>> keys, final Collection<Attribute<?>> attributes) {
+        super(attributes);
+        this.key = new Key(keys);
     }
 
-    public DataRecord add(final Id2<Long> id) {
-        return addKey(id);
+    public DataRecord addKey(final String name, final String attribute) {
+        return addKey(new Attribute<>(name, attribute));
     }
 
-    public DataRecord add(final Attribute<?> attribute) {
-        return addAttribute(attribute);
-    }
-
-    public DataRecord addKey(final Id2<Long> id) {
-        this.id = id;
-        return this;
-    }
-
-    public DataRecord addAttribute(final String name, final String attribute) {
-        return addAttribute(new Attribute<>(name, attribute));
-    }
-
-    public DataRecord addAttribute(final Attribute<?> attribute) {
-        this.attributes.put(attribute.getName(), attribute);
+    public DataRecord addKey(final Attribute<?> attribute) {
+        this.key.addAttribute(attribute);
         return this;
     }
 
     public Object get(final String name) {
-        if (this.id.getName().equals(name)) {
-            return this.id.getValue();
-        } else if (this.attributes.containsKey(name)) {
+        if (hasKey(name)) {
+            return getKey(name).getValue();
+        } else if (hasAttribute(name)) {
             return getAttribute(name).getValue();
         }
         return null;
     }
 
-    public Attribute<?> getAttribute(final String name) {
-        return this.attributes.get(name);
+    public Key getKey() {
+        return this.key;
+    }
+
+    public Attribute<?> getKey(final String name) {
+        return this.key.getAttribute(name);
+    }
+
+    public Collection<Attribute<?>> getCompleteAttributeList() {
+        List<Attribute<?>> results = new ArrayList<>(this.key.getAttributes());
+        results.addAll(getAttributes());
+        return results;
+    }
+
+    public boolean hasKey(final String name) {
+        return this.key.hasAttribute(name);
     }
 
     public List<Tuple2<Attribute, Attribute>> compareTo(DataRecord other, AttributeJoiner join) {
 
-        return Seq.ofType(attributes.values().stream(), Attribute.class)
-                .innerJoin(Seq.ofType(other.attributes.values().stream(), Attribute.class), join::matches)
+        return Seq.ofType(getAttributes().stream(), Attribute.class)
+                .innerJoin(Seq.ofType(other.getAttributes().stream(), Attribute.class), join::matches)
                 .filter(match -> !match.v1().getValue().equals(match.v2().getValue()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public String toString() {
-        return id.toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DataRecord that = (DataRecord) o;
+        return key != null ? key.equals(that.key) : that.key == null;
     }
+
+    @Override
+    public int hashCode() {
+        return key != null ? key.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() { return this.key.toString(); }
 }

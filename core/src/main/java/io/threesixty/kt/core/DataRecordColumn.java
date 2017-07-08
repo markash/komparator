@@ -9,15 +9,21 @@ public class DataRecordColumn implements Comparable<DataRecordColumn> {
     private String name;
     private Class dataType;
     private int length;
+    private boolean key;
 
     public DataRecordColumn(final String name, final Class dataType) {
-        this(name, dataType, 0);
+        this(name, dataType, 0, false);
     }
 
-    public DataRecordColumn(final String name, final Class dataType, final int length) {
+    public DataRecordColumn(final String name, final Class dataType, final boolean key) {
+        this(name, dataType, 0, key);
+    }
+
+    public DataRecordColumn(final String name, final Class dataType, final int length, final boolean key) {
         this.name = name;
         this.dataType = dataType;
         this.length = length;
+        this.key = key;
     }
 
     public String getName() { return name; }
@@ -28,6 +34,9 @@ public class DataRecordColumn implements Comparable<DataRecordColumn> {
 
     public int getLength() { return length; }
     public void setLength(int length) { this.length = length; }
+
+    public boolean isKey() { return key; }
+    public void setKey(boolean key) { this.key = key; }
 
     @Override
     public int compareTo(final DataRecordColumn o) {

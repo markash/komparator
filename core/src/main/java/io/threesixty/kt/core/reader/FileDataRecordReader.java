@@ -40,10 +40,9 @@ public class FileDataRecordReader {
             while (ds.next()) {
                 if (!ds.isRecordID("header")) {
 
-
                     dataRecord = new DataRecord();
                     for (String column : ds.getColumns()) {
-                        if (column.equals("ID")) {
+                        if (configuration.isKeyColumn(column)) {
                             dataRecord.addKey(column, ds.getString(column));
                         } else {
                             dataRecord.addAttribute(column, ds.getString(column));

@@ -72,6 +72,16 @@ public class DataRecordConfiguration {
     public void addColumn(final DataRecordColumn column) { this.columns.add(column); }
     public DataRecordColumn getColumn(final String name) { return this.columns.stream().filter(e -> e.getName().equals(name)).findFirst().orElse(null); }
 
+    /**
+     * Determines whether the given column name is one of the key columns
+     * @param name The name of the column
+     * @return Whether the column is a key column
+     */
+    public boolean isKeyColumn(final String name) {
+        DataRecordColumn column = getColumn(name);
+        return column != null && column.isKey();
+    }
+
     public Reader getParserConfiguration() {
         StringBuilder config = new StringBuilder(PREAMBLE);
         for (DataRecordColumn column : columns) {

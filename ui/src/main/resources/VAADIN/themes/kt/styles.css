@@ -13213,3 +13213,11 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: center;
 	width: 1.6em;
 }
+
+.kt .v-grid-cell > span.diff-insert {
+	border: solid 2px turquoise;
+}
+
+.kt span.diff-delete {
+	border: solid 2px pink;
+}

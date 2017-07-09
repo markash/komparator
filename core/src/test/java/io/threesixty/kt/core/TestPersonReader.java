@@ -74,12 +74,12 @@ public class TestPersonReader {
 
 	    DataRecordConfiguration sourceConfig =
                 new DataRecordConfiguration("source-person", DataRecordFileType.DELIMITED)
-                .withColumn("ID", Long.class)
+                .withId("ID", Long.class)
                 .withColumn("FIRSTNAME", String.class)
                 .withColumn("AGE", Long.class);
 
         DataRecordConfiguration targetConfig = new DataRecordConfiguration("target-person", DataRecordFileType.DELIMITED)
-                .withColumn("ID", Long.class)
+                .withId("ID", Long.class)
                 .withColumn("AGE", Long.class)
                 .withColumn("NAME", String.class)
                 .withColumn("SURNAME", String.class);

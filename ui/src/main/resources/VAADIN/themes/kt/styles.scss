@@ -15,8 +15,10 @@ $v-font-size:14px;
 
 @import "../../themes/threesixty/_threesixty.scss";
 @import "steps";
+@import "diff";
 
 .kt {
   @include threesixty;
   @include steps;
+  @include diff;
 }

@@ -1,20 +1,13 @@
 package io.threesixty.kt.ui.component;
 
 import com.vaadin.data.provider.ListDataProvider;
-import com.vaadin.server.Page;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Upload;
-import io.threesixty.kt.core.*;
-import io.threesixty.ui.component.uploader.UploadReceiver;
+import io.threesixty.kt.core.DataRecord;
+import io.threesixty.kt.core.DataRecordColumn;
+import io.threesixty.kt.core.DataRecordSet;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MPanel;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,35 +16,23 @@ import java.util.List;
  */
 public class DataRecordPanel extends MPanel implements DataRecordProvider {
 
-    private DataRecordReader reader = new DataRecordReader();
     private List<DataRecord> dataSource = new ArrayList<>();
     private ListDataProvider<DataRecord> dataProvider = new ListDataProvider<>(dataSource);
     private Grid<DataRecord> grid = new Grid<>(dataProvider);
-    private DataRecordConfiguration configuration = new DataRecordConfiguration();
-    private Upload dataUpload;
-    private Upload configUpload;
 
     public DataRecordPanel(final String caption) {
         super(caption);
 
         configureDataGrid();
         configureDummyColumns();
-//        configUpload = createDataUpload(new UploadReceiver(this::onReceiveConfig), "Upload config", true);
-//        dataUpload = createDataUpload(new UploadReceiver(this::onReceiveData), "Upload data", false);
-
-//        MVerticalLayout buttonPanel = createButtonPanel(configUpload, dataUpload);
 
         MHorizontalLayout content =
                 new MHorizontalLayout(
-                        grid/*,
-                        buttonPanel*/)
+                        grid)
                 .withMargin(false)
                 .withSpacing(false)
                 .withFullWidth()
                 .withFullHeight();
-
-        //content.setExpandRatio(grid, 10);
-        //content.setExpandRatio(buttonPanel, 2);
 
         this.setContent(content);
     }
@@ -65,39 +46,10 @@ public class DataRecordPanel extends MPanel implements DataRecordProvider {
         setRecords(recordSet.getRecords());
     }
 
-//    private void onReceiveConfig(final File file, final String mimeType, final long length) {
-//        configuration = DataRecordConfiguration.from(file);
-//        configuration.setFileType(DataRecordFileType.DELIMITED);
-//        dataUpload.setEnabled(true);
-//    }
-
-//    private void onReceiveData(final File file, final String mimeType, final long length) {
-//        try {
-//            DataRecordSet recordSet = reader.read(configuration, new FileReader(file));
-//            setColumns(recordSet.getColumns());
-//            setRecords(recordSet.getRecords());
-//        } catch (FileNotFoundException e) {
-//            new Notification(e.getMessage()).show(Page.getCurrent());
-//        }
-//    }
-
     private void configureDataGrid() {
         grid.setWidth("100%");
         grid.setColumnReorderingAllowed(true);
         grid.setHeightByRows(5);
-    }
-
-//    private static Upload createDataUpload(final UploadReceiver fileReceiver, final String buttonCaption, final boolean enabled) {
-//        Upload fileUpload = new Upload(null, fileReceiver);
-//        fileUpload.addSucceededListener(fileReceiver);
-//        fileUpload.setButtonCaption(buttonCaption);
-//        fileUpload.setEnabled(enabled);
-//
-//        return fileUpload;
-//    }
-
-    private static MVerticalLayout createButtonPanel(final Component...components) {
-        return new MVerticalLayout(components).withSpacing(true).withMargin(false);
     }
 
     private void configureDummyColumns() {

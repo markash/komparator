@@ -5,7 +5,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>core</artifactId>
-    <version>0.1.0</version>
 
     <name>Comparator Core</name>
     <description>The core comparison library</description>
@@ -19,18 +18,16 @@
     <parent>
         <groupId>io.threesixty.kt</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </parent>
 
     <dependencies>
         <!--********************************************************************************************************
         * Parser : Comma separated, fixed length and database table parse
         *********************************************************************************************************-->
-        <!-- https://mvnrepository.com/artifact/net.sf.flatpack/flatpack -->
         <dependency>
             <groupId>net.sf.flatpack</groupId>
             <artifactId>flatpack</artifactId>
-            <version>4.0.1</version>
         </dependency>
         <dependency>
             <groupId>jdom</groupId>
@@ -47,23 +44,24 @@
         
 
         <!--********************************************************************************************************
-        * Lamba : Lamba processing to compliment Java 8
+        * Lambda : Lambda processing to compliment Java 8
         *********************************************************************************************************-->
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jool</artifactId>
             <version>0.9.12</version>
         </dependency>
-
-		<dependency>
-		    <groupId>org.hsqldb</groupId>
-		    <artifactId>hsqldb</artifactId>
-		    <version>2.3.2</version>
-		</dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+        </dependency>
+        <!--********************************************************************************************************
+        * Logging : Why would you not want to log
+        *********************************************************************************************************-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -78,6 +76,14 @@
 		    <artifactId>jcl-over-slf4j</artifactId>
             <scope>provided</scope>
 		</dependency>
+        <!--********************************************************************************************************
+        * Database : Really always need have a database somewhere :-S
+        *********************************************************************************************************-->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
@@ -88,6 +94,9 @@
             <artifactId>spring-context</artifactId>
             <!--<scope>provided</scope>-->
         </dependency>
+        <!--********************************************************************************************************
+        * Test : Testing
+        *********************************************************************************************************-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

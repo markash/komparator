@@ -5,6 +5,7 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import io.threesixty.kt.core.*;
+import io.threesixty.kt.core.reader.FileDataRecordReader;
 import io.threesixty.kt.ui.service.PersistenceService;
 import io.threesixty.ui.component.uploader.UploadReceiver;
 import org.vaadin.viritin.button.MButton;
@@ -118,7 +119,7 @@ public class DataComparePanel extends MPanel {
 
     private void onReceiveSourceData(final File file, final String mimeType, final long length) {
         try {
-            DataRecordReader reader = new DataRecordReader();
+            FileDataRecordReader reader = new FileDataRecordReader();
             DataRecordSet recordSet = reader.read(sourceRecordConfiguration, new FileReader(file));
             this.sourceDataProvider.setDataRecordSet(recordSet);
         } catch (FileNotFoundException e) {
@@ -128,7 +129,7 @@ public class DataComparePanel extends MPanel {
 
     private void onReceiveTargetData(final File file, final String mimeType, final long length) {
         try {
-            DataRecordReader reader = new DataRecordReader();
+            FileDataRecordReader reader = new FileDataRecordReader();
             DataRecordSet recordSet = reader.read(targetRecordConfiguration, new FileReader(file));
             this.targetDataProvider.setDataRecordSet(recordSet);
         } catch (FileNotFoundException e) {

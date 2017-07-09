@@ -6,16 +6,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="core" />
         <module name="filesystem" />
         <module name="kt-core" />
         <module name="kt-ui" />
+        <module name="ui" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="comparator" target="1.8" />
+      <module name="core" target="1.8" />
       <module name="filesystem" target="1.8" />
       <module name="kt-core" target="1.8" />
       <module name="kt-ui" target="1.8" />
       <module name="parent-pom" target="1.8" />
+      <module name="ui" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

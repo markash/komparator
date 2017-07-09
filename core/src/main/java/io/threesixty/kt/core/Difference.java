@@ -1,8 +1,12 @@
 package io.threesixty.kt.core;
 
+import io.threesixty.kt.core.markup.MarkupCommandVisitor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.text.diff.StringsComparator;
 import org.jooq.lambda.tuple.Tuple2;
 import org.jooq.lambda.tuple.Tuple4;
+
+import java.util.Optional;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
@@ -74,6 +78,30 @@ public class Difference<T> extends Tuple4<String, T, T, Boolean> {
      * @return Whether the left and right values are different
      */
     public boolean isDifferent() { return v4; }
+    /**
+     * The left value as a string
+     * @return The string value of the left value
+     */
+    private Optional<String> getLeftStringValue() {
+        return getLeftValue() != null ? Optional.of(getLeftValue().toString()) : Optional.empty();
+    }
+    /**
+     * The right value as a string
+     * @return The string value of the right value
+     */
+    private Optional<String> getRightStringValue() {
+        return getRightValue() != null ? Optional.of(getRightValue().toString()) : Optional.empty();
+    }
+
+    public String toHtml() {
+        return toHtml(MarkupCommandVisitor.CLASS_INSERT, MarkupCommandVisitor.CLASS_DELETE);
+    }
+
+    public String toHtml(final String insertCssStyle, final String deleteCssStyle) {
+        MarkupCommandVisitor visitor = new MarkupCommandVisitor(insertCssStyle, deleteCssStyle);
+        new StringsComparator(getLeftStringValue().orElse(""), getRightStringValue().orElse("")).getScript().visit(visitor);
+        return visitor.getMarkup();
+    }
 
     @Override
     public String toString() {

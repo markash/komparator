@@ -94,7 +94,6 @@ public class AttributeMapping {
      * Adds a mapping between a data record attributes
      * @param sourceAttributeName The attribute name of the source data record
      * @param targetAttributeName The attribute name of the target data record
-     * @deprecated
      */
     public void addMapping(final String sourceAttributeName, final String targetAttributeName) {
         this.attributeMap.put(new DataRecordColumn(sourceAttributeName, String.class), new DataRecordColumn(targetAttributeName, String.class));

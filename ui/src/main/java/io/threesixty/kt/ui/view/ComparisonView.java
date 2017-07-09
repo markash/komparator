@@ -37,7 +37,7 @@ public class ComparisonView extends AbstractDashboardView {
 
         this.sourceRecordPanel = new DataRecordPanel("Source Data");
         this.targetRecordPanel = new DataRecordPanel("Target Data");
-        this.differencePanel = new DataDifferencePanel("Differences", sourceRecordPanel, targetRecordPanel);
+        this.differencePanel = new DataDifferencePanel("Differences");
         this.compareRecordPanel = new DataComparePanel("Configure and execute a comparison", sourceRecordPanel, targetRecordPanel, differencePanel, persistenceService);
 
 	}

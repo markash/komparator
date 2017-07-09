@@ -6,7 +6,7 @@ import io.threesixty.kt.core.DataRecordSet;
 import java.util.List;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public interface DataRecordProvider {
     void setDataRecordSet(DataRecordSet recordSet);

@@ -122,7 +122,7 @@ public class TestPersonReader {
 
         FileDataRecordReader fileReader = new FileDataRecordReader();
         DataRecordSet sourcePersons = fileReader.read(sourceConfig, this.getClass().getResourceAsStream("/source-persons.csv"));
-        DataRecordSet targetPersons = jdbcReader.read(targetConfig);
+        DataRecordSet targetPersons = jdbcReader.read(targetConfig, "SELECT * FROM TARGET_PERSON");
 
         List<ResultRecord> results = new ComparisonService().compare(sourcePersons, targetPersons, attributeMapping);
         results.forEach(r -> System.out.println("r = " + r));

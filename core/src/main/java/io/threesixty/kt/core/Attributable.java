@@ -14,7 +14,7 @@ public interface Attributable extends Serializable {
      * @param attribute The value of the attribute
      * @return The attributable
      */
-    Attributable addAttribute(final String name, final String attribute);
+    <T> Attributable addAttribute(final String name, final T attribute);
 
     /**
      * Add an attribute

@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 public interface JdbcDataRecordReader {
     /**
      * Read the data record set from the JDBC data source for the given configuration.
-     * @param configuration
-     * @return
+     * @param configuration The data record configuration
+     * @return The data record set
      */
-    DataRecordSet read(final DataRecordConfiguration configuration);
+    DataRecordSet read(final DataRecordConfiguration configuration, final String query);
 }

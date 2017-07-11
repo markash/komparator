@@ -30,7 +30,7 @@ public class DataRecord extends AttributableObject {
         this.key = new Key(keys);
     }
 
-    public DataRecord addKey(final String name, final String attribute) {
+    public <T> DataRecord addKey(final String name, final T attribute) {
         return addKey(new Attribute<>(name, attribute));
     }
 

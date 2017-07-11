@@ -6,13 +6,12 @@ import net.sf.flatpack.DefaultParserFactory;
 import net.sf.flatpack.Parser;
 import net.sf.flatpack.ParserFactory;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +32,7 @@ public class FileDataRecordReader {
         try {
             final Parser parser = resolverParser(configuration, dataFileReader);
             final DataSet ds = parser.parse();
+            ds.setPZConvertProps(getConverters());
 
             DataRecord dataRecord;
             List<DataRecord> results = new ArrayList<>();
@@ -43,9 +43,9 @@ public class FileDataRecordReader {
                     dataRecord = new DataRecord();
                     for (String column : ds.getColumns()) {
                         if (configuration.isKeyColumn(column)) {
-                            dataRecord.addKey(column, ds.getString(column));
+                            dataRecord.addKey(column, getCellValue(column, configuration, ds).orElse(null));
                         } else {
-                            dataRecord.addAttribute(column, ds.getString(column));
+                            dataRecord.addAttribute(column, getCellValue(column, configuration, ds).orElse(null));
                         }
                     }
                     results.add(dataRecord);
@@ -58,6 +58,16 @@ public class FileDataRecordReader {
         }
     }
 
+    private Properties getConverters() {
+        Properties properties = new Properties();
+        properties.setProperty("java.math.BigDecimal", "net.sf.flatpack.converter.ConvertBigDecimal");
+        properties.setProperty("java.lang.Double", "net.sf.flatpack.converter.ConvertDouble");
+        properties.setProperty("java.lang.Integer", "net.sf.flatpack.converter.ConvertInteger");
+        properties.setProperty("java.lang.Long", "io.threesixty.kt.core.util.ConvertLong");
+        properties.setProperty("java.lang.String", "io.threesixty.kt.core.util.ConvertString");
+        return properties;
+    }
+
     public DataRecordSet read(final List<Map<String, String>> records, final String idKey, final int skipHeaders) {
         /* Convert the list of map entries to a list of DataRecord values */
         List<DataRecord> results = new ArrayList<>();
@@ -68,6 +78,12 @@ public class FileDataRecordReader {
 
         /* Convert the list of DataRecord and DataRecordColumns to a DataRecordSet */
         return new DataRecordSet(columns, results);
+    }
+
+    private Optional<Object> getCellValue(final String columnName, final DataRecordConfiguration configuration, DataSet ds) {
+        return configuration
+                .getColumn(columnName)
+                .map(dataRecordColumn -> ds.getObject(columnName, dataRecordColumn.getDataType()));
     }
 
     private DataRecord mapToDataRecord(final Map<String, String> record, final String idKey) {

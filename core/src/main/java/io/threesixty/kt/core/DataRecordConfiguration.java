@@ -11,6 +11,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Mark P Ashworth
@@ -70,7 +71,7 @@ public class DataRecordConfiguration {
     public void setColumns(List<DataRecordColumn> columns) { this.columns = columns; }
 
     public void addColumn(final DataRecordColumn column) { this.columns.add(column); }
-    public DataRecordColumn getColumn(final String name) { return this.columns.stream().filter(e -> e.getName().equals(name)).findFirst().orElse(null); }
+    public Optional<DataRecordColumn> getColumn(final String name) { return this.columns.stream().filter(e -> e.getName().equals(name)).findFirst(); }
 
     /**
      * Determines whether the given column name is one of the key columns
@@ -78,8 +79,7 @@ public class DataRecordConfiguration {
      * @return Whether the column is a key column
      */
     public boolean isKeyColumn(final String name) {
-        DataRecordColumn column = getColumn(name);
-        return column != null && column.isKey();
+        return getColumn(name).map(DataRecordColumn::isKey).orElse(false);
     }
 
     public Reader getParserConfiguration() {

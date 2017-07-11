@@ -28,7 +28,7 @@ public class AttributableObject implements Attributable {
      * @return The attributable
      */
     @Override
-    public Attributable addAttribute(String name, String attribute) {
+    public <T> Attributable addAttribute(String name, T attribute) {
         return addAttribute(new Attribute<>(name, attribute));
     }
 

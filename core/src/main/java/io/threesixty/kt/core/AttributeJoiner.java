@@ -1,7 +1,7 @@
 package io.threesixty.kt.core;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 @FunctionalInterface
 public interface AttributeJoiner {

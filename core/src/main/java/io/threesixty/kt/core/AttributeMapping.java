@@ -61,7 +61,7 @@ public class AttributeMapping {
 
     public AttributeMapping mapTo(final DataRecordConfiguration configuration, final String source, final String target) {
         final Optional<DataRecordColumn> sourceKey = getSource(source);
-        final Optional<DataRecordColumn> targetKey = Optional.ofNullable(configuration.getColumn(target));
+        final Optional<DataRecordColumn> targetKey = configuration.getColumn(target);
 
         if (sourceKey.isPresent() && targetKey.isPresent()) {
             return mapTo(sourceKey.get(), targetKey.get());

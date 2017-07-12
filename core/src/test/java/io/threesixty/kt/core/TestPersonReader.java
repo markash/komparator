@@ -1,23 +1,18 @@
 package io.threesixty.kt.core;
 
-import io.threesixty.kt.core.reader.FileDataRecordReader;
-import io.threesixty.kt.core.reader.HsqlJdbcDataRecordReader;
+import io.threesixty.kt.core.reader.JdbcDataRecordProvider;
 import io.threesixty.kt.core.reader.ReaderConfiguration;
-import org.junit.Before;
+import io.threesixty.kt.core.reader.StreamDataRecordProvider;
+import io.threesixty.kt.core.util.ReaderSupplier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
@@ -25,19 +20,9 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ReaderConfiguration.class})
 public class TestPersonReader {
-	private EmbeddedDatabase db;
 
-	@Autowired
-    private HsqlJdbcDataRecordReader jdbcReader;
-
-	@Before
-    public void setUp() {
-    	db = new EmbeddedDatabaseBuilder()
-    		.setType(EmbeddedDatabaseType.HSQL)
-    		.addScript("schema.sql")
-    		.addScript("test-data.sql")
-    		.build();
-    }
+    @Autowired
+    private Supplier<JdbcTemplate> templateSuppler;
 	
 //    @Test
 //    public void testReader() throws Exception {
@@ -90,9 +75,8 @@ public class TestPersonReader {
                 .mapTo(targetConfig, "FIRSTNAME", "NAME")
                 .mapTo(targetConfig, "AGE", "AGE");
 
-        FileDataRecordReader reader = new FileDataRecordReader();
-        DataRecordSet sourcePersons = reader.read(sourceConfig, this.getClass().getResourceAsStream("/source-persons.csv"));
-        DataRecordSet targetPersons = reader.read(targetConfig, this.getClass().getResourceAsStream("/target-persons.csv"));
+        DataRecordSet sourcePersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/source-persons.csv"));
+        DataRecordSet targetPersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/target-persons.csv"));
 
         List<ResultRecord> results = new ComparisonService().compare(sourcePersons, targetPersons, attributeMapping);
         results.forEach(r -> System.out.println("r = " + r));
@@ -120,9 +104,8 @@ public class TestPersonReader {
                 .mapTo(targetConfig, "AGE", "AGE");
 
 
-        FileDataRecordReader fileReader = new FileDataRecordReader();
-        DataRecordSet sourcePersons = fileReader.read(sourceConfig, this.getClass().getResourceAsStream("/source-persons.csv"));
-        DataRecordSet targetPersons = jdbcReader.read(targetConfig, "SELECT * FROM TARGET_PERSON");
+        DataRecordSet sourcePersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/source-persons.csv"));
+        DataRecordSet targetPersons = new JdbcDataRecordProvider(targetConfig, "SELECT * FROM TARGET_PERSON").provide(templateSuppler);
 
         List<ResultRecord> results = new ComparisonService().compare(sourcePersons, targetPersons, attributeMapping);
         results.forEach(r -> System.out.println("r = " + r));

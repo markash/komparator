@@ -6,10 +6,12 @@ import io.threesixty.kt.core.DataRecordFileType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
+import java.util.function.Supplier;
 
 @Configuration
 @ComponentScan(basePackages = {"io.threesixty.kt.core.reader"})
@@ -22,6 +24,11 @@ public class ReaderConfiguration {
                 .addScript("schema.sql")
                 .addScript("test-data.sql")
                 .build();
+    }
+
+    @Bean
+    public Supplier<JdbcTemplate> templateSuppler() {
+        return () -> new JdbcTemplate(getDataSource());
     }
 
     @Bean

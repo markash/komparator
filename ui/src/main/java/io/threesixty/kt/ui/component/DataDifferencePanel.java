@@ -3,9 +3,8 @@ package io.threesixty.kt.ui.component;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.HtmlRenderer;
-import com.vaadin.ui.renderers.TextRenderer;
 import io.threesixty.kt.core.DataRecordColumn;
-import io.threesixty.kt.core.DifferenceRecord;
+import io.threesixty.kt.core.result.DifferenceRecord;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MPanel;
 

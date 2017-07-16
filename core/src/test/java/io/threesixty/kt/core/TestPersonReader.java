@@ -3,6 +3,7 @@ package io.threesixty.kt.core;
 import io.threesixty.kt.core.reader.JdbcDataRecordProvider;
 import io.threesixty.kt.core.reader.ReaderConfiguration;
 import io.threesixty.kt.core.reader.StreamDataRecordProvider;
+import io.threesixty.kt.core.result.ResultRecord;
 import io.threesixty.kt.core.util.ReaderSupplier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,7 +51,7 @@ public class TestPersonReader {
 //        attributeMapping.addMapping("FIRSTNAME", "NAME");
 //        attributeMapping.addMapping("AGE", "AGE");
 //
-//        List<ResultRecord> results = new ComparisonService().compare(sourcePersons, targetPersons, attributeMapping);
+//        List<ResultRecord> results = new Comparison().compare(sourcePersons, targetPersons, attributeMapping);
 //        results.forEach(r -> System.out.println("r = " + r));
 //    }
 
@@ -78,7 +79,7 @@ public class TestPersonReader {
         DataRecordSet sourcePersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/source-persons.csv"));
         DataRecordSet targetPersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/target-persons.csv"));
 
-        List<ResultRecord> results = new ComparisonService().compare(sourcePersons, targetPersons, attributeMapping);
+        List<ResultRecord> results = new Comparison().compare(sourcePersons, targetPersons, attributeMapping);
         results.forEach(r -> System.out.println("r = " + r));
     }
 
@@ -107,7 +108,7 @@ public class TestPersonReader {
         DataRecordSet sourcePersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/source-persons.csv"));
         DataRecordSet targetPersons = new JdbcDataRecordProvider(targetConfig, "SELECT * FROM TARGET_PERSON").provide(templateSuppler);
 
-        List<ResultRecord> results = new ComparisonService().compare(sourcePersons, targetPersons, attributeMapping);
+        List<ResultRecord> results = new Comparison().compare(sourcePersons, targetPersons, attributeMapping);
         results.forEach(r -> System.out.println("r = " + r));
     }
 }

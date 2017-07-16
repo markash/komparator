@@ -1,5 +1,6 @@
-package io.threesixty.kt.core;
+package io.threesixty.kt.core.result;
 
+import io.threesixty.kt.core.*;
 import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.ArrayList;
@@ -11,13 +12,11 @@ import java.util.Map;
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class DifferenceRecord extends AbstractResultRecord {
-    public static final String DIFFERENT_RECORD_TYPE = "DIFFERENT_RECORD_TYPE";
-
     private Key key;
     private List<String> order;
     private Map<String, Difference> record;
 
-    protected DifferenceRecord(final ResultRecord record) throws RuntimeException {
+    public DifferenceRecord(final ResultRecord record) throws RuntimeException {
         super(record.getResultType());
         if (record instanceof MatchRecord) {
             MatchRecord r = (MatchRecord) record;

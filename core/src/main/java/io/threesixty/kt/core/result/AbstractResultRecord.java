@@ -1,4 +1,6 @@
-package io.threesixty.kt.core;
+package io.threesixty.kt.core.result;
+
+import io.threesixty.kt.core.Key;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)

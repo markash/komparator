@@ -140,7 +140,7 @@ public class DataComparePanel extends MPanel {
     private void onCompare(final Button.ClickEvent event) {
 
         try {
-            ComparisonService service = new ComparisonService();
+            Comparison service = new Comparison();
             dataDifferenceProvider.setDataDifferences(service.convert(service.compare(
                     sourceDataProvider.getDataRecords(),
                     targetDataProvider.getDataRecords(),

@@ -1,7 +1,7 @@
-package io.threesixty.kt.core;
+package io.threesixty.kt.core.result;
 
 /**
- * @author Mark P Ashworth
+ * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public enum ResultType {
     EQUAL,

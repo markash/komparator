@@ -1,5 +1,7 @@
 package io.threesixty.kt.core;
 
+import io.threesixty.kt.core.result.ResultRecord;
+
 import java.io.Serializable;
 import java.util.List;
 

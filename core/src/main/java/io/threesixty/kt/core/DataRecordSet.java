@@ -2,6 +2,8 @@ package io.threesixty.kt.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
@@ -32,4 +34,12 @@ public class DataRecordSet {
 
     public List<DataRecordColumn> getColumns() { return columns; }
     public List<DataRecord> getRecords() { return records; }
+
+    /**
+     * Converts the Records into a List of Maps of the DataRecord key and value attributes
+     * @return A list where the DataRecord has been converted into a Map<String, Object>
+     */
+    public List<Map<String, Object>> toDataRecordMap() {
+        return getRecords().stream().map(DataRecord::toMap).collect(Collectors.toList());
+    }
 }

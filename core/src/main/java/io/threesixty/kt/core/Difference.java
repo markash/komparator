@@ -14,18 +14,6 @@ import java.util.Optional;
 public class Difference<T> extends Tuple4<String, T, T, Boolean> {
     /**
      *
-     * @param left The left id
-     * @param right The right id
-     */
-    public Difference(final Id2<T> left, final Id2<T> right) {
-        this(
-                left.getName(),
-                left.getValue(),
-                right != null ? right.getValue() : null,
-                !EqualsBuilder.reflectionEquals(left.getValue(), right != null ? right.getValue() : null));
-    }
-    /**
-     *
      * @param difference The attribute difference
      */
     public Difference(final Tuple2<Attribute<T>, Attribute<T>> difference) {

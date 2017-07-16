@@ -1,10 +1,10 @@
-package io.threesixty.kt.core;
+package io.threesixty.kt.core.result;
 
+import io.threesixty.kt.core.*;
 import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)

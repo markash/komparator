@@ -2,6 +2,7 @@ package io.threesixty.kt.core;
 
 import io.threesixty.kt.core.reader.FileDataRecordReader;
 import io.threesixty.kt.core.reader.ReaderConfiguration;
+import io.threesixty.kt.core.result.ResultRecord;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class TestCompoundId {
         DataRecordSet sourcePersons = fileReader.read(sourceInvoiceConfiguration, this.getClass().getResourceAsStream("/source-invoice.csv"));
         DataRecordSet targetPersons = fileReader.read(targetInvoiceConfiguration, this.getClass().getResourceAsStream("/target-invoice.csv"));
 
-        List<ResultRecord> results = new ComparisonService().compare(sourcePersons, targetPersons, invoiceMapping);
+        List<ResultRecord> results = new Comparison().compare(sourcePersons, targetPersons, invoiceMapping);
         results.forEach(r -> System.out.println("r = " + r));
     }
 }

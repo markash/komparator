@@ -68,6 +68,7 @@ public class StreamDataRecordProvider implements DataRecordProvider<Reader> {
         properties.setProperty("java.lang.Integer", "net.sf.flatpack.converter.ConvertInteger");
         properties.setProperty("java.lang.Long", "io.threesixty.kt.core.util.ConvertLong");
         properties.setProperty("java.lang.String", "io.threesixty.kt.core.util.ConvertString");
+        properties.setProperty(Boolean.class.getName(), "io.threesixty.kt.core.util.ConvertBoolean");
         return properties;
     }
 

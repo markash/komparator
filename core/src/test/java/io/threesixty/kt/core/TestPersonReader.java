@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 public class TestPersonReader {
 
     @Autowired
-    private Supplier<JdbcTemplate> templateSuppler;
+    private JdbcTemplate templateSuppler;
 	
 //    @Test
 //    public void testReader() throws Exception {

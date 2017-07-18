@@ -1,16 +1,21 @@
 package io.threesixty.kt.core;
 
+import io.threesixty.kt.core.reader.sfm.SfmCsvDataRecordProvider;
 import io.threesixty.kt.core.reader.StreamDataRecordProvider;
 import io.threesixty.kt.core.result.ResultRecord;
+import io.threesixty.kt.core.util.FileSupplier;
 import io.threesixty.kt.core.util.ReaderSupplier;
 import org.concordion.api.ConcordionResources;
 import org.concordion.api.FullOGNL;
 import org.concordion.integration.junit4.ConcordionRunner;
 import org.junit.runner.RunWith;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Mark P Ashworth
@@ -19,6 +24,8 @@ import java.util.Optional;
 @RunWith(ConcordionRunner.class)
 @ConcordionResources( value = { "person-mapping.png", "invoice-mapping.png" } )
 public class DataRecordComparisonFixture {
+
+    private ConversionService conversionService = new DefaultConversionService();
 
     public List<Map<String, Object>> compare(final String source, final String target) throws Exception {
         DataRecordConfiguration sourceConfig =
@@ -53,9 +60,26 @@ public class DataRecordComparisonFixture {
 
     public List<Map<String, Object>> readSource(final String source) throws Exception {
 
-        return new StreamDataRecordProvider(dataRecordConfiguration(source).orElseThrow(() -> new Exception("No configuration for " + source)))
+        List<Map<String, Object>> results = new StreamDataRecordProvider(dataRecordConfiguration(source).orElseThrow(() -> new Exception("No configuration for " + source)))
                         .provide(ReaderSupplier.forResource("/" + source))
                         .toDataRecordMap();
+
+        System.out.println(results);
+
+        return results;
+    }
+
+    /**
+     * Read the data records from a CSV file using SimpleFlatMapper
+     * @return A list (i.e. row) of maps with each map containing a name - value pair (i.e. column) of that row
+     */
+    public List<Map<String, Object>> readSfm(final String source) throws Exception {
+        List<Map<String, Object>> results = new SfmCsvDataRecordProvider(dataRecordConfiguration(source).orElseThrow(() -> new Exception("No configuration for " + source)), conversionService)
+                .provide(FileSupplier.forResource("/" + source)).toDataRecordMap();
+
+        System.out.println(results);
+
+        return results;
     }
 
     public List<Map<String, Object>> compoundCompare(final String source, final String target) throws Exception {

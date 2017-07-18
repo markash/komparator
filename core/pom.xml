@@ -26,6 +26,11 @@
         * Parser : Comma separated, fixed length and database table parse
         *********************************************************************************************************-->
         <dependency>
+            <groupId>org.simpleflatmapper</groupId>
+            <artifactId>sfm-csv</artifactId>
+        </dependency>
+        <!--Deprecate -->
+        <dependency>
             <groupId>net.sf.flatpack</groupId>
             <artifactId>flatpack</artifactId>
         </dependency>

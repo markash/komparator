@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -20,7 +19,7 @@ import java.util.stream.Stream;
 public class TestStreamDataRecordProvider {
 
     @Autowired
-    private Supplier<JdbcTemplate> templateSuppler;
+    private JdbcTemplate jdbcTemplate;
 
     @Test
     public void testStreamProvider() throws Exception {
@@ -44,7 +43,7 @@ public class TestStreamDataRecordProvider {
                 .withColumn("SURNAME", String.class);
 
         JdbcDataRecordProvider provider = new JdbcDataRecordProvider(targetConfig, "SELECT * FROM TARGET_PERSON");
-        DataRecordSet recordSet = provider.provide(templateSuppler);
+        DataRecordSet recordSet = provider.provide(jdbcTemplate);
         recordSet.getRecords().forEach(System.out::println);
     }
 }

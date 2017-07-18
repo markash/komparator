@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 
 public interface DataRecordProvider<T> {
 
-    Stream<DataRecord> fetch(final Supplier<T> supplier) throws Exception;
+    Stream<DataRecord> fetch(final T supplier) throws Exception;
 
-    default DataRecordSet provide(final Supplier<T> supplier) throws Exception {
+    default DataRecordSet provide(final T supplier) throws Exception {
         return fetch(supplier).collect(toDataSet());
     }
 

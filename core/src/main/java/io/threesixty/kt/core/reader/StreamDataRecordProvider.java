@@ -3,11 +3,13 @@ package io.threesixty.kt.core.reader;
 import io.threesixty.kt.core.ConfigurationException;
 import io.threesixty.kt.core.DataRecord;
 import io.threesixty.kt.core.DataRecordConfiguration;
-import net.sf.flatpack.*;
+import net.sf.flatpack.DataSet;
+import net.sf.flatpack.DefaultParserFactory;
+import net.sf.flatpack.Parser;
+import net.sf.flatpack.ParserFactory;
 
 import java.io.Reader;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -19,16 +21,14 @@ public class StreamDataRecordProvider implements DataRecordProvider<Reader> {
         this.configuration = configuration;
     }
 
-    public Stream<DataRecord> fetch(final Supplier<Reader> supplier) throws Exception {
-        try (Reader reader = supplier.get()) {
-            DataSet dataSet = resolverParser(configuration, reader).parse();
-            dataSet.setPZConvertProps(getConverters());
-            return StreamSupport.stream(
-                    Spliterators.spliteratorUnknownSize(
-                            spliterator(dataSet),
-                            Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE),
-                    false);
-        }
+    public Stream<DataRecord> fetch(final Reader reader) throws Exception {
+        DataSet dataSet = resolverParser(configuration, reader).parse();
+        dataSet.setPZConvertProps(getConverters());
+        return StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(
+                        spliterator(dataSet),
+                        Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE),
+                false);
     }
 
     private Iterator<DataRecord> spliterator(DataSet dataSet) {

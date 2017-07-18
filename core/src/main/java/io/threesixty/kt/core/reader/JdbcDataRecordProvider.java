@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class JdbcDataRecordProvider implements DataRecordProvider<JdbcTemplate> {
@@ -22,9 +21,9 @@ public class JdbcDataRecordProvider implements DataRecordProvider<JdbcTemplate> 
         this.sql = sql;
     }
 
-    public Stream<DataRecord> fetch(final Supplier<JdbcTemplate> supplier) throws Exception {
+    public Stream<DataRecord> fetch(final JdbcTemplate jdbcTemplate) throws Exception {
 
-        return supplier.get().query(sql, new RowMapper<DataRecord>() {
+        return jdbcTemplate.query(sql, new RowMapper<DataRecord>() {
             @Override
             public DataRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
 

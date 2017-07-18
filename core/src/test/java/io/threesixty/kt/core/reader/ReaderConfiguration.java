@@ -27,8 +27,8 @@ public class ReaderConfiguration {
     }
 
     @Bean
-    public Supplier<JdbcTemplate> templateSuppler() {
-        return () -> new JdbcTemplate(getDataSource());
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(getDataSource());
     }
 
     @Bean

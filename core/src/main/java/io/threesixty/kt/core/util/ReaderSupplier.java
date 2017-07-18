@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 public class ReaderSupplier  {
 
-    public static Supplier<Reader> forResource(final String resource) {
-        return () -> new InputStreamReader(ReaderSupplier.class.getClass().getResourceAsStream(resource));
+    public static Reader forResource(final String resource) {
+        return new InputStreamReader(ReaderSupplier.class.getClass().getResourceAsStream(resource));
     }
 }

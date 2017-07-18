@@ -1,14 +1,13 @@
 package io.threesixty.kt.core;
 
-import io.threesixty.kt.core.result.MatchRecord;
-import io.threesixty.kt.core.result.ResultRecord;
-import io.threesixty.kt.core.result.ResultType;
-import io.threesixty.kt.core.result.UnMatchRecord;
 import org.jooq.lambda.Seq;
 import org.jooq.lambda.tuple.Tuple2;
+import org.springframework.core.convert.ConversionService;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -118,4 +117,29 @@ public class DataRecord extends AttributableObject {
 
     @Override
     public String toString() { return this.key.toString(); }
+
+    public static class DataRecordBuilder {
+
+        private Attribute.AttributeBuilder attributeBuilder;
+
+        public DataRecordBuilder(final ConversionService conversionService) {
+            this.attributeBuilder = new Attribute.AttributeBuilder(conversionService);
+        }
+
+        public DataRecord from(final DataRecordConfiguration configuration, final Map<String, ?> values) {
+            DataRecord dataRecord = new DataRecord();
+            values.entrySet().stream()
+                    .map(a -> attributeBuilder.from(configuration, a))
+                    .forEach(tuple -> {
+                        /* If the data column is present and a key then attribute is a key */
+                        if (tuple.v1.isPresent() && tuple.v1.get().isKey()) {
+                            dataRecord.addKey(tuple.v2);
+                        } else {
+                            /* Else an attribute */
+                            dataRecord.addAttribute(tuple.v2);
+                        }
+                    });
+            return dataRecord;
+        }
+    }
 }

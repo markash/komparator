@@ -1,6 +1,15 @@
 package io.threesixty.kt.core;
 
+import org.jooq.lambda.tuple.Tuple2;
+import org.simpleflatmapper.converter.Converter;
+import org.simpleflatmapper.csv.CellValueReader;
+import org.simpleflatmapper.csv.impl.cellreader.*;
+import org.springframework.core.convert.ConversionService;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
@@ -50,4 +59,28 @@ public class Attribute<T> implements Serializable {
     }
 
     public String toString() { return "(" + name + ", " + value + ")"; }
+
+    public static class AttributeBuilder {
+
+        private ConversionService conversionService;
+
+        protected AttributeBuilder(final ConversionService conversionService) {
+            this.conversionService = conversionService;
+        }
+
+        public <T> Tuple2<Optional<DataRecordColumn>, Attribute<T>> from(final DataRecordConfiguration configuration, Map.Entry<String, ?> entry) {
+            /* Read the column configuration */
+            final String columnName = entry.getKey().trim();
+            Optional<DataRecordColumn> column = configuration.getColumn(columnName);
+            if (column.isPresent()) {
+                Class sourceType = entry.getValue().getClass();
+                Class targetType = column.get().getDataType();
+
+                if (conversionService.canConvert(sourceType, targetType)) {
+                    return new Tuple2<>(Optional.of(column.get()), new Attribute(columnName, conversionService.convert(entry.getValue(), targetType)));
+                }
+            }
+            return new Tuple2<>(Optional.empty(), new Attribute(columnName, entry.getValue()));
+        }
+    }
 }

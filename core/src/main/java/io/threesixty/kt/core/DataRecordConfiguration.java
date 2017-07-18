@@ -71,7 +71,7 @@ public class DataRecordConfiguration {
     public void setColumns(List<DataRecordColumn> columns) { this.columns = columns; }
 
     public void addColumn(final DataRecordColumn column) { this.columns.add(column); }
-    public Optional<DataRecordColumn> getColumn(final String name) { return this.columns.stream().filter(e -> e.getName().equals(name)).findFirst(); }
+    public Optional<DataRecordColumn> getColumn(final String name) { return this.columns.stream().filter(e -> e.getName().equals(name.trim())).findFirst(); }
 
     /**
      * Determines whether the given column name is one of the key columns

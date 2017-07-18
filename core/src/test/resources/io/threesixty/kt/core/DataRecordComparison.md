@@ -35,7 +35,7 @@ Then the following is found:
 [age]: - "?=#result['AGE']"
 
 
-### [Read source invoice](- "readSourceInvoice")
+### [Read source invoice](- "readSource")
 
 Given a file of invoices [source-invoice.csv](- "#source")
 
@@ -51,6 +51,28 @@ Then the following data records are present:
 | 2                                  | 1                            | Dell Inspiron 3000 i3      | 6000.0           | true
 
 [read]: - "c:verify-rows=#result:readSource(#source)"
+[id]: - "?=#result['invoice_id']"
+[line]: - "?=#result['line_id']"
+[description]: - "?=#result['description']"
+[amount]: - "?=#result['amount']"
+[vat]: - "?=#result['vat']"
+
+### [Read source invoice using Simple Flat Mapper](- "readSfm")
+
+Given a file of invoices [source-invoice.csv](- "#source")
+
+When the system reads the data
+
+Then the following data records are present:
+
+| [ ][readSfm] [Invoice Id][id]      | [Line Id][line]              | [Description][description] | [Amount][amount] | [Vat][vat]
+|------------------------------------|------------------------------| ---------------------------|------------------|-----------
+| 1                                  | 1                            | Dell Inspiron 3000 i5      | 8000.0           | true
+| 1                                  | 2                            | HP Mouse                   | 400.0            | true
+| 1                                  | 3                            | Samsung SHD Monitor        | 15000.0          | true
+| 2                                  | 1                            | Dell Inspiron 3000 i3      | 6000.0           | true
+
+[readSfm]: - "c:verify-rows=#result:readSfm(#source)"
 [id]: - "?=#result['invoice_id']"
 [line]: - "?=#result['line_id']"
 [description]: - "?=#result['description']"

@@ -1,7 +1,7 @@
 package io.threesixty.kt.core;
 
-import io.threesixty.kt.core.reader.sfm.SfmCsvDataRecordProvider;
 import io.threesixty.kt.core.reader.StreamDataRecordProvider;
+import io.threesixty.kt.core.reader.sfm.SfmCsvDataRecordProvider;
 import io.threesixty.kt.core.result.ResultRecord;
 import io.threesixty.kt.core.util.FileSupplier;
 import io.threesixty.kt.core.util.ReaderSupplier;
@@ -15,7 +15,6 @@ import org.springframework.core.convert.support.DefaultConversionService;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Mark P Ashworth

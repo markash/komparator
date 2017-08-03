@@ -1,19 +1,23 @@
 package io.threesixty.kt.core.result;
 
-import io.threesixty.kt.core.*;
+import io.threesixty.kt.core.Attribute;
+import io.threesixty.kt.core.DataRecord;
+import io.threesixty.kt.core.Difference;
+import io.threesixty.kt.core.Key;
 import org.jooq.lambda.tuple.Tuple2;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class DifferenceRecord extends AbstractResultRecord {
     private Key key;
-    private List<String> order;
+    private List<String> attributeNames;
     private Map<String, Difference> record;
 
     public DifferenceRecord(final ResultRecord record) throws RuntimeException {
@@ -47,34 +51,49 @@ public class DifferenceRecord extends AbstractResultRecord {
             final DataRecord targetRecord,
             final List<Tuple2<Attribute, Attribute>> differences) {
 
-        this.order = new ArrayList<>();
-        Map<String, Difference> results = new HashMap<>();
+        /* Get a complete list of attribute names in the order specified */
+        this.attributeNames = sourceRecord
+                .getAttributes()
+                .map(Attribute::getName)
+                .collect(Collectors.toList());
 
         /* Pair up the key values */
         this.key = sourceRecord.getKey();
-        //this.order.add(sourceRecord.id.getName());
-        //results.put(sourceRecord.id.getName(), new Difference(sourceRecord.id, (targetRecord != null ? targetRecord.id : null)));
-
 
         /* Convert the list of differences to a map by source attribute name */
-        Map<String, Tuple2<Attribute, Attribute>> differencesMap = new HashMap<>();
+        //Map<String, Tuple2<Attribute, Attribute>> differencesMap = new HashMap<>();
 //        for(Tuple2<Attribute, Attribute> tuple : differences) {
 //            differencesMap.put(tuple.v1.getName(), tuple);
 //        }
-        differences.forEach(difference -> differencesMap.put(difference.v1.getName(), difference));
+        //differences.forEach(difference -> differencesMap.put(difference.v1.getName(), difference));
 
 
         /* Pair up the source record attributes with the differences */
 //        DataRecord record = new DataRecord();
 //        record.addKey(sourceRecord.id);
-        for(Attribute<?> attribute : sourceRecord.getCompleteAttributeList()) {
-            if (differencesMap.containsKey(attribute.getName())) {
-                results.put(attribute.getName(), new Difference(differencesMap.get(attribute.getName())));
-            } else {
-                results.put(attribute.getName(), new Difference(attribute, attribute));
-            }
-            this.order.add(attribute.getName());
-        }
+
+
+        Map<String, Difference> differenceMap = differences.stream()
+                .map(tuple -> new Difference(tuple.v1, tuple.v2))
+                .collect(Collectors.toMap(Difference::getName, Function.identity()));
+
+        Map<String, Difference> nonDifferenceMap = sourceRecord.getAttributes()
+                .filter(attribute -> !differenceMap.containsKey(attribute.getName()))
+                .map(attribute -> new Difference(attribute, attribute))
+                .collect(Collectors.toMap(Difference::getName, Function.identity()));
+
+        Map<String, Difference> results = new HashMap<>();
+        results.putAll(differenceMap);
+        results.putAll(nonDifferenceMap);
+
+//        for(Attribute<?> attribute : sourceRecord.getCompleteAttributeList()) {
+//            if (differencesMap.containsKey(attribute.getName())) {
+//                results.put(attribute.getName(), new Difference(differencesMap.get(attribute.getName())));
+//            } else {
+//                results.put(attribute.getName(), new Difference(attribute, attribute));
+//            }
+//
+//        }
         return results;
     }
 
@@ -85,7 +104,7 @@ public class DifferenceRecord extends AbstractResultRecord {
 
         int i = 1;
         Difference difference;
-        for(String name : order) {
+        for(String name : attributeNames) {
             difference = get(name);
             results[i++] = difference.getLeftValue() + (getResultType() == ResultType.MISMATCH && difference.isDifferent() ? " (" + difference.getRightValue() + ") " : "");
         }
@@ -98,7 +117,7 @@ public class DifferenceRecord extends AbstractResultRecord {
         results.put("resultType", getResultType());
 
         Difference difference;
-        for(String name : order) {
+        for(String name : attributeNames) {
             difference = get(name);
             results.put(name, difference.getLeftValue() + (getResultType() == ResultType.MISMATCH && difference.isDifferent() ? " (" + difference.getRightValue() + ") " : ""));
         }

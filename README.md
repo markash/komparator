@@ -27,7 +27,7 @@ All the meta data is inplace now to perform the actual comparison.
 
 ![alt text](http://res.cloudinary.com/yellowfire/image/upload/v1499160659/compare-differences_lajw9t.png "Differences")
 
-### How to for developers
+### Recipe 01
 ##### Step 1 - Define the master data, i.e. source data
 
 ```java
@@ -83,7 +83,9 @@ AttributeMapping attributeMapping = new AttributeMapping("AdventureWorks Person 
 DataRecordReader reader = new DataRecordReader();
 DataRecordSet sourceRecordSet = reader.read(sourceConfiguration, new FileReader(sourceFile));
 DataRecordSet targetRecordSet = reader.read(targetConfiguration, new FileReader(targetFile));
-List<ResultRecord> results = new ComparisonService().compare(sourceRecordSet, targetRecordSet, attributeMapping);
+new ComparisonService()
+       .compare(sourceRecordSet, targetRecordSet, attributeMapping)
+       .forEach(System.out::println);
 ```
 
 #### Integration Pattern

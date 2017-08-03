@@ -5,103 +5,111 @@ import io.threesixty.kt.core.result.MatchRecord;
 import io.threesixty.kt.core.result.ResultRecord;
 import io.threesixty.kt.core.result.UnMatchRecord;
 import org.jooq.lambda.Seq;
+import org.jooq.lambda.tuple.Tuple2;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class Comparison {
 
-    public List<ResultRecord> compare(final List<DataRecord> source, final List<DataRecord> target) {
+    public Stream<ResultRecord> compare(final List<DataRecord> source, final List<DataRecord> target) {
         return compare(source, target, null, false);
     }
 
-    public List<ResultRecord> compare(final DataRecordSet source, final DataRecordSet target, final AttributeMapping attributeMapping) {
+    public Stream<ResultRecord> compare(final DataRecordSet source, final DataRecordSet target, final AttributeMapping attributeMapping) {
         return compare(source, target, attributeMapping, false);
     }
 
-    public List<ResultRecord> compare(final DataRecordSet source, final DataRecordSet target, final AttributeMapping attributeMapping, final boolean includeEqualRecord) {
+    public Stream<ResultRecord> compare(final DataRecordSet source, final DataRecordSet target, final AttributeMapping attributeMapping, final boolean includeEqualRecord) {
         return compare(source.getRecords(), target.getRecords(), attributeMapping, includeEqualRecord);
     }
 
-    public List<ResultRecord> compare(final List<DataRecord> source, final List<DataRecord> target, final AttributeMapping attributeMapping) {
+    public Stream<ResultRecord> compare(final List<DataRecord> source, final List<DataRecord> target, final AttributeMapping attributeMapping) {
         return compare(source, target, attributeMapping, false);
     }
 
-    public List<ResultRecord> compare(final List<DataRecord> source, final List<DataRecord> target, final AttributeMapping attributeMapping, final boolean includeEqualRecord) {
+    @SuppressWarnings("unchecked")
+    private Stream<ResultRecord> compare(
+            final List<DataRecord> source,
+            final List<DataRecord> target,
+            final AttributeMapping attributeMapping,
+            final boolean includeEqualRecord) {
 
-        List<ResultRecord> results = new ArrayList<>();
+        AttributeJoiner attributeMappingJoiner = attributeMapping == null ? new AttributeNameJoiner() : new AttributeMappingJoiner(attributeMapping);
 
-        Seq<MatchRecord> matchedRecords =
-                Seq.ofType(source.stream(), DataRecord.class)
-                .innerJoin(Seq.ofType(target.stream(), DataRecord.class), DataRecord::equals)
-                .map(t -> MatchRecord.differences(t.v1, t.v2, attributeMapping == null ? new AttributeNameJoiner() : new AttributeMappingJoiner(attributeMapping)));
+//        Seq<MatchRecord> matchedRecords =
+//                Seq.seq(source.stream())
+//                .innerJoin(Seq.seq(target.stream()), DataRecord::equals)
+//                .map(t -> MatchRecord.differences(t.v1, t.v2, attributeMappingJoiner));
+//
+//        List<ResultRecord> results = includeEqualRecord
+//                ? matchedRecords.collect(Collectors.toList())
+//                : matchedRecords.filter(MatchRecord::hasDifferences).collect(Collectors.toList())
+//                ;
+//
+//        Seq.ofType(source.stream(), DataRecord.class)
+//                .leftOuterJoin(Seq.ofType(target.stream(), DataRecord.class), DataRecord::equals)
+//                .filter(t -> t.v2 == null)
+//                .map(t -> UnMatchRecord.sourceUnmatched(t.v1))
+//                .forEach(results::add);
+//
+//        Seq.ofType(target.stream(), DataRecord.class)
+//                .leftOuterJoin(Seq.ofType(source.stream(), DataRecord.class), DataRecord::equals)
+//                .filter(t -> t.v2 == null)
+//                .map(t -> UnMatchRecord.targetUnmatched(t.v1, attributeMapping))
+//                .forEach(results::add);
 
-        /* Filter out equal records if requested */
-        if (includeEqualRecord) {
-            matchedRecords
-                    .forEach(results::add);
-        } else {
-            matchedRecords
-                    .filter(MatchRecord::hasDifferences)
-                    .forEach(results::add);
-        }
-
-        Seq.ofType(source.stream(), DataRecord.class)
-                .leftOuterJoin(Seq.ofType(target.stream(), DataRecord.class), DataRecord::equals)
-                .filter(t -> t.v2 == null)
-                .map(t -> UnMatchRecord.sourceUnmatched(t.v1))
-                .forEach(results::add);
-
-        Seq.ofType(target.stream(), DataRecord.class)
-                .leftOuterJoin(Seq.ofType(source.stream(), DataRecord.class), DataRecord::equals)
-                .filter(t -> t.v2 == null)
-                .map(t -> UnMatchRecord.targetUnmatched(t.v1, attributeMapping))
-                .forEach(results::add);
-
-        results.sort(ResultRecord::compareTo);
-        return results;
+        return (Stream<ResultRecord>) Stream.of(
+                matched(source, target, attributeMappingJoiner, includeEqualRecord),
+                unmatched(source, target, t -> UnMatchRecord.sourceUnmatched(t.v1)),
+                unmatched(target, source, t -> UnMatchRecord.targetUnmatched(t.v1, attributeMapping)))
+                .flatMap(stream -> stream)
+                .sorted(ResultRecord::compareTo);
     }
 
-    public List<DifferenceRecord> toDifferenceRecord(final List<ResultRecord> records) {
-        return Seq.ofType(records.stream(), ResultRecord.class)
-                .map(DifferenceRecord::new)
-                .collect(Collectors.toList());
+    private Stream<MatchRecord> matched (
+            final List<DataRecord> source,
+            final List<DataRecord> target,
+            final AttributeJoiner attributeMappingJoiner,
+            final boolean includeEqualRecord) {
+
+        Seq<MatchRecord> matchedRecords =
+                Seq.seq(source.stream())
+                        .innerJoin(Seq.seq(target.stream()), DataRecord::equals)
+                        .map(t -> MatchRecord.differences(t.v1, t.v2, attributeMappingJoiner));
+
+        return includeEqualRecord
+                ? matchedRecords.stream()
+                : matchedRecords.filter(MatchRecord::hasDifferences).stream()
+                ;
     }
 
     /**
-     * Convert the ResultRecords into a list map object where each map contains the attribute name and the difference for that attribute.<br/>
-     * The type of difference between the source and target is stored in the resultType key:-
-     * <ol>
-     *     <li>EQUAL</li>
-     *     <li>MISMATCH</li>
-     *     <li>SOURCE_UNMATCHED</li>
-     *     <li>TARGET_UNMATCHED</li>
-     * </ol>
-     * Example of the contents of the list with two objects that were compared:-
-     * <table>
-     * <tr>
-     *     <td>resultType</td><td>MISMATCH</td>
-     *     <td>Id</td><td>1</td>
-     *     <td>Name</td><td>Mark (Marcus)</td>
-     * </tr>
-     * <tr>
-     *     <td>resultType</td><td>TARGET_UNMATCHED</td>
-     *     <td>Id</td><td>2</td>
-     *     <td>Name</td><td>Shadow</td>
-     * </tr>
-     * </table>
-     *
-     * @param records
-     * @return
+     * Return the unmatched data records by left outer joining the source to the target where the keys match.
+     * The map function is used to convert the tuple of data records into an un-matched record
+     * @param source The source data records
+     * @param target The target data records
+     * @param mapFunction The function to map a tuple of data records into an un-matched record
+     * @return A stream of un-matched data records
      */
-    public List<Map<String, Object>> toDifferenceMap(final List<ResultRecord> records) {
-        return Seq.ofType(toDifferenceRecord(records).stream(), DifferenceRecord.class)
-                .map(DifferenceRecord::toMap)
+    private Stream<ResultRecord> unmatched (
+            final List<DataRecord> source,
+            final List<DataRecord> target,
+            final Function<Tuple2<DataRecord, DataRecord>, ResultRecord> mapFunction) {
+        return Seq.seq(source.stream())
+                .leftOuterJoin(Seq.seq(target.stream()), DataRecord::equals)
+                .filter(t -> t.v2 == null)
+                .map(mapFunction);
+    }
+
+    private List<DifferenceRecord> toDifferenceRecord(final List<ResultRecord> records) {
+        return Seq.ofType(records.stream(), ResultRecord.class)
+                .map(DifferenceRecord::new)
                 .collect(Collectors.toList());
     }
 }

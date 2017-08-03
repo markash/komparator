@@ -30,7 +30,8 @@ public class TestCompoundId {
         DataRecordSet sourcePersons = fileReader.read(sourceInvoiceConfiguration, this.getClass().getResourceAsStream("/source-invoice.csv"));
         DataRecordSet targetPersons = fileReader.read(targetInvoiceConfiguration, this.getClass().getResourceAsStream("/target-invoice.csv"));
 
-        List<ResultRecord> results = new Comparison().compare(sourcePersons, targetPersons, invoiceMapping);
-        results.forEach(r -> System.out.println("r = " + r));
+        new Comparison()
+                .compare(sourcePersons, targetPersons, invoiceMapping)
+                .forEach(r -> System.out.println("r = " + r));
     }
 }

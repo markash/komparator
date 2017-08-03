@@ -2,7 +2,7 @@ package io.threesixty.kt.core;
 
 import io.threesixty.kt.core.reader.StreamDataRecordProvider;
 import io.threesixty.kt.core.reader.sfm.SfmCsvDataRecordProvider;
-import io.threesixty.kt.core.result.ResultRecord;
+import io.threesixty.kt.core.result.ResultRecordToMap;
 import io.threesixty.kt.core.util.FileSupplier;
 import io.threesixty.kt.core.util.ReaderSupplier;
 import org.concordion.api.ConcordionResources;
@@ -15,6 +15,7 @@ import org.springframework.core.convert.support.DefaultConversionService;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Mark P Ashworth
@@ -52,9 +53,10 @@ public class DataRecordComparisonFixture {
         DataRecordSet sourcePersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/" + source));
         DataRecordSet targetPersons = new StreamDataRecordProvider(targetConfig).provide(ReaderSupplier.forResource("/" + target));
 
-        Comparison service = new Comparison();
-        List<ResultRecord> results = service.compare(sourcePersons, targetPersons, attributeMapping, true);
-        return service.toDifferenceMap(results);
+        return new Comparison()
+                .compare(sourcePersons, targetPersons, attributeMapping, true)
+                .map(new ResultRecordToMap())
+                .collect(Collectors.toList());
     }
 
     public List<Map<String, Object>> readSource(final String source) throws Exception {
@@ -73,7 +75,8 @@ public class DataRecordComparisonFixture {
      * @return A list (i.e. row) of maps with each map containing a name - value pair (i.e. column) of that row
      */
     public List<Map<String, Object>> readSfm(final String source) throws Exception {
-        List<Map<String, Object>> results = new SfmCsvDataRecordProvider(dataRecordConfiguration(source).orElseThrow(() -> new Exception("No configuration for " + source)), conversionService)
+        List<Map<String, Object>> results =
+                new SfmCsvDataRecordProvider(dataRecordConfiguration(source).orElseThrow(() -> new Exception("No configuration for " + source)), conversionService)
                 .provide(FileSupplier.forResource("/" + source)).toDataRecordMap();
 
         System.out.println(results);
@@ -98,9 +101,10 @@ public class DataRecordComparisonFixture {
         DataRecordSet sourcePersons = new StreamDataRecordProvider(config).provide(ReaderSupplier.forResource("/" + source));
         DataRecordSet targetPersons = new StreamDataRecordProvider(config).provide(ReaderSupplier.forResource("/" + target));
 
-        Comparison service = new Comparison();
-        List<ResultRecord> results = service.compare(sourcePersons, targetPersons, attributeMapping, true);
-        return service.toDifferenceMap(results);
+        return new Comparison()
+                .compare(sourcePersons, targetPersons, attributeMapping, true)
+                .map(new ResultRecordToMap())
+                .collect(Collectors.toList());
     }
 
 

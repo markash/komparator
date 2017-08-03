@@ -79,8 +79,9 @@ public class TestPersonReader {
         DataRecordSet sourcePersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/source-persons.csv"));
         DataRecordSet targetPersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/target-persons.csv"));
 
-        List<ResultRecord> results = new Comparison().compare(sourcePersons, targetPersons, attributeMapping);
-        results.forEach(r -> System.out.println("r = " + r));
+        new Comparison()
+                .compare(sourcePersons, targetPersons, attributeMapping)
+                .forEach(r -> System.out.println("r = " + r));
     }
 
     @Test
@@ -108,7 +109,8 @@ public class TestPersonReader {
         DataRecordSet sourcePersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/source-persons.csv"));
         DataRecordSet targetPersons = new JdbcDataRecordProvider(targetConfig, "SELECT * FROM TARGET_PERSON").provide(templateSuppler);
 
-        List<ResultRecord> results = new Comparison().compare(sourcePersons, targetPersons, attributeMapping);
-        results.forEach(r -> System.out.println("r = " + r));
+        new Comparison()
+                .compare(sourcePersons, targetPersons, attributeMapping)
+                .forEach(r -> System.out.println("r = " + r));
     }
 }

@@ -1,15 +1,18 @@
 package io.threesixty.kt.core;
 
-import java.util.Collection;
 import java.util.StringJoiner;
+import java.util.stream.Stream;
 
+/**
+ * An attributable object that defines it's attributes as a combined key
+ */
 public class Key extends AttributableObject implements Comparable<Key> {
 
     public Key() {
         super();
     }
 
-    public Key(Collection<Attribute<?>> attributes) {
+    Key(Stream<Attribute<?>> attributes) {
         super(attributes);
     }
 
@@ -19,7 +22,7 @@ public class Key extends AttributableObject implements Comparable<Key> {
         if (o == null || getClass() != o.getClass()) return false;
 
         final String thisKey = toString();
-        final String otherKey = ((Key) o).toString();
+        final String otherKey = o.toString();
 
         return thisKey.equals(otherKey);
     }
@@ -41,7 +44,7 @@ public class Key extends AttributableObject implements Comparable<Key> {
     public String toString() {
         StringJoiner joiner = new StringJoiner("|");
         AttributeToStringConverter converter = new AttributeToStringConverter();
-        getAttributes().stream().map(converter::convert).forEach(joiner::add);
+        getAttributes().map(converter::convert).forEach(joiner::add);
         return joiner.toString();
     }
 }

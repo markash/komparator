@@ -6,7 +6,6 @@ import net.sf.flatpack.DefaultParserFactory;
 import net.sf.flatpack.Parser;
 import net.sf.flatpack.ParserFactory;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;

@@ -1,15 +1,11 @@
 package io.threesixty.kt.core;
 
 import org.jooq.lambda.tuple.Tuple2;
-import org.simpleflatmapper.converter.Converter;
-import org.simpleflatmapper.csv.CellValueReader;
-import org.simpleflatmapper.csv.impl.cellreader.*;
 import org.springframework.core.convert.ConversionService;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)

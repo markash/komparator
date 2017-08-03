@@ -1,7 +1,8 @@
 package io.threesixty.kt.core;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  *
@@ -28,7 +29,7 @@ public interface Attributable extends Serializable {
      * @param name The attribute name
      * @return The attribute
      */
-    Attribute<?> getAttribute(final String name);
+    Optional<Attribute<?>> getAttribute(final String name);
 
     /**
      * Has the attribute
@@ -41,5 +42,5 @@ public interface Attributable extends Serializable {
      * Gets the attributes
      * @return The collection of attributes
      */
-    Collection<Attribute<?>> getAttributes();
+    Stream<Attribute<?>> getAttributes();
 }

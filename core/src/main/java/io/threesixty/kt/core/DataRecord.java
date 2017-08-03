@@ -4,13 +4,14 @@ import org.jooq.lambda.Seq;
 import org.jooq.lambda.tuple.Tuple2;
 import org.springframework.core.convert.ConversionService;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
+ * An attributable object that has a key and attributes
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class DataRecord extends AttributableObject {
@@ -25,11 +26,11 @@ public class DataRecord extends AttributableObject {
         this(dataRecord.getAttributes(), dataRecord.getAttributes());
     }
 
-    public DataRecord(final Key key, final Collection<Attribute<?>> attributes) {
+    public DataRecord(final Key key, final Stream<Attribute<?>> attributes) {
         this(key.getAttributes(), attributes);
     }
 
-    public DataRecord(final Collection<Attribute<?>> keys, final Collection<Attribute<?>> attributes) {
+    private DataRecord(final Stream<Attribute<?>> keys, final Stream<Attribute<?>> attributes) {
         super(attributes);
         this.key = new Key(keys);
     }
@@ -43,29 +44,46 @@ public class DataRecord extends AttributableObject {
         return this;
     }
 
-    public Object get(final String name) {
+    /**
+     * Gets the attribute value with the given name. The attribute could be part of the key.
+     * @param name The name of the attribute
+     * @return The
+     */
+    public Optional<Object> getAttributeValue(final String name) {
+        return getAttribute(name).map(Attribute::getValue);
+    }
+
+    /**
+     * Gets the attribute value with the given name. The attribute could be part of the key.
+     * @param name The name of the attribute
+     * @return The
+     */
+    public Optional<Attribute<?>> getAttribute(final String name) {
         if (hasKey(name)) {
-            return getKey(name).getValue();
+            return getKey(name);
         } else if (hasAttribute(name)) {
-            return getAttribute(name).getValue();
+            return super.getAttribute(name);
         }
-        return null;
+        return Optional.empty();
     }
 
     public Key getKey() {
         return this.key;
     }
 
-    public Attribute<?> getKey(final String name) {
+    public Optional<Attribute<?>> getKey(final String name) {
         return this.key.getAttribute(name);
     }
 
-    public Collection<Attribute<?>> getCompleteAttributeList() {
-        List<Attribute<?>> results = new ArrayList<>(this.key.getAttributes());
-        results.addAll(getAttributes());
-        return results;
+    public Stream<Attribute<?>> getCompleteAttributeList() {
+        return Stream.of(this.key.getAttributes(), getAttributes()).flatMap(a -> a);
     }
 
+    /**
+     * Determine if the attribute name is a key
+     * @param name The name of the attribute
+     * @return Whether the name is an attribute of the key
+     */
     public boolean hasKey(final String name) {
         return this.key.hasAttribute(name);
     }
@@ -74,10 +92,10 @@ public class DataRecord extends AttributableObject {
      * Gets the attributes
      * @return The collection of attributes
      */
-    public Collection<Attribute<?>> getAttributes() {
-        List<Attribute<?>> attributes = new ArrayList<>(getKey().getAttributes());
-        attributes.addAll(super.getAttributes());
-        return attributes;
+    public Stream<Attribute<?>> getAttributes() {
+        return Stream
+                .of(getKey().getAttributes(), super.getAttributes())
+                .flatMap(s -> s);
     }
 
     /**
@@ -85,7 +103,7 @@ public class DataRecord extends AttributableObject {
      * @return A map of attribute name and values
      */
     public Map<String, Object> toMap() {
-        return getAttributes().stream().collect(Collectors.toMap(Attribute::getName, Attribute::getValue));
+        return getAttributes().collect(Collectors.toMap(Attribute::getName, Attribute::getValue));
     }
 
     /**
@@ -95,8 +113,8 @@ public class DataRecord extends AttributableObject {
      * @return A tuple of attributes that are different
      */
     public List<Tuple2<Attribute, Attribute>> difference(final DataRecord other, AttributeJoiner join) {
-        return Seq.ofType(getAttributes().stream(), Attribute.class)
-                .innerJoin(Seq.ofType(other.getAttributes().stream(), Attribute.class), join::matches)
+        return Seq.ofType(getAttributes(), Attribute.class)
+                .innerJoin(Seq.ofType(other.getAttributes(), Attribute.class), join::matches)
                 .filter(match -> !match.v1().getValue().equals(match.v2().getValue()))
                 .collect(Collectors.toList());
     }

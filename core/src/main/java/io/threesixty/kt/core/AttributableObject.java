@@ -1,40 +1,43 @@
 package io.threesixty.kt.core;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AttributableObject implements Attributable {
     private Map<String, Attribute<?>> attributes;
 
-    public AttributableObject() {
+    /**
+     * Attributable object with no defined attributes
+     */
+    AttributableObject() {
         this.attributes = new HashMap<>();
     }
 
-    public AttributableObject(final Collection<Attribute<?>> attributes) {
-        this.attributes = new HashMap<>();
-        if (attributes != null) {
-            for (Attribute<?> attribute : attributes) {
-                this.attributes.put(attribute.getName(), attribute);
-            }
-        }
+    /**
+     * Attributable object with the defined attributes
+     * @param attributes The attributes of the attributable object
+     */
+    AttributableObject(final Stream<Attribute<?>> attributes) {
+        this.attributes = attributes.collect(Collectors.toMap(Attribute::getName, Function.identity()));
     }
 
     /**
      * Add an attribute
-     *
      * @param name      The name of the attribute
      * @param attribute The value of the attribute
      * @return The attributable
      */
     @Override
-    public <T> Attributable addAttribute(String name, T attribute) {
+    public <T> Attributable addAttribute(final String name, final T attribute) {
         return addAttribute(new Attribute<>(name, attribute));
     }
 
     /**
      * Add an attribute
-     *
      * @param attribute The attribute to add
      * @return The attributable
      */
@@ -51,8 +54,8 @@ public class AttributableObject implements Attributable {
      * @return The attribute
      */
     @Override
-    public Attribute<?> getAttribute(String name) {
-        return this.attributes.get(name);
+    public Optional<Attribute<?>> getAttribute(String name) {
+        return Optional.ofNullable(this.attributes.get(name));
     }
 
     /**
@@ -69,7 +72,7 @@ public class AttributableObject implements Attributable {
      * Gets the attributes
      * @return The collection of attributes
      */
-    public Collection<Attribute<?>> getAttributes() {
-        return this.attributes.values();
+    public Stream<Attribute<?>> getAttributes() {
+        return this.attributes.values().stream();
     }
 }

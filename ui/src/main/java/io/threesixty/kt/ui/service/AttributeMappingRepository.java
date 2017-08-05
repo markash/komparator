@@ -1,7 +1,6 @@
 package io.threesixty.kt.ui.service;
 
-import io.threesixty.kt.core.AttributeMapping;
-import io.threesixty.kt.core.DataRecordConfiguration;
+import io.threesixty.compare.AttributeMapping;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
 import org.jooq.lambda.tuple.Tuple2;
 import org.springframework.core.convert.ConversionService;

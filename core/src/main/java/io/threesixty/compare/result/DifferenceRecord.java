@@ -1,8 +1,8 @@
-package io.threesixty.kt.core.result;
+package io.threesixty.compare.result;
 
-import io.threesixty.kt.core.Attribute;
-import io.threesixty.kt.core.DataRecord;
-import io.threesixty.kt.core.Difference;
+import io.threesixty.compare.DataRecord;
+import io.threesixty.compare.Attribute;
+import io.threesixty.compare.Difference;
 import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.HashMap;

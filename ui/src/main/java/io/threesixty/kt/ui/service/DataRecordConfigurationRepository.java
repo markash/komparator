@@ -1,6 +1,6 @@
 package io.threesixty.kt.ui.service;
 
-import io.threesixty.kt.core.DataRecordConfiguration;
+import io.threesixty.compare.DataRecordConfiguration;
 
 import java.util.Arrays;
 import java.util.Collection;

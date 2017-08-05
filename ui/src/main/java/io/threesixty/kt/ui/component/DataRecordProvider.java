@@ -1,7 +1,7 @@
 package io.threesixty.kt.ui.component;
 
-import io.threesixty.kt.core.DataRecord;
-import io.threesixty.kt.core.DataRecordSet;
+import io.threesixty.compare.DataRecord;
+import io.threesixty.compare.DataRecordSet;
 
 import java.util.List;
 

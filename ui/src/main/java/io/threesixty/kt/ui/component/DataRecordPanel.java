@@ -2,9 +2,9 @@ package io.threesixty.kt.ui.component;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
-import io.threesixty.kt.core.DataRecord;
-import io.threesixty.kt.core.DataRecordColumn;
-import io.threesixty.kt.core.DataRecordSet;
+import io.threesixty.compare.DataRecord;
+import io.threesixty.compare.DataRecordColumn;
+import io.threesixty.compare.DataRecordSet;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MPanel;
 
@@ -68,7 +68,7 @@ public class DataRecordPanel extends MPanel implements DataRecordProvider {
         grid.removeAllColumns();
         Grid.Column<DataRecord, ?> gridColumn;
         for (DataRecordColumn column : columns) {
-            gridColumn = grid.addColumn(dataRecord -> dataRecord.get(column.getName()));
+            gridColumn = grid.addColumn(dataRecord -> dataRecord.getAttribute(column.getName()));
             gridColumn.setCaption(column.getName());
         }
     }

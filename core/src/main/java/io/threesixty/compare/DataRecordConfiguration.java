@@ -1,4 +1,4 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
 
 import net.sf.flatpack.structure.ColumnMetaData;

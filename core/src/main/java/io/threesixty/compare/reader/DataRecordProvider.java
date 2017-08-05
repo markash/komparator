@@ -1,7 +1,7 @@
-package io.threesixty.kt.core.reader;
+package io.threesixty.compare.reader;
 
-import io.threesixty.kt.core.DataRecord;
-import io.threesixty.kt.core.DataRecordSet;
+import io.threesixty.compare.DataRecord;
+import io.threesixty.compare.DataRecordSet;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -20,14 +20,14 @@ public interface DataRecordProvider<T> {
         return fetch(supplier).collect(toDataSet());
     }
 
-    default Collector<io.threesixty.kt.core.DataRecord, DataRecordSet, DataRecordSet> toDataSet() {
-        return new Collector<io.threesixty.kt.core.DataRecord, DataRecordSet, DataRecordSet>() {
+    default Collector<DataRecord, DataRecordSet, DataRecordSet> toDataSet() {
+        return new Collector<DataRecord, DataRecordSet, DataRecordSet>() {
             @Override
             public Supplier<DataRecordSet> supplier() {
                 return DataRecordSet::new;
             }
             @Override
-            public BiConsumer<DataRecordSet, io.threesixty.kt.core.DataRecord> accumulator() {
+            public BiConsumer<DataRecordSet, DataRecord> accumulator() {
                 return (builder, t) -> builder.add(t);
             }
 

@@ -1,8 +1,8 @@
 package io.threesixty.kt.ui.config;
 
-import io.threesixty.kt.core.AttributeMapping;
-import io.threesixty.kt.core.DataRecordConfiguration;
-import io.threesixty.kt.core.DataRecordFileType;
+import io.threesixty.compare.AttributeMapping;
+import io.threesixty.compare.DataRecordConfiguration;
+import io.threesixty.compare.DataRecordFileType;
 import io.threesixty.kt.ui.service.AttributeMappingRepository;
 import io.threesixty.kt.ui.service.DataRecordConfigurationRepository;
 import org.springframework.context.annotation.Bean;

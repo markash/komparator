@@ -1,9 +1,9 @@
-package io.threesixty.kt.core.util;
+package io.threesixty.compare.util;
 
 import net.sf.flatpack.converter.Converter;
 import net.sf.flatpack.util.ParserUtils;
 
-public class ConvertLong implements Converter {
+public class ConvertString implements Converter {
 
     /*
      * (non-Javadoc)
@@ -12,7 +12,7 @@ public class ConvertLong implements Converter {
      */
     @Override
     public Object convertValue(final String valueToConvert) {
-        return Long.valueOf(ParserUtils.stripNonLongChars(valueToConvert));
+        return valueToConvert;
     }
 
 }

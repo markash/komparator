@@ -1,6 +1,6 @@
-package io.threesixty.kt.core.reader;
+package io.threesixty.compare.reader;
 
-import io.threesixty.kt.core.*;
+import io.threesixty.compare.*;
 import net.sf.flatpack.DataSet;
 import net.sf.flatpack.DefaultParserFactory;
 import net.sf.flatpack.Parser;
@@ -62,8 +62,8 @@ public class FileDataRecordReader {
         properties.setProperty("java.math.BigDecimal", "net.sf.flatpack.converter.ConvertBigDecimal");
         properties.setProperty("java.lang.Double", "net.sf.flatpack.converter.ConvertDouble");
         properties.setProperty("java.lang.Integer", "net.sf.flatpack.converter.ConvertInteger");
-        properties.setProperty("java.lang.Long", "io.threesixty.kt.core.util.ConvertLong");
-        properties.setProperty("java.lang.String", "io.threesixty.kt.core.util.ConvertString");
+        properties.setProperty("java.lang.Long", "io.threesixty.compare.util.ConvertLong");
+        properties.setProperty("java.lang.String", "io.threesixty.compare.util.ConvertString");
         return properties;
     }
 

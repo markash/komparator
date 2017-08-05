@@ -1,6 +1,6 @@
 package io.threesixty.kt.ui.component;
 
-import io.threesixty.kt.core.result.DifferenceRecord;
+import io.threesixty.compare.result.DifferenceRecord;
 
 import java.util.List;
 

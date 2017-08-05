@@ -11,7 +11,7 @@ Compare two lists for attribute differences and missing records
 
 ### [Lists with a single long id attribute](- "basic")
 
-![alt text](./person-mapping.png "Person Mapping")
+![alt text](person-mapping.png "Person Mapping")
 
 Give a file of people [source-persons.csv](- "#source") and another file of people [target-persons.csv](- "#target")
 
@@ -81,7 +81,7 @@ Then the following data records are present:
 
 ### [Lists with a compound id attribute](- "compound")
 
-![alt text](./invoice-mapping.png "Invoice Mapping")
+![alt text](invoice-mapping.png "Invoice Mapping")
 
 Give a file of invoices [source-invoice.csv](- "#source") and another file of invoices [target-invoice.csv](- "#target")
 

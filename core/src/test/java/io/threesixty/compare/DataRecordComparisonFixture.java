@@ -1,10 +1,10 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
-import io.threesixty.kt.core.reader.StreamDataRecordProvider;
-import io.threesixty.kt.core.reader.sfm.SfmCsvDataRecordProvider;
-import io.threesixty.kt.core.result.ResultRecordToMap;
-import io.threesixty.kt.core.util.FileSupplier;
-import io.threesixty.kt.core.util.ReaderSupplier;
+import io.threesixty.compare.reader.StreamDataRecordProvider;
+import io.threesixty.compare.reader.sfm.SfmCsvDataRecordProvider;
+import io.threesixty.compare.result.ResultRecordToMap;
+import io.threesixty.compare.util.FileSupplier;
+import io.threesixty.compare.util.ReaderSupplier;
 import org.concordion.api.ConcordionResources;
 import org.concordion.api.FullOGNL;
 import org.concordion.integration.junit4.ConcordionRunner;

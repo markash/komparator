@@ -1,6 +1,6 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
-import io.threesixty.kt.core.markup.MarkupCommandVisitor;
+import io.threesixty.compare.markup.MarkupCommandVisitor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.text.diff.StringsComparator;
 import org.jooq.lambda.tuple.Tuple2;

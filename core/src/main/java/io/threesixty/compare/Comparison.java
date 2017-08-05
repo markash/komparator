@@ -1,9 +1,9 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
-import io.threesixty.kt.core.result.DifferenceRecord;
-import io.threesixty.kt.core.result.MatchRecord;
-import io.threesixty.kt.core.result.ResultRecord;
-import io.threesixty.kt.core.result.UnMatchRecord;
+import io.threesixty.compare.result.DifferenceRecord;
+import io.threesixty.compare.result.MatchRecord;
+import io.threesixty.compare.result.ResultRecord;
+import io.threesixty.compare.result.UnMatchRecord;
 import org.jooq.lambda.Seq;
 import org.jooq.lambda.tuple.Tuple2;
 

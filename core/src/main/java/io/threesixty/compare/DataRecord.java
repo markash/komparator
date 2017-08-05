@@ -1,4 +1,4 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
 import org.jooq.lambda.Seq;
 import org.jooq.lambda.tuple.Tuple2;

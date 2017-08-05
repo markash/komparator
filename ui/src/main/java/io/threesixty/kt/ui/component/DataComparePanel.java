@@ -4,8 +4,13 @@ import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
-import io.threesixty.kt.core.*;
-import io.threesixty.kt.core.reader.FileDataRecordReader;
+import io.threesixty.compare.AttributeMapping;
+import io.threesixty.compare.Comparison;
+import io.threesixty.compare.DataRecordConfiguration;
+import io.threesixty.compare.DataRecordSet;
+import io.threesixty.compare.reader.FileDataRecordReader;
+import io.threesixty.compare.result.DifferenceRecord;
+import io.threesixty.compare.result.ResultRecordToDifferenceRecord;
 import io.threesixty.kt.ui.service.PersistenceService;
 import io.threesixty.ui.component.uploader.UploadReceiver;
 import org.vaadin.viritin.button.MButton;
@@ -17,6 +22,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataComparePanel extends MPanel {
 
@@ -140,11 +147,17 @@ public class DataComparePanel extends MPanel {
     private void onCompare(final Button.ClickEvent event) {
 
         try {
-            Comparison service = new Comparison();
-            dataDifferenceProvider.setDataDifferences(service.convert(service.compare(
-                    sourceDataProvider.getDataRecords(),
-                    targetDataProvider.getDataRecords(),
-                    attributeMapping)));
+            ResultRecordToDifferenceRecord toDifferenceRecord = new ResultRecordToDifferenceRecord();
+
+            List<DifferenceRecord> differences =
+                    new Comparison().compare(
+                            sourceDataProvider.getDataRecords(),
+                            targetDataProvider.getDataRecords(),
+                            attributeMapping)
+                            .map(toDifferenceRecord)
+                            .collect(Collectors.toList());
+
+            dataDifferenceProvider.setDataDifferences(differences);
         } catch (Exception e) {
             new Notification(e.getMessage()).show(Page.getCurrent());
         }

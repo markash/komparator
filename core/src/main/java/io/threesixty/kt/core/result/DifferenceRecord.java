@@ -3,7 +3,6 @@ package io.threesixty.kt.core.result;
 import io.threesixty.kt.core.Attribute;
 import io.threesixty.kt.core.DataRecord;
 import io.threesixty.kt.core.Difference;
-import io.threesixty.kt.core.Key;
 import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.HashMap;
@@ -15,16 +14,17 @@ import java.util.stream.Collectors;
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
-public class DifferenceRecord extends AbstractResultRecord {
-    private Key key;
+public class DifferenceRecord {
+
     private List<String> attributeNames;
     private Map<String, Difference> record;
+    private ResultType resultType;
 
     public DifferenceRecord(final ResultRecord record) throws RuntimeException {
-        super(record.getResultType());
+        this.resultType = record.getResultType();
         if (record instanceof MatchRecord) {
             MatchRecord r = (MatchRecord) record;
-            this.record = mapDifferencesToSourceRecord(r.getSourceRecord(), r.getTargetRecord(), r.getDifferences());
+            this.record = mapDifferencesToSourceRecord(r.getRecord(), r.getTargetRecord(), r.getDifferences());
         } else if (record instanceof UnMatchRecord) {
             UnMatchRecord r = (UnMatchRecord) record;
             this.record = mapDifferencesToSourceRecord(r.getRecord(), null, r.getDifferences());
@@ -35,11 +35,15 @@ public class DifferenceRecord extends AbstractResultRecord {
         }
     }
 
-    @Override
-    public Key getKey() { return this.key; }
     public Map<String, Difference> getRecord() { return record; }
     public Difference get(final String name) { return record.get(name); }
-
+    /**
+     * The result type, i.e. EQUAL, MISMATCH, TARGET_UNMATCHED or SOURCE_UNMATCHED
+     * @return The result type
+     */
+    public ResultType getResultType() {
+        return resultType;
+    }
     /**
      * Maps the source data record (i.e. left hand side) to the differences recorded
      * @param sourceRecord The source data record
@@ -58,7 +62,7 @@ public class DifferenceRecord extends AbstractResultRecord {
                 .collect(Collectors.toList());
 
         /* Pair up the key values */
-        this.key = sourceRecord.getKey();
+        //this.key = sourceRecord.getKey();
 
         /* Convert the list of differences to a map by source attribute name */
         //Map<String, Tuple2<Attribute, Attribute>> differencesMap = new HashMap<>();

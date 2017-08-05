@@ -1,5 +1,6 @@
 package io.threesixty.kt.core.reader;
 
+import io.threesixty.kt.core.Attribute;
 import io.threesixty.kt.core.ConfigurationException;
 import io.threesixty.kt.core.DataRecord;
 import io.threesixty.kt.core.DataRecordConfiguration;
@@ -44,11 +45,11 @@ public class StreamDataRecordProvider implements DataRecordProvider<Reader> {
 
                 DataRecord dataRecord = new DataRecord();
                 for (String column : dataSet.getColumns()) {
-                    if (configuration.isKeyColumn(column)) {
-                        dataRecord.addKey(column, getCellValue(column, configuration, dataSet).orElse(null));
-                    } else {
-                        dataRecord.addAttribute(column, getCellValue(column, configuration, dataSet).orElse(null));
-                    }
+                    dataRecord.addAttribute(
+                                Attribute.create(
+                                        column,
+                                        getCellValue(column, configuration, dataSet).orElse(null),
+                                        configuration.isKeyColumn(column)));
                 }
                 return dataRecord;
             }

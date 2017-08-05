@@ -1,24 +1,33 @@
 package io.threesixty.kt.core.result;
 
-import io.threesixty.kt.core.Key;
+import io.threesixty.kt.core.DataRecord;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public abstract class AbstractResultRecord implements ResultRecord {
-    private ResultType resultType;
+    private final ResultType resultType;
+    private final DataRecord record;
 
-    public AbstractResultRecord(ResultType resultType) {
+    public AbstractResultRecord(final ResultType resultType, final DataRecord record) {
         this.resultType = resultType;
+        this.record = record;
     }
-
-    public ResultType getResultType() {
-        return resultType;
-    }
+    /**
+     * Whether the record is matched, unmatched or different
+     * @return The result type
+     */
+    public ResultType getResultType() { return resultType; }
+    /**
+     * The record of the result
+     * @return The record
+     */
+    public DataRecord getRecord() { return record; }
 
     @Override
     public int compareTo(final ResultRecord other) {
-        Key otherKey = other != null && other.getKey() != null ? other.getKey() : new Key();
-        return getKey().compareTo(otherKey);
+        String otherKey = other != null && other.getRecord() != null  ? other.getRecord().getKeyAsString() : "";
+        String thisKey = getRecord() != null  ? getRecord().getKeyAsString() : "";
+        return thisKey.compareTo(otherKey);
     }
 }

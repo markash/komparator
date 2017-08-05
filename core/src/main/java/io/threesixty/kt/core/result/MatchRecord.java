@@ -9,23 +9,18 @@ import java.util.List;
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class MatchRecord extends AbstractResultRecord {
-    private DataRecord sourceRecord;
-    private DataRecord targetRecord;
-    private List<Tuple2<Attribute, Attribute>> differences;
+    private final DataRecord targetRecord;
+    private final List<Tuple2<Attribute, Attribute>> differences;
 
     protected MatchRecord(final DataRecord sourceRecord,
                           final DataRecord targetRecord,
                           final List<Tuple2<Attribute, Attribute>> differences,
                           final ResultType resultType) {
-        super(resultType);
-        this.sourceRecord = sourceRecord;
+        super(resultType, sourceRecord);
         this.targetRecord = targetRecord;
         this.differences = differences;
     }
 
-    @Override
-    public Key getKey() { return getSourceRecord().getKey(); }
-    public DataRecord getSourceRecord() { return sourceRecord; }
     public DataRecord getTargetRecord() { return targetRecord; }
     public List<Tuple2<Attribute, Attribute>> getDifferences() { return differences; }
 
@@ -63,7 +58,7 @@ public class MatchRecord extends AbstractResultRecord {
     @Override
     public String toString() {
         return "MatchRecord{" +
-                "sourceRecord=" + sourceRecord +
+                "sourceRecord=" + getRecord() +
                 ", targetRecord=" + targetRecord +
                 ", result=" + getResultType() +
                 ", differences=" + differences +

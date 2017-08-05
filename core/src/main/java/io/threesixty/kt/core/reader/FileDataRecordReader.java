@@ -41,11 +41,11 @@ public class FileDataRecordReader {
 
                     dataRecord = new DataRecord();
                     for (String column : ds.getColumns()) {
-                        if (configuration.isKeyColumn(column)) {
-                            dataRecord.addKey(column, getCellValue(column, configuration, ds).orElse(null));
-                        } else {
-                            dataRecord.addAttribute(column, getCellValue(column, configuration, ds).orElse(null));
-                        }
+                        dataRecord.addAttribute(
+                                Attribute.create(
+                                        column,
+                                        getCellValue(column, configuration, ds).orElse(null),
+                                        configuration.isKeyColumn(column)));
                     }
                     results.add(dataRecord);
                 }
@@ -87,13 +87,7 @@ public class FileDataRecordReader {
 
     private DataRecord mapToDataRecord(final Map<String, String> record, final String idKey) {
         DataRecord dataRecord = new DataRecord();
-        record.entrySet().forEach(a -> {
-            if (a.getKey().equals(idKey)) {
-                dataRecord.addKey(new Attribute<>(a.getKey(), a.getValue()));
-            } else {
-                dataRecord.addAttribute(new Attribute<>(a.getKey(), a.getValue()));
-            }
-        });
+        record.forEach((key, value) -> dataRecord.addAttribute(Attribute.create(key, value, key.equals(idKey))));
         return dataRecord;
     }
 

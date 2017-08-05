@@ -28,11 +28,7 @@ public class JdbcDataRecordReaderImpl implements JdbcDataRecordReader {
 
                 DataRecord dataRecord = new DataRecord();
                 for (DataRecordColumn column : configuration.getColumns()) {
-                    if (column.isKey()) {
-                        dataRecord.addKey(column.getName(), rs.getObject(column.getName(), column.getDataType()));
-                    } else {
-                        dataRecord.addAttribute(Attribute.create(column.getName(), rs.getObject(column.getName(), column.getDataType())));
-                    }
+                    dataRecord.addAttribute(Attribute.create(column.getName(), rs.getObject(column.getName(), column.getDataType()), column.isKey()));
                 }
                 return dataRecord;
             }

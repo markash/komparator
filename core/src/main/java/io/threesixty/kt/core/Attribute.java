@@ -13,10 +13,27 @@ import java.util.Optional;
 public class Attribute<T> implements Serializable {
     private String name;
     private T value;
+    private boolean key;
 
+    /**
+     * A non-key attribute
+     * @param name The name of the attribute
+     * @param value The value of the attribute
+     */
     public Attribute(final String name, final T value) {
+        this(name, value, false);
+    }
+
+    /**
+     * An attribute
+     * @param name The name of the attribute
+     * @param value The value of the attribute
+     * @param key Whether the attribute is part of the key
+     */
+    public Attribute(final String name, final T value, final boolean key) {
         this.name = name;
         this.value = value;
+        this.key = key;
     }
 
     /**
@@ -30,7 +47,14 @@ public class Attribute<T> implements Serializable {
      */
     public T getValue() { return this.value; }
     /**
-     * Create an attribute from the name and value parameters
+     * Whether the attribute is part of the key
+     * @return Whether the attribute is part of the key
+     */
+    public boolean isKey() {
+        return key;
+    }
+    /**
+     * Create an non-key attribute from the name and value parameters
      * @param name The name of the attribute
      * @param value The value of the attribute
      * @param <T> The type of the value
@@ -39,7 +63,17 @@ public class Attribute<T> implements Serializable {
     public static <T> Attribute<T> create(final String name, final T value) {
         return new Attribute<>(name, value);
     }
-
+    /**
+     * Create an attribute from the name and value parameters
+     * @param name The name of the attribute
+     * @param value The value of the attribute
+     * @param key Whether the attribute is part of the key
+     * @param <T> The type of the value
+     * @return A new attribute
+     */
+    public static <T> Attribute<T> create(final String name, final T value, final boolean key) {
+        return new Attribute<>(name, value, key);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,9 +105,10 @@ public class Attribute<T> implements Serializable {
             if (column.isPresent()) {
                 Class sourceType = entry.getValue().getClass();
                 Class targetType = column.get().getDataType();
+                boolean isKey = column.get().isKey();
 
                 if (conversionService.canConvert(sourceType, targetType)) {
-                    return new Tuple2<>(Optional.of(column.get()), new Attribute(columnName, conversionService.convert(entry.getValue(), targetType)));
+                    return new Tuple2<>(Optional.of(column.get()), new Attribute(columnName, conversionService.convert(entry.getValue(), targetType), isKey));
                 }
             }
             return new Tuple2<>(Optional.empty(), new Attribute(columnName, entry.getValue()));

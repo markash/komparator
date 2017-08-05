@@ -12,20 +12,14 @@ import java.util.stream.Stream;
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
  */
 public class UnMatchRecord extends AbstractResultRecord {
-    private DataRecord record;
 
-    protected UnMatchRecord(DataRecord record, ResultType resultType) {
-        super(resultType);
-        this.record = record;
+    protected UnMatchRecord(final DataRecord record, final ResultType resultType) {
+        super(resultType, record);
     }
 
-    @Override
-    public Key getKey() { return record.getKey(); }
-    public DataRecord getRecord() { return record; }
-
     public List<Tuple2<Attribute, Attribute>> getDifferences() {
-        return record.getAttributes()
-                .map(attribute -> new Tuple2<Attribute, Attribute>(attribute, new Attribute(attribute.getName(), null)))
+        return getRecord().getAttributes()
+                .map(attribute -> new Tuple2<Attribute, Attribute>(attribute, Attribute.create(attribute.getName(), null, attribute.isKey())))
                 .collect(Collectors.toList());
     }
 
@@ -38,16 +32,14 @@ public class UnMatchRecord extends AbstractResultRecord {
          * For attributes that only exist in the target but not the source, use the target attribute name */
         Stream<Attribute<?>> attributes = record
                 .getAttributes()
-                .filter(attribute -> !record.getKey().hasAttribute(attribute.getName()))
                 .map(attribute -> {
                     String mappedName = attributeMapping.getMappingForTarget(attribute.getName());
                     mappedName = mappedName != null ? mappedName : attribute.getName();
-                    return Attribute.create(mappedName, attribute.getValue());
+                    return Attribute.create(mappedName, attribute.getValue(), attribute.isKey());
                 });
 
-        return new UnMatchRecord(new DataRecord(record.getKey(), attributes), ResultType.TARGET_UNMATCHED);
+        return new UnMatchRecord(new DataRecord(attributes), ResultType.TARGET_UNMATCHED);
     }
-
 
     @Override
     public String toString() {
@@ -60,7 +52,7 @@ public class UnMatchRecord extends AbstractResultRecord {
         }
 
         return "UnMatchRecord{" +
-                recordType + "=" + record +
+                recordType + "=" + getRecord() +
                 ", result=" + getResultType() +
                 '}';
     }

@@ -1,9 +1,9 @@
-package io.threesixty.kt.core.reader;
+package io.threesixty.compare.reader;
 
-import io.threesixty.kt.core.Attribute;
-import io.threesixty.kt.core.ConfigurationException;
-import io.threesixty.kt.core.DataRecord;
-import io.threesixty.kt.core.DataRecordConfiguration;
+import io.threesixty.compare.DataRecord;
+import io.threesixty.compare.Attribute;
+import io.threesixty.compare.ConfigurationException;
+import io.threesixty.compare.DataRecordConfiguration;
 import net.sf.flatpack.DataSet;
 import net.sf.flatpack.DefaultParserFactory;
 import net.sf.flatpack.Parser;
@@ -67,9 +67,9 @@ public class StreamDataRecordProvider implements DataRecordProvider<Reader> {
         properties.setProperty("java.math.BigDecimal", "net.sf.flatpack.converter.ConvertBigDecimal");
         properties.setProperty("java.lang.Double", "net.sf.flatpack.converter.ConvertDouble");
         properties.setProperty("java.lang.Integer", "net.sf.flatpack.converter.ConvertInteger");
-        properties.setProperty("java.lang.Long", "io.threesixty.kt.core.util.ConvertLong");
-        properties.setProperty("java.lang.String", "io.threesixty.kt.core.util.ConvertString");
-        properties.setProperty(Boolean.class.getName(), "io.threesixty.kt.core.util.ConvertBoolean");
+        properties.setProperty("java.lang.Long", "io.threesixty.compare.util.ConvertLong");
+        properties.setProperty("java.lang.String", "io.threesixty.compare.util.ConvertString");
+        properties.setProperty(Boolean.class.getName(), "io.threesixty.compare.util.ConvertBoolean");
         return properties;
     }
 

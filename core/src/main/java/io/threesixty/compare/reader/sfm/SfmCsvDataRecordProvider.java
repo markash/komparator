@@ -1,8 +1,8 @@
-package io.threesixty.kt.core.reader.sfm;
+package io.threesixty.compare.reader.sfm;
 
-import io.threesixty.kt.core.DataRecord;
-import io.threesixty.kt.core.DataRecordConfiguration;
-import io.threesixty.kt.core.reader.DataRecordProvider;
+import io.threesixty.compare.DataRecord;
+import io.threesixty.compare.DataRecordConfiguration;
+import io.threesixty.compare.reader.DataRecordProvider;
 import org.simpleflatmapper.csv.CsvParser;
 import org.springframework.core.convert.ConversionService;
 

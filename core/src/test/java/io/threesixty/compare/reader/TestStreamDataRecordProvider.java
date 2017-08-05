@@ -1,10 +1,10 @@
-package io.threesixty.kt.core.reader;
+package io.threesixty.compare.reader;
 
-import io.threesixty.kt.core.DataRecord;
-import io.threesixty.kt.core.DataRecordConfiguration;
-import io.threesixty.kt.core.DataRecordFileType;
-import io.threesixty.kt.core.DataRecordSet;
-import io.threesixty.kt.core.util.ReaderSupplier;
+import io.threesixty.compare.DataRecord;
+import io.threesixty.compare.DataRecordConfiguration;
+import io.threesixty.compare.DataRecordFileType;
+import io.threesixty.compare.DataRecordSet;
+import io.threesixty.compare.util.ReaderSupplier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

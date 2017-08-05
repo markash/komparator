@@ -1,8 +1,7 @@
-package io.threesixty.kt.core.util;
+package io.threesixty.compare.util;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.function.Supplier;
 
 public class ReaderSupplier  {
 

@@ -1,8 +1,8 @@
-package io.threesixty.kt.core.reader;
+package io.threesixty.compare.reader;
 
-import io.threesixty.kt.core.AttributeMapping;
-import io.threesixty.kt.core.DataRecordConfiguration;
-import io.threesixty.kt.core.DataRecordFileType;
+import io.threesixty.compare.AttributeMapping;
+import io.threesixty.compare.DataRecordConfiguration;
+import io.threesixty.compare.DataRecordFileType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
-import java.util.function.Supplier;
 
 @Configuration
 @ComponentScan(basePackages = {"io.threesixty.kt.core.reader"})

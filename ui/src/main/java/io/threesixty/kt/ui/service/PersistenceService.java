@@ -1,7 +1,7 @@
 package io.threesixty.kt.ui.service;
 
-import io.threesixty.kt.core.AttributeMapping;
-import io.threesixty.kt.core.DataRecordConfiguration;
+import io.threesixty.compare.AttributeMapping;
+import io.threesixty.compare.DataRecordConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

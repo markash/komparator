@@ -1,9 +1,10 @@
-package io.threesixty.kt.core.result;
+package io.threesixty.compare.result;
 
-import io.threesixty.kt.core.*;
+import io.threesixty.compare.Attribute;
+import io.threesixty.compare.AttributeMapping;
+import io.threesixty.compare.DataRecord;
 import org.jooq.lambda.tuple.Tuple2;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

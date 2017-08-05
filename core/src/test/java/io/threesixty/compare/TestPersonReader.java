@@ -1,19 +1,15 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
-import io.threesixty.kt.core.reader.JdbcDataRecordProvider;
-import io.threesixty.kt.core.reader.ReaderConfiguration;
-import io.threesixty.kt.core.reader.StreamDataRecordProvider;
-import io.threesixty.kt.core.result.ResultRecord;
-import io.threesixty.kt.core.util.ReaderSupplier;
+import io.threesixty.compare.reader.JdbcDataRecordProvider;
+import io.threesixty.compare.reader.StreamDataRecordProvider;
+import io.threesixty.compare.reader.ReaderConfiguration;
+import io.threesixty.compare.util.ReaderSupplier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)

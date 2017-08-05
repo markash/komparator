@@ -1,6 +1,6 @@
-package io.threesixty.kt.core.reader;
+package io.threesixty.compare.reader;
 
-import io.threesixty.kt.core.*;
+import io.threesixty.compare.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

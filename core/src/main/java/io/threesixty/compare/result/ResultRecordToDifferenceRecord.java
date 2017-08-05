@@ -1,4 +1,4 @@
-package io.threesixty.kt.core.result;
+package io.threesixty.compare.result;
 
 import java.util.function.Function;
 

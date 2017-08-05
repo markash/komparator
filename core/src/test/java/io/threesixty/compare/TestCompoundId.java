@@ -1,15 +1,12 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
-import io.threesixty.kt.core.reader.FileDataRecordReader;
-import io.threesixty.kt.core.reader.ReaderConfiguration;
-import io.threesixty.kt.core.result.ResultRecord;
+import io.threesixty.compare.reader.FileDataRecordReader;
+import io.threesixty.compare.reader.ReaderConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)

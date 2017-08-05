@@ -1,6 +1,6 @@
-package io.threesixty.kt.core.result;
+package io.threesixty.compare.result;
 
-import io.threesixty.kt.core.DataRecord;
+import io.threesixty.compare.DataRecord;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package io.threesixty.kt.core.markup;
+package io.threesixty.compare.markup;
 
 import org.apache.commons.text.diff.CommandVisitor;
 

@@ -1,4 +1,4 @@
-package io.threesixty.kt.core.result;
+package io.threesixty.compare.result;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)

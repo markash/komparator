@@ -1,9 +1,9 @@
-package io.threesixty.kt.core.reader;
+package io.threesixty.compare.reader;
 
-import io.threesixty.kt.core.Attribute;
-import io.threesixty.kt.core.DataRecord;
-import io.threesixty.kt.core.DataRecordColumn;
-import io.threesixty.kt.core.DataRecordConfiguration;
+import io.threesixty.compare.DataRecord;
+import io.threesixty.compare.Attribute;
+import io.threesixty.compare.DataRecordColumn;
+import io.threesixty.compare.DataRecordConfiguration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 

@@ -1,5 +1,6 @@
-package io.threesixty.compare;
+package io.threesixty.compare.converter;
 
+import io.threesixty.compare.Attribute;
 import org.springframework.core.convert.converter.Converter;
 
 public class AttributeToStringConverter implements Converter<Attribute<?>, String> {

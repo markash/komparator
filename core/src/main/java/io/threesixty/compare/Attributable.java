@@ -1,4 +1,4 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
 import java.io.Serializable;
 import java.util.Optional;

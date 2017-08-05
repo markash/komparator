@@ -1,4 +1,4 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
 import org.concordion.api.ConcordionResources;
 import org.concordion.api.FullOGNL;

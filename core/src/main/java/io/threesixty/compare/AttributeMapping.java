@@ -1,4 +1,4 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
 import java.util.HashMap;
 import java.util.List;

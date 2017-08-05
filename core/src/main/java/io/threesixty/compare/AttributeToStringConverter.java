@@ -1,4 +1,4 @@
-package io.threesixty.kt.core;
+package io.threesixty.compare;
 
 import org.springframework.core.convert.converter.Converter;
 

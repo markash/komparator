@@ -1,5 +1,6 @@
 package io.threesixty.compare;
 
+import io.threesixty.compare.converter.AttributeToStringConverter;
 import org.jooq.lambda.Seq;
 import org.jooq.lambda.tuple.Tuple2;
 import org.springframework.core.convert.ConversionService;

@@ -1,4 +1,4 @@
-package io.threesixty.compare.util;
+package io.threesixty.compare.converter;
 
 import net.sf.flatpack.converter.Converter;
 import net.sf.flatpack.util.ParserUtils;

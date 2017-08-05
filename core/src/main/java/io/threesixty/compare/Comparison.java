@@ -42,28 +42,6 @@ public class Comparison {
 
         AttributeJoiner attributeMappingJoiner = attributeMapping == null ? new AttributeNameJoiner() : new AttributeMappingJoiner(attributeMapping);
 
-//        Seq<MatchRecord> matchedRecords =
-//                Seq.seq(source.stream())
-//                .innerJoin(Seq.seq(target.stream()), DataRecord::equals)
-//                .map(t -> MatchRecord.differences(t.v1, t.v2, attributeMappingJoiner));
-//
-//        List<ResultRecord> results = includeEqualRecord
-//                ? matchedRecords.collect(Collectors.toList())
-//                : matchedRecords.filter(MatchRecord::hasDifferences).collect(Collectors.toList())
-//                ;
-//
-//        Seq.ofType(source.stream(), DataRecord.class)
-//                .leftOuterJoin(Seq.ofType(target.stream(), DataRecord.class), DataRecord::equals)
-//                .filter(t -> t.v2 == null)
-//                .map(t -> UnMatchRecord.sourceUnmatched(t.v1))
-//                .forEach(results::add);
-//
-//        Seq.ofType(target.stream(), DataRecord.class)
-//                .leftOuterJoin(Seq.ofType(source.stream(), DataRecord.class), DataRecord::equals)
-//                .filter(t -> t.v2 == null)
-//                .map(t -> UnMatchRecord.targetUnmatched(t.v1, attributeMapping))
-//                .forEach(results::add);
-
         return (Stream<ResultRecord>) Stream.of(
                 matched(source, target, attributeMappingJoiner, includeEqualRecord),
                 unmatched(source, target, t -> UnMatchRecord.sourceUnmatched(t.v1)),

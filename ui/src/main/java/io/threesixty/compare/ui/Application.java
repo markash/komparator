@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui;
+package io.threesixty.compare.ui;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

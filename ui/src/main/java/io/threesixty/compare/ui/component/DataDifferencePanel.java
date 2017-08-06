@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui.component;
+package io.threesixty.compare.ui.component;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;

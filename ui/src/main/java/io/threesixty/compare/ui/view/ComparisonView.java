@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui.view;
+package io.threesixty.compare.ui.view;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -6,18 +6,18 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
-import io.threesixty.kt.ui.Sections;
-import io.threesixty.kt.ui.component.DataComparePanel;
-import io.threesixty.kt.ui.component.DataDifferencePanel;
-import io.threesixty.kt.ui.component.DataRecordPanel;
-import io.threesixty.kt.ui.service.PersistenceService;
+import io.threesixty.compare.ui.component.DataComparePanel;
+import io.threesixty.compare.ui.component.DataDifferencePanel;
+import io.threesixty.compare.ui.component.DataRecordPanel;
+import io.threesixty.compare.ui.service.PersistenceService;
+import io.threesixty.compare.ui.Sections;
 import io.threesixty.ui.view.AbstractDashboardView;
 import org.vaadin.spring.sidebar.annotation.SideBarItem;
 import org.vaadin.spring.sidebar.annotation.VaadinFontIcon;
 
 @SuppressWarnings("serial")
 @SpringView(name = ComparisonView.VIEW_NAME)
-@SideBarItem(sectionId = Sections.EXECUTION, caption = ComparisonView.VIEW_CAPTION, order = ComparisonView.VIEW_ORDER)
+@SideBarItem(sectionId = Sections.COMPARISONS, caption = ComparisonView.VIEW_CAPTION, order = ComparisonView.VIEW_ORDER)
 @VaadinFontIcon(VaadinIcons.COMPILE)
 @ViewScope
 public class ComparisonView extends AbstractDashboardView {

@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui.view;
+package io.threesixty.compare.ui.view;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.ContentMode;

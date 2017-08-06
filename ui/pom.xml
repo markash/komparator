@@ -22,7 +22,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <spring-boot.version>1.5.2.RELEASE</spring-boot.version>
-        <start-class>io.threesixty.kt.ui.Application</start-class>
+        <start-class>io.threesixty.compare.ui.Application</start-class>
 
         <threesixty-components.version>0.2.1</threesixty-components.version>
         <threesixty-theme.version>0.1.0</threesixty-theme.version>

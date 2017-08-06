@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui;
+package io.threesixty.compare.ui;
 
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;

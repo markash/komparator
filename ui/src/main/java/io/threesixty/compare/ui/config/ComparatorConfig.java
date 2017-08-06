@@ -1,10 +1,10 @@
-package io.threesixty.kt.ui.config;
+package io.threesixty.compare.ui.config;
 
 import io.threesixty.compare.AttributeMapping;
 import io.threesixty.compare.DataRecordConfiguration;
 import io.threesixty.compare.DataRecordFileType;
-import io.threesixty.kt.ui.service.AttributeMappingRepository;
-import io.threesixty.kt.ui.service.DataRecordConfigurationRepository;
+import io.threesixty.compare.ui.service.AttributeMappingRepository;
+import io.threesixty.compare.ui.service.DataRecordConfigurationRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

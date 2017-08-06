@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui.component;
+package io.threesixty.compare.ui.component;
 
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.server.Page;
@@ -11,7 +11,7 @@ import io.threesixty.compare.DataRecordSet;
 import io.threesixty.compare.reader.FileDataRecordReader;
 import io.threesixty.compare.result.DifferenceRecord;
 import io.threesixty.compare.result.ResultRecordToDifferenceRecord;
-import io.threesixty.kt.ui.service.PersistenceService;
+import io.threesixty.compare.ui.service.PersistenceService;
 import io.threesixty.ui.component.uploader.UploadReceiver;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.label.MLabel;

@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui.view;
+package io.threesixty.compare.ui.view;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -6,7 +6,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-import io.threesixty.kt.ui.Sections;
+import io.threesixty.compare.ui.Sections;
 import io.threesixty.ui.view.AbstractDashboardView;
 import org.vaadin.spring.sidebar.annotation.SideBarItem;
 import org.vaadin.spring.sidebar.annotation.VaadinFontIcon;

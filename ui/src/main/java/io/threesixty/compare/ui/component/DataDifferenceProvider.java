@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui.component;
+package io.threesixty.compare.ui.component;
 
 import io.threesixty.compare.result.DifferenceRecord;
 

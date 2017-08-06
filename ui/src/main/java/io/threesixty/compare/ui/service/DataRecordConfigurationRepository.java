@@ -1,4 +1,4 @@
-package io.threesixty.kt.ui.service;
+package io.threesixty.compare.ui.service;
 
 import io.threesixty.compare.DataRecordConfiguration;
 

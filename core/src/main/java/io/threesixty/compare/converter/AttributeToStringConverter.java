@@ -4,6 +4,16 @@ import io.threesixty.compare.Attribute;
 import org.springframework.core.convert.converter.Converter;
 
 public class AttributeToStringConverter implements Converter<Attribute<?>, String> {
+    private boolean includeName;
+
+    public AttributeToStringConverter() {
+        this(false);
+    }
+
+    public AttributeToStringConverter(final boolean includeName) {
+        this.includeName = includeName;
+    }
+
     /**
      * Convert the source object of type {@code S} to target type {@code T}.
      *
@@ -16,10 +26,15 @@ public class AttributeToStringConverter implements Converter<Attribute<?>, Strin
         if (source == null || source.getValue() == null) return null;
 
         final Object value = source.getValue();
+
         if (value instanceof String) {
-            return (String) value;
+            return format(source.getName(), (String) value);
         }
 
-        return value.toString();
+        return format(source.getName(), value.toString());
+    }
+
+    private String format(final String name, final String value) {
+        return ((includeName) ? name + "=" : "") + value;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -48,11 +49,30 @@ public class DataRecord extends AttributableObject {
                 .collect(Collectors.toList());
     }
 
+    public boolean promoteToKey(final String attributeName) {
+        Optional<Attribute<?>> attribute = getAttribute(attributeName);
+        if (attribute.isPresent()) {
+            addAttribute(Attribute.overrideKey(attribute.get(), true));
+            return true;
+        }
+        return false;
+    }
+
     public String getKeyAsString() {
         StringJoiner joiner = new StringJoiner("|");
         AttributeToStringConverter converter = new AttributeToStringConverter();
         getAttributes()
                 .filter(Attribute::isKey)
+                .map(converter::convert)
+                .forEach(joiner::add);
+        return joiner.toString();
+    }
+
+    public String getDataAsString() {
+        StringJoiner joiner = new StringJoiner("|");
+        AttributeToStringConverter converter = new AttributeToStringConverter(true);
+        getAttributes()
+                .filter(a -> !a.isKey())
                 .map(converter::convert)
                 .forEach(joiner::add);
         return joiner.toString();
@@ -74,7 +94,7 @@ public class DataRecord extends AttributableObject {
 
 
     @Override
-    public String toString() { return getKeyAsString(); }
+    public String toString() { return "(" + getKeyAsString() + ") => "+ getDataAsString(); }
 
     public static class DataRecordBuilder {
 

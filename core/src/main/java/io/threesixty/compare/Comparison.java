@@ -18,7 +18,12 @@ import java.util.stream.Stream;
 public class Comparison {
 
     public Stream<ResultRecord> compare(final List<DataRecord> source, final List<DataRecord> target) {
-        return compare(source, target, null, false);
+
+        Stream<String> sourceAttributes = source.stream().limit(1).map(DataRecord::getAttributes).flatMap(stream -> stream).map(Attribute::getName);
+        Stream<String> targetAttributes = target.stream().limit(1).map(DataRecord::getAttributes).flatMap(stream -> stream).map(Attribute::getName);
+        AttributeMapping attributeMapping = new AttributeMapping("transient").mapBetween(sourceAttributes, targetAttributes);
+
+        return compare(source, target, attributeMapping, false);
     }
 
     public Stream<ResultRecord> compare(final DataRecordSet source, final DataRecordSet target, final AttributeMapping attributeMapping) {

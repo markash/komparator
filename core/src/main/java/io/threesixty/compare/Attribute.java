@@ -2,6 +2,7 @@ package io.threesixty.compare;
 
 import org.jooq.lambda.tuple.Tuple2;
 import org.springframework.core.convert.ConversionService;
+import org.w3c.dom.Attr;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -74,6 +75,17 @@ public class Attribute<T> implements Serializable {
     public static <T> Attribute<T> create(final String name, final T value, final boolean key) {
         return new Attribute<>(name, value, key);
     }
+    /**
+     * Create an attribute from the existing attribute and sets the key value
+     * @param attribute The attribute that should be overwritten
+     * @param key Whether the attribute is part of the key
+     * @param <T> The type of the value
+     * @return A new attribute
+     */
+    public static <T> Attribute<T> overrideKey(final Attribute<T> attribute, final boolean key) {
+        return Attribute.create(attribute.getName(), attribute.getValue(), key);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

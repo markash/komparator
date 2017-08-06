@@ -47,7 +47,7 @@ public class DataRecordComparisonFixture {
                         .source(sourceConfig)
                         .mapTo(targetConfig)
                         /* Add the mapping for the FIRSTNAME to NAME between source and target */
-                        .mapTo(sourceConfig.getColumn("FIRSTNAME").get(), targetConfig.getColumn("NAME").get());
+                        .mapTo("FIRSTNAME", "NAME");
 
 
         DataRecordSet sourcePersons = new StreamDataRecordProvider(sourceConfig).provide(ReaderSupplier.forResource("/" + source));

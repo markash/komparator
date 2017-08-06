@@ -288,6 +288,7 @@
     <modules>
         <module>core</module>
         <module>ui</module>
+        <module>excel</module>
         <!--
         <module>kt-integration-camel</module>
 

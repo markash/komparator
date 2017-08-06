@@ -28,6 +28,41 @@ All the meta data is inplace now to perform the actual comparison.
 ![alt text](http://res.cloudinary.com/yellowfire/image/upload/v1499160659/compare-differences_lajw9t.png "Differences")
 
 ### Recipe 01
+
+This recipe is for reading Microsoft Excel worksheets and then comparison the tabular data.
+
+```java
+/* Step 01 : Create a provider that will read from Sheet1 the data for the comparison
+ *           In this example we are just selecting all the data from Sheet1 but
+ *           it is possible to filter the data, for example SELECT * FROM Sheet1 WHERE Id < 2
+ */
+ExcelDataRecordProvider provider =
+    new ExcelDataRecordProvider(FilloExt.getSqlFor("Sheet1"));
+
+/* Step 02 : Read the spreadsheet with the source data */
+List<DataRecord> records1 =
+    provider.fetch(FilloExt.getConnectionForResource("/people-dataset-01.xlsx"))
+        .collect(Collectors.toList());
+
+/* Step 03 : Read the spreadsheet with the target data */
+List<DataRecord> records2 =
+    provider.fetch(FilloExt.getConnectionForResource("/people-dataset-02.xlsx"))
+        .collect(Collectors.toList());
+
+/* Step 04 : Promote a column or columns to an identity so that we can join between the two data sets */
+records1.forEach(a -> a.promoteToKey("Id"));
+records2.forEach(a -> a.promoteToKey("Id"));
+
+/* Step 05 : Run the comparison */
+List<ResultRecord> result = new Comparison()
+    .compare(records1, records2)
+    .collect(Collectors.toList());
+```
+
+### Recipe 02
+
+This recipe is for reading delimited and fixed length files and then comparing the data.
+
 ##### Step 1 - Define the master data, i.e. source data
 
 ```java

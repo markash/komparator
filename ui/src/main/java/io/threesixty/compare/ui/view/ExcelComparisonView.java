@@ -6,39 +6,39 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
-import io.threesixty.compare.ui.component.DataComparePanel;
+import io.threesixty.compare.ui.Sections;
 import io.threesixty.compare.ui.component.DataDifferencePanel;
 import io.threesixty.compare.ui.component.DataRecordPanel;
+import io.threesixty.compare.ui.component.ExcelDataComparePanel;
 import io.threesixty.compare.ui.service.PersistenceService;
-import io.threesixty.compare.ui.Sections;
 import io.threesixty.ui.view.AbstractDashboardView;
 import org.vaadin.spring.sidebar.annotation.SideBarItem;
 import org.vaadin.spring.sidebar.annotation.VaadinFontIcon;
 
 @SuppressWarnings("serial")
-@SpringView(name = ComparisonView.VIEW_NAME)
-@SideBarItem(sectionId = Sections.COMPARISONS, caption = ComparisonView.VIEW_CAPTION, order = ComparisonView.VIEW_ORDER)
+@SpringView(name = ExcelComparisonView.VIEW_NAME)
+@SideBarItem(sectionId = Sections.COMPARISONS, caption = ExcelComparisonView.VIEW_CAPTION, order = ExcelComparisonView.VIEW_ORDER)
 @VaadinFontIcon(VaadinIcons.COMPILE)
 @ViewScope
-public class ComparisonView extends AbstractDashboardView {
-    static final String VIEW_NAME = "Flat File";
-    static final String VIEW_CAPTION = "Flat File";
+public class ExcelComparisonView extends AbstractDashboardView {
+    static final String VIEW_NAME = "Excel";
+    static final String VIEW_CAPTION = "Excel";
     static final int VIEW_ORDER = 2;
 
-    private DataComparePanel compareRecordPanel;
+    private ExcelDataComparePanel compareRecordPanel;
     private DataRecordPanel sourceRecordPanel;
     private DataRecordPanel targetRecordPanel;
     private DataDifferencePanel differencePanel;
 
     private PersistenceService persistenceService;
 
-    public ComparisonView(final PersistenceService persistenceService) {
+    public ExcelComparisonView(final PersistenceService persistenceService) {
     	super(VIEW_CAPTION);
 
         this.sourceRecordPanel = new DataRecordPanel("Source Data");
         this.targetRecordPanel = new DataRecordPanel("Target Data");
         this.differencePanel = new DataDifferencePanel("Differences");
-        this.compareRecordPanel = new DataComparePanel("Configure and execute a comparison", sourceRecordPanel, targetRecordPanel, differencePanel, persistenceService);
+        this.compareRecordPanel = new ExcelDataComparePanel("Configure and execute a comparison", sourceRecordPanel, targetRecordPanel, differencePanel, persistenceService);
 
 	}
 

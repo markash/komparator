@@ -16,6 +16,7 @@ public class DataRecordSet {
 
     public DataRecordSet(List<DataRecord> records) {
         this.records = records;
+        this.columns = inferFrom(records);
     }
 
     public DataRecordSet(List<DataRecordColumn> columns, List<DataRecord> records) {
@@ -41,5 +42,19 @@ public class DataRecordSet {
      */
     public List<Map<String, Object>> toDataRecordMap() {
         return getRecords().stream().map(DataRecord::toMap).collect(Collectors.toList());
+    }
+
+    /**
+     * Infer the data record column from the first data record's attributes
+     * @param records The data records
+     * @return The data record columns
+     */
+    private List<DataRecordColumn> inferFrom(final List<DataRecord> records) {
+        return records.stream()
+                .limit(1)
+                .map(DataRecord::getAttributes)
+                .flatMap(stream -> stream)
+                .map(attribute -> new DataRecordColumn(attribute.getName(), String.class, attribute.isKey()))
+                .collect(Collectors.toList());
     }
 }

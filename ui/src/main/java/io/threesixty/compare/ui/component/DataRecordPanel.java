@@ -2,6 +2,7 @@ package io.threesixty.compare.ui.component;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
+import io.threesixty.compare.Attribute;
 import io.threesixty.compare.DataRecord;
 import io.threesixty.compare.DataRecordColumn;
 import io.threesixty.compare.DataRecordSet;
@@ -68,9 +69,22 @@ public class DataRecordPanel extends MPanel implements DataRecordProvider {
         grid.removeAllColumns();
         Grid.Column<DataRecord, ?> gridColumn;
         for (DataRecordColumn column : columns) {
-            gridColumn = grid.addColumn(dataRecord -> dataRecord.getAttribute(column.getName()));
+            gridColumn = grid.addColumn(dataRecord -> provideValueForAttribute(dataRecord, column));
             gridColumn.setCaption(column.getName());
         }
+    }
+
+    /**
+     * Provides the value for the given column of the data record
+     * @param dataRecord The data record
+     * @param column The column to provide the value for
+     * @return The value of the attribute
+     */
+    private Object provideValueForAttribute(DataRecord dataRecord, DataRecordColumn column) {
+        return dataRecord
+                .getAttribute(column.getName())
+                .orElse(Attribute.create(column.getName(), "", column.isKey()))
+                .getValue();
     }
 
     /**

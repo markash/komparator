@@ -55,9 +55,9 @@ public class DataDifferencePanel extends MPanel implements DataDifferenceProvide
 
     private void configureDummyColumns() {
         List<DataRecordColumn> columns = new ArrayList<>();
-        columns.add(new DataRecordColumn("ID", String.class));
-        columns.add(new DataRecordColumn("NAME", String.class));
-        columns.add(new DataRecordColumn("AGE", String.class));
+        columns.add(new DataRecordColumn("Id", String.class));
+        columns.add(new DataRecordColumn("Name", String.class));
+        columns.add(new DataRecordColumn("Age", String.class));
         setColumns(columns);
     }
 

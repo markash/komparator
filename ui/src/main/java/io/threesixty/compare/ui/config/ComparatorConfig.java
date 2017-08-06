@@ -15,6 +15,7 @@ public class ComparatorConfig {
     public AttributeMappingRepository attributeMappingRepository() {
         return new AttributeMappingRepository(
                 personAttributeMapping(),
+                personExcelAttributeMapping(),
                 adventureWorksPersonMapping());
     }
 
@@ -90,6 +91,15 @@ public class ComparatorConfig {
         attributeMapping.addMapping("ID", "ID");
         attributeMapping.addMapping("NAME", "FIRSTNAME");
         attributeMapping.addMapping("AGE", "AGE");
+        return attributeMapping;
+    }
+
+    @Bean
+    public AttributeMapping personExcelAttributeMapping() {
+        AttributeMapping attributeMapping = new AttributeMapping("Person Excel Mapping");
+        attributeMapping.addMapping("Id", "Id");
+        attributeMapping.addMapping("Name", "Name");
+        attributeMapping.addMapping("Age", "Age");
         return attributeMapping;
     }
 

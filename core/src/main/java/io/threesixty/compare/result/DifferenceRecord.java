@@ -5,6 +5,7 @@ import io.threesixty.compare.Attribute;
 import io.threesixty.compare.Difference;
 import org.jooq.lambda.tuple.Tuple2;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,8 @@ public class DifferenceRecord {
 
     public Map<String, Difference> getRecord() { return record; }
     public Difference get(final String name) { return record.get(name); }
+    public List<String> getAttributeNames() { return Collections.unmodifiableList(this.attributeNames); }
+
     /**
      * The result type, i.e. EQUAL, MISMATCH, TARGET_UNMATCHED or SOURCE_UNMATCHED
      * @return The result type

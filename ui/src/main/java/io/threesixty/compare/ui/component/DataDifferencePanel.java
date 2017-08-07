@@ -10,6 +10,7 @@ import org.vaadin.viritin.layouts.MPanel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Mark P Ashworth (mp.ashworth@gmail.com)
@@ -55,9 +56,9 @@ public class DataDifferencePanel extends MPanel implements DataDifferenceProvide
 
     private void configureDummyColumns() {
         List<DataRecordColumn> columns = new ArrayList<>();
-        columns.add(new DataRecordColumn("Id", String.class));
-        columns.add(new DataRecordColumn("Name", String.class));
-        columns.add(new DataRecordColumn("Age", String.class));
+        columns.add(new DataRecordColumn("Column 1", String.class));
+        columns.add(new DataRecordColumn("Column 2", String.class));
+        columns.add(new DataRecordColumn("Column 3", String.class));
         setColumns(columns);
     }
 
@@ -81,7 +82,17 @@ public class DataDifferencePanel extends MPanel implements DataDifferenceProvide
      * Setup the data provider of the grid
      * @param records The records of the record set
      */
-    private void setRecords(List<DifferenceRecord> records) {
+    private void setRecords(final List<DifferenceRecord> records) {
+
+        List<DataRecordColumn> columns =
+                records.stream()
+                .limit(1)
+                .map(record -> record.getAttributeNames().stream())
+                .flatMap(stream -> stream)
+                .map(attributeName -> new DataRecordColumn(attributeName, String.class))
+                .collect(Collectors.toList());
+
+        setColumns(columns);
         dataSource.clear();
         dataSource.addAll(records);
         dataProvider.refreshAll();

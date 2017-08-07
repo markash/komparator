@@ -56,7 +56,7 @@ public class FilloExt {
     public static List<String> getSheetNames(final File file) throws FilloException {
         Workbook workbook = getWorkbook(file);
         return IntStream
-                .rangeClosed(1, workbook.getNumberOfSheets())
+                .range(0, workbook.getNumberOfSheets())
                 .mapToObj(workbook::getSheetName)
                 .collect(Collectors.toList());
     }

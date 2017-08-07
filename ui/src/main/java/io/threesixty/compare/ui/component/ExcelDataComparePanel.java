@@ -1,7 +1,9 @@
 package io.threesixty.compare.ui.component;
 
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.server.Page;
+import com.vaadin.shared.Registration;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import io.threesixty.compare.*;
@@ -18,8 +20,7 @@ import org.vaadin.viritin.layouts.MPanel;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ExcelDataComparePanel extends MPanel {
@@ -34,6 +35,9 @@ public class ExcelDataComparePanel extends MPanel {
     private final Upload targetDataUpload;
     private final MButton compareButton;
 
+    private final List<String> sheetsDataSource = new ArrayList<>();
+    private final ListDataProvider<String> sheetsProvider = new ListDataProvider<>(sheetsDataSource);
+    private final PopupView sheetSelection;
 
     private DataRecordConfiguration sourceRecordConfiguration;
     private DataRecordConfiguration targetRecordConfiguration;
@@ -96,7 +100,18 @@ public class ExcelDataComparePanel extends MPanel {
                         .withSpacing(false)
                         .withFullWidth();
 
+        ComboBox<String> sheetsComponent = new ComboBox<>("Sheets");
+        sheetsComponent.setDataProvider(sheetsProvider);
+
+        VerticalLayout popupContent = new VerticalLayout();
+        popupContent.addComponent(sheetsComponent);
+        popupContent.addComponent(new Button("Select"));
+
+        this.sheetSelection = new PopupView("Sheet Selection", popupContent);
+        content.addComponent(sheetSelection);
+
         this.setContent(content);
+
     }
 
     private static FormLayout createDataPanel(MTextField sqlField, final Upload dataUpload) {
@@ -132,6 +147,18 @@ public class ExcelDataComparePanel extends MPanel {
 
     private void onReceiveSourceData(final File file, final String mimeType, final long length) {
         try {
+            Registration registration = this.sheetSelection.addPopupVisibilityListener(event -> {
+               if (!event.isPopupVisible()) {
+                   System.out.println("Hiding");
+               }
+            });
+
+            this.sheetsDataSource.clear();
+            this.sheetsDataSource.addAll(FilloExt.getSheetNames(file));
+            this.sheetsProvider.refreshAll();
+
+            this.sheetSelection.setPopupVisible(true);
+
             List<DataRecord> results = new ExcelDataRecordProvider(this.sourceDataQuery.getValue())
                     .fetch(FilloExt.getConnection(file))
                     .collect(Collectors.toList());
@@ -144,6 +171,9 @@ public class ExcelDataComparePanel extends MPanel {
 
     private void onReceiveTargetData(final File file, final String mimeType, final long length) {
         try {
+            List<String> sheetNames = FilloExt.getSheetNames(file);
+            sheetNames.forEach(System.out::println);
+
             List<DataRecord> results = new ExcelDataRecordProvider(this.targetDataQuery.getValue())
                     .fetch(FilloExt.getConnection(file))
                     .collect(Collectors.toList());

@@ -49,11 +49,32 @@ public class DataRecord extends AttributableObject {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Demote the attribute from key to regular attribute
+     * @param attributeName The attribute name
+     * @return If the attribute does not exist then false else
+     *         If the attribute was a key and was demoted to an regular attribute
+     */
+    public boolean demoteFromKey(final String attributeName) {
+        return setAttributeKeyValue(attributeName, false);
+    }
+
+    /**
+     * Promote the attribute from an attribute to a key attribute
+     * @param attributeName The attribute name
+     * @return If the attribute does not exist then false else
+     *         If the attribute was promoted to an key attribute
+     */
     public boolean promoteToKey(final String attributeName) {
+        return setAttributeKeyValue(attributeName, true);
+    }
+
+    private boolean setAttributeKeyValue(final String attributeName, final boolean key) {
         Optional<Attribute<?>> attribute = getAttribute(attributeName);
         if (attribute.isPresent()) {
-            addAttribute(Attribute.overrideKey(attribute.get(), true));
-            return true;
+            boolean result = !attribute.get().isKey() ^ key;
+            addAttribute(Attribute.overrideKey(attribute.get(), key));
+            return result;
         }
         return false;
     }

@@ -4,6 +4,7 @@ import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.HtmlRenderer;
 import io.threesixty.compare.DataRecordColumn;
+import io.threesixty.compare.Difference;
 import io.threesixty.compare.result.DifferenceRecord;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MPanel;
@@ -70,7 +71,7 @@ public class DataDifferencePanel extends MPanel implements DataDifferenceProvide
         grid.removeAllColumns();
         Grid.Column<DifferenceRecord, String> gridColumn;
         for (DataRecordColumn column : columns) {
-            gridColumn = grid.addColumn(dataRecord -> dataRecord.get(column.getName()).toHtml());
+            gridColumn = grid.addColumn(dataRecord -> dataRecord.get(column.getName()).map(Difference::toHtml).orElse(""));
             gridColumn.setCaption(column.getName());
             gridColumn.setRenderer(new HtmlRenderer());
         }

@@ -1,14 +1,11 @@
 package io.threesixty.compare.result;
 
-import io.threesixty.compare.DataRecord;
 import io.threesixty.compare.Attribute;
+import io.threesixty.compare.DataRecord;
 import io.threesixty.compare.Difference;
 import org.jooq.lambda.tuple.Tuple2;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -37,7 +34,7 @@ public class DifferenceRecord {
     }
 
     public Map<String, Difference> getRecord() { return record; }
-    public Difference get(final String name) { return record.get(name); }
+    public Optional<Difference> get(final String name) { return Optional.ofNullable(record.get(name)); }
     public List<String> getAttributeNames() { return Collections.unmodifiableList(this.attributeNames); }
 
     /**
@@ -110,10 +107,12 @@ public class DifferenceRecord {
         results[0] = getResultType();
 
         int i = 1;
-        Difference difference;
+        Optional<Difference> difference;
         for(String name : attributeNames) {
             difference = get(name);
-            results[i++] = difference.getLeftValue() + (getResultType() == ResultType.MISMATCH && difference.isDifferent() ? " (" + difference.getRightValue() + ") " : "");
+            if (difference.isPresent()) {
+                results[i++] = difference.get().getLeftValue() + (getResultType() == ResultType.MISMATCH && difference.get().isDifferent() ? " (" + difference.get().getRightValue() + ") " : "");
+            }
         }
         return results;
     }
@@ -123,10 +122,15 @@ public class DifferenceRecord {
         Map<String, Object> results = new HashMap<>();
         results.put("resultType", getResultType());
 
-        Difference difference;
+        Optional<Difference> difference;
         for(String name : attributeNames) {
             difference = get(name);
-            results.put(name, difference.getLeftValue() + (getResultType() == ResultType.MISMATCH && difference.isDifferent() ? " (" + difference.getRightValue() + ") " : ""));
+            if (difference.isPresent()) {
+                results.put(
+                        name,
+                        difference.get().getLeftValue() +
+                                (getResultType() == ResultType.MISMATCH && difference.get().isDifferent() ? " (" + difference.get().getRightValue() + ") " : ""));
+            }
         }
         return results;
     }

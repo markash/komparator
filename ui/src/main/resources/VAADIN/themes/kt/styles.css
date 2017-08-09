@@ -13218,6 +13218,6 @@ div.v-layout.v-horizontal.v-widget {
 	border: solid 2px turquoise;
 }
 
-.kt span.diff-delete {
+.kt .v-grid-cell > span.diff-delete {
 	border: solid 2px pink;
 }

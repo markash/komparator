@@ -11,6 +11,7 @@
         <module name="filesystem" />
         <module name="kt-core" />
         <module name="kt-ui" />
+        <module name="metamodel" />
         <module name="ui" />
       </profile>
     </annotationProcessing>
@@ -21,6 +22,7 @@
       <module name="filesystem" target="1.8" />
       <module name="kt-core" target="1.8" />
       <module name="kt-ui" target="1.8" />
+      <module name="metamodel" target="1.8" />
       <module name="parent-pom" target="1.8" />
       <module name="ui" target="1.8" />
     </bytecodeTargetLevel>

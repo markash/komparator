@@ -13,6 +13,7 @@
         <project.build.target>1.8</project.build.target>
         <project.build.source>1.8</project.build.source>
         <java.version>1.8</java.version>
+        <kotlin.version>1.2.50</kotlin.version>
     </properties>
 
     <parent>
@@ -22,6 +23,62 @@
     </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.arrow-kt</groupId>
+            <artifactId>arrow-core</artifactId>
+            <version>0.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.arrow-kt</groupId>
+            <artifactId>arrow-syntax</artifactId>
+            <version>0.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.arrow-kt</groupId>
+            <artifactId>arrow-data</artifactId>
+            <version>0.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.arrow-kt</groupId>
+            <artifactId>arrow-typeclasses</artifactId>
+            <version>0.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.arrow-kt</groupId>
+            <artifactId>arrow-free</artifactId>
+            <version>0.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <!--********************************************************************************************************
+        * Testing : Specify how this s suppose to work
+        *********************************************************************************************************-->
+        <dependency>
+            <groupId>org.jetbrains.spek</groupId>
+            <artifactId>spek-api</artifactId>
+            <version>1.1.5</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.spek</groupId>
+            <artifactId>spek-junit-platform-engine</artifactId>
+            <version>1.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.winterbe</groupId>
+            <artifactId>expekt</artifactId>
+            <version>0.5.0</version>
+            <scope>test</scope>
+        </dependency>
         <!--********************************************************************************************************
         * Parser : Comma separated, fixed length and database table parse
         *********************************************************************************************************-->
@@ -39,14 +96,6 @@
             <artifactId>jdom</artifactId>
             <version>1.0</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>jexcelapi</groupId>-->
-            <!--<artifactId>jxl</artifactId>-->
-            <!--<version>2.4.2</version>-->
-            <!--<scope>provided</scope>-->
-            <!--<optional>true</optional>-->
-        <!--</dependency>-->
-        
 
         <!--********************************************************************************************************
         * Lambda : Lambda processing to compliment Java 8
@@ -119,6 +168,51 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
+        <plugins>
+            <plugin>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <version>${kotlin.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>kapt</id>
+                        <goals>
+                            <goal>kapt</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>src/main/kotlin</sourceDir>
+                                <sourceDir>src/main/java</sourceDir>
+                            </sourceDirs>
+                            <annotationProcessorPaths>
+                                <!-- Specify your annotation processors here. -->
+                                <annotationProcessorPath>
+                                    <groupId>io.arrow-kt</groupId>
+                                    <artifactId>arrow-annotations-processor</artifactId>
+                                    <version>0.7.2</version>
+                                </annotationProcessorPath>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>compile</id>
+                        <goals> <goal>compile</goal> </goals>
+                    </execution>
+
+                    <execution>
+                        <id>test-compile</id>
+                        <goals> <goal>test-compile</goal> </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
     <!--
     <build>
         <plugins>

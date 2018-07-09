@@ -13,7 +13,7 @@
         <project.build.target>1.8</project.build.target>
         <project.build.source>1.8</project.build.source>
         <java.version>1.8</java.version>
-        <kotlin.version>1.2.50</kotlin.version>
+        <kotlin.version>1.2.51</kotlin.version>
     </properties>
 
     <parent>

@@ -76,7 +76,6 @@ object CompareSpec: Spek({
 
     given(description = "two attributes with same row id but different value data types") {
 
-
         val map = mapOf("ID" to "1")
         val right = Attribute.from("1", "ID", 1)
 

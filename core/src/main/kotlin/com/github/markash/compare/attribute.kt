@@ -22,6 +22,11 @@ data class Difference(val left: Any, val right: Option<Any>, val result: ResultT
 
     companion object {
         fun from(pair: Pair<Attribute<Any>, Option<Attribute<Any>>>): Difference = pair.first.compare(pair.second)
+
+        fun isResultType(difference: Option<Difference>, resultType: ResultType): Boolean {
+
+            return difference.fold(ifEmpty = {false}, ifSome = { diff -> diff.result == resultType})
+        }
     }
 }
 
@@ -124,6 +129,10 @@ data class Attribute<T: Any>(val key: Key, val value: Option<T>): Value() {
             }
         }
     }
+}
+
+fun Option<Difference>.isResultType(resultType: ResultType): Boolean {
+    return Difference.isResultType(this, resultType)
 }
 
 private inline fun <T : Any, U : Any> List<T>.joinBy(collection: List<U>, filter: (Pair<T, U>) -> Boolean): List<Pair<T, List<U>>> = map { t ->

@@ -1,5 +1,6 @@
 package com.github.markash.compare
 
+import arrow.core.None
 import arrow.core.Some
 import com.winterbe.expekt.should
 import org.jetbrains.spek.api.Spek
@@ -86,6 +87,34 @@ object ReadSpec: Spek({
             it(description = "should have 1 attribute with a value of Some(1)") {
                 left.size.should.be.equal(1)
                 left[0].value.should.be.equal(Some(1))
+            }
+        }
+    }
+
+    given(description = "two differences that have the same value") {
+        val diff01 = Difference(Some(41), Some(42), ResultType.UNEQUAL)
+        val diff02 = Difference(Some(41), Some(42), ResultType.UNEQUAL)
+
+        on(description = "on equals") {
+
+            val equals = diff01 == diff02
+
+            it("should be true") {
+                equals.should.be.`true`
+            }
+        }
+    }
+
+    given(description = "two differences that have the same none value") {
+        val diff01 = Difference(Some(41), None, ResultType.MISMATCH)
+        val diff02 = Difference(Some(41), None, ResultType.MISMATCH)
+
+        on(description = "on equals") {
+
+            val equals = diff01 == diff02
+
+            it("should be true") {
+                equals.should.be.`true`
             }
         }
     }

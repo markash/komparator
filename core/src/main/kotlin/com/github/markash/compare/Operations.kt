@@ -97,9 +97,15 @@ fun parse(reader: Reader): List<Attribute<Any>> {
 
 fun comparison(left: List<Attribute<Any>>, right: List<Attribute<Any>>): List<Attribute<Difference>> {
 
-    return left
-            .leftJoin(right)
+    /* Take only the MISMATCH from the RHS since the LHS will take all other cases */
+    val rhs = right.leftJoin(left)
             .map { pair -> Attribute(pair.first.key, Option.just(Difference.from(pair))) }
+            .filter { attribute ->  attribute.value.isResultType(ResultType.MISMATCH) }
+
+    return left.leftJoin(right)
+            .map { pair -> Attribute(pair.first.key, Option.just(Difference.from(pair))) }
+            .plus(rhs)
+
 }
 
 

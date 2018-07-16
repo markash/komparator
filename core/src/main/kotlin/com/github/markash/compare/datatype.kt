@@ -2,6 +2,23 @@ package com.github.markash.compare
 
 import arrow.core.Option
 
+sealed class Type
+data class IntType(val clazz: Class<Int> = Int::class.java): Type() {
+    companion object {
+        fun convert(value: String): Option<Int> = Option.fromNullable(value.toIntOrNull())
+    }
+}
+data class LongType(val clazz: Class<Long> = Long::class.java): Type() {
+    companion object {
+        fun convert(value: String): Option<Long> = Option.fromNullable(value.toLongOrNull())
+    }
+}
+data class StringType(val clazz: Class<String> = String::class.java): Type() {
+    companion object {
+        fun convert(value: String): Option<String> = Option.just(value)
+    }
+}
+object InvalidType: Type()
 
 abstract class DataType<A> {
 

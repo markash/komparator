@@ -80,8 +80,8 @@ object CompareSpec: Spek({
         val right = Attribute.from("1", "ID", 1)
 
         on(description = "compare") {
-            val def = DataDefinition()
-            def.add("ID", DataType.IntegerType, true)
+            val def = Schema()
+            def.int("ID", true)
 
             val left = parse(map, def)
             val difference = left[0].compare(Some(right))
@@ -90,6 +90,44 @@ object CompareSpec: Spek({
                 difference.result.should.be.equal(ResultType.EQUAL)
                 difference.left.should.be.equal(left[0].value)
                 difference.right.should.be.equal(right.value)
+            }
+        }
+    }
+
+    given(description = "two attribute sets with a common schema") {
+
+        val schema = Schema()
+                .int("ID", true)
+                .varchar("Name", false)
+                .long("Age", false)
+
+        val source = schema.convert(
+                listOf(
+                        mapOf("ID" to "1", "Name" to "Mark", "Age" to "43"),
+                        mapOf("ID" to "2", "Name" to "Natasja", "Age" to "41"),
+                        mapOf("ID" to "3", "Name" to "Dillon", "Age" to "18"),
+                        mapOf("ID" to "4", "Name" to "Crystal", "Age" to "16")
+                )
+        )
+
+        val reference = schema.convert(
+                listOf(
+                        mapOf("ID" to "1", "Name" to "Markus", "Age" to "44"),
+                        mapOf("ID" to "2", "Name" to "Natasja", "Age" to "42"),
+                        mapOf("ID" to "3", "Name" to "Dylon", "Age" to "18"),
+                        mapOf("ID" to "5", "Name" to "Crystal", "Age" to "17")
+                )
+        )
+
+        on(description = "comparison") {
+
+            val difference = source.compare(reference)
+
+            it(description = "") {
+
+                difference.size.should.be.equal(7)
+
+                //TODO Complete tests
             }
         }
     }

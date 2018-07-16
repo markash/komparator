@@ -42,6 +42,8 @@ data class Attribute<T: Any>(val key: Key, val value: Option<T>): Value() {
 
     fun <T: Any> compare(other: Option<Attribute<T>>) = Difference(this.value, (other as? Some)?.t?.value ?: None, resultType(other))
 
+    inline fun <reified T:Any> valueOrElse(): T? = value.fold(ifEmpty = { null }, ifSome = { it }) as T?
+
     private fun <T: Any> resultType(other: Option<Attribute<T>>): ResultType = other.map { resultType(it) }.getOrElse { ResultType.MISMATCH }
 
     private fun <T: Any> resultType(other: Attribute<T>) = when {
@@ -140,4 +142,4 @@ private inline fun <T : Any, U : Any> List<T>.joinBy(collection: List<U>, filter
     Pair(t, filtered)
 }
 
-data class ResultRecord (val left: DataRecord, val right: DataRecord, val difference: List<Difference>, val result: ResultType): Value()
+//data class ResultRecord (val left: DataRecord, val right: DataRecord, val difference: List<Difference>, val result: ResultType): Value()

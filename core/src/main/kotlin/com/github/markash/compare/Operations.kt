@@ -1,18 +1,15 @@
 package com.github.markash.compare
 
-import arrow.core.None
 import arrow.core.Option
-import arrow.core.Some
 import arrow.core.getOrElse
-import arrow.higherkind
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import java.io.Reader
 
-@higherkind
-sealed class Operation<A>
-data class Parse(val line: String): Operation<DataRecord>()
-data class Compare(val left: DataRecord, val right: DataRecord, val attributeJoin: (Pair<Attribute<Any>, Attribute<Any>>) -> Boolean): Operation<ResultRecord>()
+//@higherkind
+//sealed class Operation<A>
+//data class Parse(val line: String): Operation<DataRecord>()
+//data class Compare(val left: DataRecord, val right: DataRecord, val attributeJoin: (Pair<Attribute<Any>, Attribute<Any>>) -> Boolean): Operation<ResultRecord>()
 
 private inline fun <T : Any, U : Any> List<T>.joinBy(collection: List<U>, filter: (Pair<T, U>) -> Boolean): List<Pair<T, List<U>>> = map { t ->
     val filtered = collection.filter { filter(Pair(t, it)) }
@@ -53,7 +50,7 @@ fun parse(map: Map<String, Any>): List<Attribute<Any>> {
     return map.map { Attribute.from(rowId, it) }
 }
 
-fun parse(map: Map<String, Any>, definition: DataDefinition): List<Attribute<Any>> {
+fun parse(map: Map<String, Any>, definition: Schema): List<Attribute<Any>> {
 
     val convertedMap = map.entries
             .map { entry -> definition.parseValue(entry.key, entry.value)}
@@ -82,6 +79,8 @@ fun parse(map: Map<String, Any>, definition: DataDefinition): List<Attribute<Any
 }
 
 fun parse(list: List<Map<String, Any>>) = list.map { parse(it) }.flatten()
+
+fun parse(list: List<Map<String, Any>>, definition: Schema) = list.map { parse(it, definition) }.flatten()
 
 fun parse(reader: Reader): List<Attribute<Any>> {
     val csvParser =

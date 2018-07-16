@@ -1,7 +1,6 @@
 package com.github.markash.compare
 
 import arrow.core.None
-import arrow.core.Option
 import arrow.core.Some
 import com.winterbe.expekt.should
 import org.jetbrains.spek.api.Spek

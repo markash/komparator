@@ -20,6 +20,7 @@
       <module name="core" target="1.8" />
       <module name="excel" target="1.8" />
       <module name="filesystem" target="1.8" />
+      <module name="komparator" target="1.8" />
       <module name="kt-core" target="1.8" />
       <module name="kt-ui" target="1.8" />
       <module name="metamodel" target="1.8" />

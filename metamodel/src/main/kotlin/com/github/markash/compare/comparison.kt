@@ -1,26 +1,22 @@
 package com.github.markash.compare
 
 import org.apache.metamodel.DataContext
-import org.apache.metamodel.data.DataSet
-import java.util.*
 
-class Comparison(private val first: Connection, private val second: Connection, mapping: (DataContext, DataContext) -> Mapping) {
+class Comparison(private val source: Connection, private val target: Connection, mapping: (DataContext, DataContext) -> Mapping) {
 
-    private val dataContexts: Pair<DataContext, DataContext> by lazy { Pair(first.connect(), second.connect()) }
+    private val dataContexts: Pair<DataContext, DataContext> by lazy { Pair(source.connect(), target.connect()) }
 
     private val mapping: Mapping by lazy { dataContexts.run { mapping.invoke(this.first, this.second) } }
 
-    fun compare(block: (List<Difference>) -> Unit) {
+    fun compare(resultsFunction: (List<Difference>) -> Unit) {
 
         mapping
-                .join()
-                .left(dataSets = dataContexts.run { Pair(first = dataSet(this.first), second = dataSet(this.second)) })
-                .compare(mapping, block) { true }
+                .leftJoin(dataSets = dataContexts.run { Pair(source.materialize(this.first), target.materialize(this.second)) })
+                .compare(resultsFunction) { true }
 
         mapping
-                .join()
-                .right(dataSets = dataContexts.run { Pair(first = dataSet(this.first), second = dataSet(this.second)) })
-                .compare(mapping, block) { difference -> difference.type == DifferenceType.SOURCE_UNMATCHED }
+                .rightJoin(dataSets = dataContexts.run { Pair(source.materialize(this.first), target.materialize(this.second)) })
+                .compare(resultsFunction) { difference -> difference.type == DifferenceType.SOURCE_UNMATCHED }
 
     }
 
@@ -46,13 +42,13 @@ class Comparison(private val first: Connection, private val second: Connection, 
 //
 //            compareDataSet(rightResult, columnMapping, block, targetUnmatched)
 //        }
-
-
-        private fun dataSet(dataContext: DataContext): DataSet {
-            Objects.requireNonNull(dataContext)
-            val query = dataContext.query().from(dataContext.defaultSchema.getTable(0)).selectAll().toQuery()
-            return dataContext.executeQuery(query)
-        }
+//
+//
+//        private fun dataSet(dataContext: DataContext): DataSet {
+//            Objects.requireNonNull(dataContext)
+//            val query = dataContext.query().from(dataContext.defaultSchema.getTable(0)).selectAll().toQuery()
+//            return dataContext.executeQuery(query)
+//        }
     }
 }
 

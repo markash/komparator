@@ -10,8 +10,8 @@ class AttributeTests {
     @Throws(Exception::class)
     fun testCsv() {
 
-        val source = CsvConnection(Supplier.file("/source-persons.csv").toURI())
-        val target = CsvConnection(Supplier.file("/target-persons.csv").toURI())
+        val source = CsvConnection(Supplier.uri("/source-persons.csv"), Connection.Companion::materializeDefault)
+        val target = CsvConnection(Supplier.uri("/target-persons.csv"), Connection.Companion::materializeDefault)
 
         Comparison(source, target, this::mapping).compare(this::handleDifferences)
 
@@ -21,8 +21,8 @@ class AttributeTests {
     @Throws(Exception::class)
     fun testExcel() {
 
-        val source = CsvConnection(Supplier.file("/source-persons.csv").toURI())
-        val target = ExcelConnection(Supplier.file("/target-persons.xls").toURI())
+        val source = CsvConnection(Supplier.uri("/source-persons.csv"), Connection.Companion::materializeDefault)
+        val target = ExcelConnection(Supplier.uri("/target-persons.xls"), Connection.Companion::materializeDefault)
 
         Comparison(source, target, this::mapping).compare(this::handleDifferences)
 

@@ -48,6 +48,16 @@ data class Mapping(val items: List<ColumnMapping>) {
 
         return Join(joinItems)
     }
+
+    fun leftJoin(dataSets: Pair<DataSet, DataSet>): ResultSet {
+
+        return join().left(dataSets, this)
+    }
+
+    fun rightJoin(dataSets: Pair<DataSet, DataSet>): ResultSet {
+
+        return join().right(dataSets, this)
+    }
 }
 
 enum class JoinType {
@@ -57,16 +67,16 @@ enum class JoinType {
 
 data class Join(val items: List<FilterItem>) {
 
-    fun left(dataSets: Pair<DataSet, DataSet>) = join(dataSets, JoinType.LEFT, items)
+    fun left(dataSets: Pair<DataSet, DataSet>, mapping: Mapping) = join(dataSets, JoinType.LEFT, items, mapping)
 
-    fun right(dataSets: Pair<DataSet, DataSet>) = join(dataSets, JoinType.RIGHT, items)
+    fun right(dataSets: Pair<DataSet, DataSet>, mapping: Mapping) = join(dataSets, JoinType.RIGHT, items, mapping)
 
     companion object {
-        private fun join (dataSets: Pair<DataSet, DataSet>, type: JoinType, items: List<FilterItem>): ResultSet {
+        private fun join (dataSets: Pair<DataSet, DataSet>, type: JoinType, items: List<FilterItem>, mapping: Mapping): ResultSet {
 
             return when(type) {
-                JoinType.LEFT -> ResultSet(dataSets.run { MetaModelHelper.getLeftJoin(this.first, this.second, items.toTypedArray()) })
-                JoinType.RIGHT -> ResultSet(dataSets.run { MetaModelHelper.getRightJoin(this.first, this.second, items.toTypedArray()) })
+                JoinType.LEFT -> ResultSet(dataSets.run { MetaModelHelper.getLeftJoin(this.first, this.second, items.toTypedArray()) }, mapping)
+                JoinType.RIGHT -> ResultSet(dataSets.run { MetaModelHelper.getRightJoin(this.first, this.second, items.toTypedArray()) }, mapping)
             }
         }
     }
